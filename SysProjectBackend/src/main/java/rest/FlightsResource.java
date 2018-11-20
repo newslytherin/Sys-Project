@@ -53,12 +53,16 @@ public class FlightsResource {
         data.add(executor.submit(() -> {
             return getFlights();
         }));
-        data.add(executor.submit(() -> {
-            return getDatboi$Data();
-        }));
-        data.add(executor.submit(() -> {
-            return getMixData();
-        }));
+        if (!DATBOI$URL.equals("")) {
+            data.add(executor.submit(() -> {
+                return getDatboi$Data();
+            }));
+        }
+        if (!MIXURL.equals("")) {
+            data.add(executor.submit(() -> {
+                return getMixData();
+            }));
+        }
         JsonArray ja = new JsonArray();
         for (Future<String> fut : data) {
             try {
