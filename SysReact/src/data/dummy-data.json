@@ -1,0 +1,63 @@
+[
+    {
+        "airline": "British Airways",
+        "from": "CPH",
+        "to": "LHR",
+        "depTime": "07:05",
+        "arrTime": "08:10",
+        "duration": 125,
+        "price": 1019,
+        "cancellationInsurance": 200,
+        "airplane": "BA 811",
+        "model": "Airbus A321",
+        "capacity": 236
+    }, {
+        "airline": "SAS",
+        "from": "NYC",
+        "to": "CPH",
+        "depTime": "10:50",
+        "arrTime": "13:35",
+        "duration": 165,
+        "price": 2499,
+        "cancellationInsurance": 500,
+        "airplane": "Airbus A340",
+        "model": "SK 909",
+        "capacity": 360
+    }, {
+        "airline": "Spies",
+        "from": "LHR",
+        "to": "SXF",
+        "depTime": "18:00",
+        "arrTime": "20:35",
+        "duration": 155,
+        "price": 3250,
+        "cancellationInsurance": 250,
+        "airplane": "Airbus A340",
+        "model": "SK 909",
+        "capacity": 320
+    }, {
+        "airline": "Icelandair",
+        "from": "CPH",
+        "to": "LHR",
+        "depTime": "09:15",
+        "arrTime": "11:20",
+        "duration": 125,
+        "price": 1099,
+        "cancellationInsurance": 150,
+        "airplane": "BA 811",
+        "model": "Airbus A321",
+        "capacity": 225
+    }, {
+        "airline": "Spies",
+        "from": "ARN",
+        "to": "FNJ",
+        "depTime": "11:20",
+        "arrTime": "13:30",
+        "duration": 150,
+        "price": 4350,
+        "cancellationInsurance": 350,
+        "airplane": "BA 811",
+        "model": "Airbus A321",
+        "capacity": 280
+    }
+]
