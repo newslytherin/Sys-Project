@@ -17,18 +17,18 @@ ul.header li {
   display: inline;
   list-style-type: none;
   margin: 0;
-  color: #FFF;
+  color: #fff;
   font-weight: bold;
   padding: 10px;
 }
 
 ul.header {
-  background-color: #0000A0;
+  background-color: #0000a0;
   padding: 0;
 }
 
 ul.header li a {
-  color: #FFF;
+  color: #fff;
   font-weight: bold;
   text-decoration: none;
   padding: 10px;
@@ -36,7 +36,7 @@ ul.header li a {
 }
 
 .content {
-  background-color: #EEEEEE;
+  background-color: #eeeeee;
   padding: 20px;
 }
 
@@ -55,4 +55,10 @@ ul.header li a {
 
 .activeV2 {
   background-color: lightgoldenrodyellow;
+}
+
+td,
+th {
+  padding: 10px;
+  border: 1px solid black;
 }
