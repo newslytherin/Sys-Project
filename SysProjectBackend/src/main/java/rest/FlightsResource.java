@@ -26,6 +26,8 @@ public class FlightsResource {
     @Context
     private UriInfo context;
     private Gson gson;
+    private static String DATBOI$URL = "";
+    private static String MIXURL = "";
 
     public FlightsResource() {
         gson = new GsonBuilder().setPrettyPrinting().create();
@@ -67,7 +69,7 @@ public class FlightsResource {
         String jsonStr = null;
         try
         {
-            URL url = new URL("Datboi$/api/flights");
+            URL url = new URL(DATBOI$URL);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             con.setRequestProperty("Accept", "application/json;charset=UTF-8");
@@ -90,7 +92,7 @@ public class FlightsResource {
         String jsonStr = null;
         try
         {
-            URL url = new URL("Mix/api/flights");
+            URL url = new URL(MIXURL);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             con.setRequestProperty("Accept", "application/json;charset=UTF-8");
