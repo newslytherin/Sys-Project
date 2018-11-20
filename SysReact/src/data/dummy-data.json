@@ -53,7 +53,7 @@
         "to": "FNJ",
         "depTime": "11:20",
         "arrTime": "13:30",
-        "duration": "150",
+        "duration": 150,
         "price": 4350,
         "cancellationInsurance": 350,
         "airplane": "BA 811",
