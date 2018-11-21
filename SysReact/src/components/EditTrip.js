@@ -31,7 +31,7 @@ export default class EditTrip extends React.Component {
                 cancellationInsurance: '',
                 airplane: '',
                 model: '',
-                capacity: '',
+                capacity: ''
             },
             err: ''
         }
@@ -59,9 +59,9 @@ export default class EditTrip extends React.Component {
         evt.preventDefault();
         console.log(this.state.trip)
 
-        const response = await fetch(URL, this.makeOptions('PUT',this.state.trip))
-        const content = await response.json()
-        console.log(content)
+        //const response = await fetch(URL, this.makeOptions('PUT',this.state.trip))
+        //const content = await response.json()
+        //console.log(content)
     }
 
     makeOptions = (method, body) => {
@@ -174,13 +174,13 @@ export default class EditTrip extends React.Component {
                 </label>
                 <br/>
                 <label>
-                    model:
-                    <input 
-                        type="text" 
-                        id="model" 
-                        value={this.state.trip.model} 
-                        onChange={this.inputChanged}
-                        required/>
+                model:
+                <input 
+                    type="text"
+                    id="model" 
+                    value={this.state.trip.model} 
+                    onChange={this.inputChanged}
+                    required/>
                 </label>
                 <br/>
                 <label>
@@ -198,4 +198,3 @@ export default class EditTrip extends React.Component {
         )
     }
 }
-
