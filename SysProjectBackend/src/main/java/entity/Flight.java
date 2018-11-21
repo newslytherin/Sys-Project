@@ -1,14 +1,13 @@
 package entity;
 
-import java.io.Serializable; 
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Flight implements Serializable 
-{
+public class Flight implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -26,12 +25,10 @@ public class Flight implements Serializable
     private String model;
     private int capacity;
 
-    public Flight()
-    {
+    public Flight() {
     }
 
-    public Flight(String airline, Airport departure, Airport destination, String depTime, String arrTime, int duration, int price, int cancelInsurance, String airplane, String model, int capacity)
-    {
+    public Flight(String airline, Airport departure, Airport destination, String depTime, String arrTime, int duration, int price, int cancelInsurance, String airplane, String model, int capacity) {
         this.airline = airline;
         this.departure = departure;
         this.destination = destination;
@@ -44,8 +41,8 @@ public class Flight implements Serializable
         this.model = model;
         this.capacity = capacity;
     }
-    
-    public Flight updateValues(Flight f){
+
+    public Flight updateValues(Flight f) {
         airline = f.getAirline();
         departure = f.getDeparture();
         destination = f.getDestination();
@@ -60,124 +57,100 @@ public class Flight implements Serializable
         return this;
     }
 
-    public String getAirline()
-    {
+    public String getAirline() {
         return airline;
     }
 
-    public void setAirline(String airline)
-    {
+    public void setAirline(String airline) {
         this.airline = airline;
     }
 
-    public Airport getDeparture()
-    {
+    public Airport getDeparture() {
         return departure;
     }
 
-    public void setDeparture(Airport departure)
-    {
+    public void setDeparture(Airport departure) {
         this.departure = departure;
     }
 
-    public Airport getDestination()
-    {
+    public Airport getDestination() {
         return destination;
     }
 
-    public void setDestination(Airport destination)
-    {
+    public void setDestination(Airport destination) {
         this.destination = destination;
     }
 
-    public String getDepTime()
-    {
+    public String getDepTime() {
         return depTime;
     }
 
-    public void setDepTime(String depTime)
-    {
+    public void setDepTime(String depTime) {
         this.depTime = depTime;
     }
 
-    public String getArrTime()
-    {
+    public String getArrTime() {
         return arrTime;
     }
 
-    public void setArrTime(String arrTime)
-    {
+    public void setArrTime(String arrTime) {
         this.arrTime = arrTime;
     }
 
-    public int getDuration()
-    {
+    public int getDuration() {
         return duration;
     }
 
-    public void setDuration(int duration)
-    {
+    public void setDuration(int duration) {
         this.duration = duration;
     }
 
-    public int getPrice()
-    {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(int price)
-    {
+    public void setPrice(int price) {
         this.price = price;
     }
 
-    public int getCancelInsurance()
-    {
+    public int getCancelInsurance() {
         return cancelInsurance;
     }
 
-    public void setCancelInsurance(int cancelInsurance)
-    {
+    public void setCancelInsurance(int cancelInsurance) {
         this.cancelInsurance = cancelInsurance;
     }
 
-    public String getAirplane()
-    {
+    public String getAirplane() {
         return airplane;
     }
 
-    public void setAirplane(String airplane)
-    {
+    public void setAirplane(String airplane) {
         this.airplane = airplane;
     }
 
-    public String getModel()
-    {
+    public String getModel() {
         return model;
     }
 
-    public void setModel(String model)
-    {
+    public void setModel(String model) {
         this.model = model;
     }
 
-    public int getCapacity()
-    {
+    public int getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(int capacity)
-    {
+    public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
-    
-    public Long getId()
-    {
+
+    public Long getId() {
         return id;
     }
-    
+
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "entity.Flight[ id=" + id + " ]";
     }
 

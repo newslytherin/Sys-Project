@@ -7,8 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Airport implements Serializable
-{
+public class Airport implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -19,60 +18,49 @@ public class Airport implements Serializable
     private String countryCode;
     private String city;
 
-    public Airport()
-    {
+    public Airport() {
     }
 
-    public Airport(String country, String name, String countryCode, String city)
-    {
+    public Airport(String country, String name, String countryCode, String city) {
         this.country = country;
         this.name = name;
         this.countryCode = countryCode;
         this.city = city;
     }
 
-    public Long getId()
-    {
+    public Long getId() {
         return id;
     }
 
-    public String getCountry()
-    {
+    public String getCountry() {
         return country;
     }
 
-    public void setCountry(String country)
-    {
+    public void setCountry(String country) {
         this.country = country;
     }
 
-    public String getCountryCode()
-    {
+    public String getCountryCode() {
         return countryCode;
     }
 
-    public void setCountryCode(String countryCode)
-    {
+    public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
     }
 
-    public String getCity()
-    {
+    public String getCity() {
         return city;
     }
 
-    public void setCity(String city)
-    {
+    public void setCity(String city) {
         this.city = city;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 }
