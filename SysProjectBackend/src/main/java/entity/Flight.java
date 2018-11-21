@@ -12,12 +12,11 @@ public class Flight implements Serializable
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String airline;
     private Airport departure;
     private Airport destination;
-    private String date;
     private String depTime;
     private String arrTime;
     private int duration;
@@ -31,12 +30,11 @@ public class Flight implements Serializable
     {
     }
 
-    public Flight(String airline, Airport departure, Airport destination, String date, String depTime, String arrTime, int duration, int price, int cancelInsurance, String airplane, String model, int capacity)
+    public Flight(String airline, Airport departure, Airport destination, String depTime, String arrTime, int duration, int price, int cancelInsurance, String airplane, String model, int capacity)
     {
         this.airline = airline;
         this.departure = departure;
         this.destination = destination;
-        this.date = date;
         this.depTime = depTime;
         this.arrTime = arrTime;
         this.duration = duration;
@@ -45,6 +43,21 @@ public class Flight implements Serializable
         this.airplane = airplane;
         this.model = model;
         this.capacity = capacity;
+    }
+    
+    public Flight updateValues(Flight f){
+        airline = f.getAirline();
+        departure = f.getDeparture();
+        destination = f.getDestination();
+        depTime = f.getDepTime();
+        arrTime = f.getArrTime();
+        duration = f.getDuration();
+        price = f.getPrice();
+        cancelInsurance = f.getCancelInsurance();
+        airplane = f.getAirplane();
+        model = f.getModel();
+        capacity = f.getCapacity();
+        return this;
     }
 
     public String getAirline()
@@ -75,16 +88,6 @@ public class Flight implements Serializable
     public void setDestination(Airport destination)
     {
         this.destination = destination;
-    }
-
-    public String getDate()
-    {
-        return date;
-    }
-
-    public void setDate(String date)
-    {
-        this.date = date;
     }
 
     public String getDepTime()
