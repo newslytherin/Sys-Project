@@ -1,6 +1,5 @@
 import React from 'react';
-import json from '../data/dummy-data';
-const URL = 'http://localhost:8090/Slytherin/api/flights/all'
+import apiFacade from '../data/apiFacade'
 
 export default class EditTrip extends React.Component {
     constructor(props) {
@@ -21,7 +20,7 @@ export default class EditTrip extends React.Component {
             },
             err: ''
         }
-        this.fetchTrip();
+        this.getFlight();
     }
 
     getDate = () => {
@@ -37,14 +36,10 @@ export default class EditTrip extends React.Component {
         return `${YYYY}-${MM}-${DD}T${hh}:${mm}`
     }
 
-    fetchTrip = async () => {
-        try {
-            const trips = await fetch(URL).then(res => res.json()) //await json[0]
-            const trip = await trips[0]
-            await this.setState({ trip })
-        } catch (err) {
-            console.log(`err:: ${err}`)
-        }
+    getFlight = async() => {
+        const trips = await apiFacade.getAllLocalFligths()
+        const trip = await trips[0]
+        await this.setState({trip})
     }
 
     inputChanged = (evt) => {
@@ -60,7 +55,7 @@ export default class EditTrip extends React.Component {
         console.log(this.state.trip)
 
         try {
-            const response = await fetch(URL, this.makeOptions('PUT',this.state.trip))
+            const response = await fetch(apiFacade.getEditFlightUrl, this.makeOptions('PUT',this.state.trip))
             const content = await response.json()
             console.log(content)
         } catch (err) {
