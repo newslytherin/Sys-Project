@@ -1,20 +1,6 @@
 import React from 'react';
-
 import json from '../data/dummy-data';
-const URL = '/api/flights/edit'
-
-
-var today = new Date();
-var m = today.getMinutes()
-var hh = today.getHours()
-var dd = today.getDate()
-var mm = today.getMonth() + 1 //January is 0!
-var yyyy = today.getFullYear()
-
-if(dd < 10) dd = '0'+ dd
-if(mm < 10) mm = '0'+mm
-
-today = `${yyyy}-${mm}-${dd}T${hh}:${m}`
+const URL = 'http://localhost:8090/Slytherin/api/flights/all'
 
 export default class EditTrip extends React.Component {
     constructor(props) {
@@ -22,13 +8,13 @@ export default class EditTrip extends React.Component {
         this.state = { 
             trip: {
                 airline: '',
-                from: '',
-                to: '',
+                departure: '',
+                destination: '',
                 depTime: '',
                 arrTime: '',
                 duration: '',
                 price: '',
-                cancellationInsurance: '',
+                cancelInsurance: '',
                 airplane: '',
                 model: '',
                 capacity: ''
@@ -38,9 +24,23 @@ export default class EditTrip extends React.Component {
         this.fetchTrip();
     }
 
+    getDate = () => {
+        const date = new Date()
+        const mm = date.getMinutes()
+        const hh = date.getHours()
+        const DD = date.getDate()
+        const MM = date.getMonth() + 1 // january is 0
+        const YYYY = date.getFullYear()
+    
+        if(DD < 10) DD = '0' + DD
+        if(MM < 10) MM = '0' + MM;
+        return `${YYYY}-${MM}-${DD}T${hh}:${mm}`
+    }
+
     fetchTrip = async () => {
         try {
-            let trip = await json[0] //await fetch(URL).then(res => res.json())
+            const trips = await fetch(URL).then(res => res.json()) //await json[0]
+            const trip = await trips[0]
             await this.setState({ trip })
         } catch (err) {
             console.log(`err:: ${err}`)
@@ -59,9 +59,14 @@ export default class EditTrip extends React.Component {
         evt.preventDefault();
         console.log(this.state.trip)
 
-        //const response = await fetch(URL, this.makeOptions('PUT',this.state.trip))
-        //const content = await response.json()
-        //console.log(content)
+        try {
+            const response = await fetch(URL, this.makeOptions('PUT',this.state.trip))
+            const content = await response.json()
+            console.log(content)
+        } catch (err) {
+            this.setState( {err} )
+            console.log(`err:: ${err}`)
+        }
     }
 
     makeOptions = (method, body) => {
@@ -76,7 +81,12 @@ export default class EditTrip extends React.Component {
         return opt;
     }
 
+    refresh = () => {
+        this.setState({err: ''})
+    }
+
     render() {
+        if (this.state.err) return <Error refresh={this.refresh}/>
         return (
             <form onSubmit={this.send}>
                 <label>
@@ -86,25 +96,26 @@ export default class EditTrip extends React.Component {
                         id="airline" 
                         value={this.state.trip.airline} 
                         onChange={this.inputChanged}
-                        required/>
+                        required>
+                    </input>
                 </label>
                 <br/>
                 <label>
-                    from:
+                    departure:
                     <input 
                         type="text" 
-                        id="from" 
-                        value={this.state.trip.from} 
+                        id="departure" 
+                        value={this.state.trip.departure} 
                         onChange={this.inputChanged}
                         required/>
                 </label>
                 <br/>
                 <label>
-                    to:
+                    destination:
                     <input 
                         type="text" 
-                        id="to" 
-                        value={this.state.trip.to} 
+                        id="destination" 
+                        value={this.state.trip.destination} 
                         onChange={this.inputChanged}
                         required/>
                 </label>
@@ -114,7 +125,7 @@ export default class EditTrip extends React.Component {
                     <input 
                         type="datetime-local"
                         id="depTime" 
-                        min={today} 
+                        min={this.getDate()} 
                         max="2025-01-01T00:00"
                         value={this.state.trip.depTime} 
                         onChange={this.inputChanged}
@@ -126,7 +137,7 @@ export default class EditTrip extends React.Component {
                     <input 
                         type="datetime-local" 
                         id="arrTime" 
-                        min={today} 
+                        min={this.getDate()} 
                         max="2025-01-01T00:00"
                         value={this.state.trip.arrTime} 
                         onChange={this.inputChanged}
@@ -154,11 +165,11 @@ export default class EditTrip extends React.Component {
                 </label>
                 <br/>
                 <label>
-                    cancellation insurance:
+                    cancel insurance:
                     <input 
                         type="number" min="0" 
-                        id="cancellationInsurance" 
-                        value={this.state.trip.cancellationInsurance} 
+                        id="cancelInsurance" 
+                        value={this.state.trip.cancelInsurance} 
                         onChange={this.inputChanged}
                         required/>
                 </label>
@@ -197,4 +208,13 @@ export default class EditTrip extends React.Component {
             </form>
         )
     }
+}
+
+function Error(props) {
+    return (
+        <div>
+            a fail occurred, try to refresh or come back later
+            <button onClick={props.refresh}>refresh</button>
+        </div>
+    )
 }
