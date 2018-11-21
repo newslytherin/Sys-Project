@@ -4,6 +4,8 @@ import entity.Flight;
 import entity.FlightDTO;
 import exceptions.InvalidDataException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -11,10 +13,17 @@ import javax.persistence.TypedQuery;
 
 public class DataFacade {
 
-    private static EntityManagerFactory emf;
+    public static void main(String[] args) {
+        try {
+            System.out.println(getAllFlights());
+        } catch (InvalidDataException ex) {
+            Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
 
     public DataFacade() {
-        emf = Persistence.createEntityManagerFactory("pu");
     }
 
     public void addEntityManageractory(EntityManagerFactory emf) {
