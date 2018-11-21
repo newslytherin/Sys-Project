@@ -33,12 +33,11 @@ public class FlightsResource {
 
     @Context
     private UriInfo context;
-    private Gson gson;
+    private Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final String DATBOI$URL = "";
     private static final String MIXURL = "";
 
     public FlightsResource() {
-        gson = new GsonBuilder().setPrettyPrinting().create();
     }
 
     @GET
