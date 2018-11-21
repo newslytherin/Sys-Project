@@ -11,7 +11,7 @@ class ApiFacade extends React.Component{
     
     getAllFligths = async() => {
         try {
-            return fetch(this.getAllFlightsUrl()).then(res => res.json())
+            return fetch(this.getAllFlightsUrl()).then(handleHttpErrors)
         } catch (err) {
             console.log(`err:: ${err}`)
         }
@@ -19,7 +19,7 @@ class ApiFacade extends React.Component{
 
     getAllLocalFligths = async() => {
         try {
-            return fetch(this.getFlightsRootUrl()).then(res => res.json())
+            return fetch(this.getFlightsRootUrl()).then(handleHttpErrors)
         } catch (err) {
             console.log(`err:: ${err}`)
         }
@@ -28,3 +28,13 @@ class ApiFacade extends React.Component{
 
 const facade = new ApiFacade();
 export default facade;
+
+function handleHttpErrors(res) {
+    if (!res.ok) {
+        return Promise.reject({
+            status: res.status,
+            fullError: res.json()
+        })
+    }
+    return res.json();
+}
