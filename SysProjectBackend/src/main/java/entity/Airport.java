@@ -15,6 +15,7 @@ public class Airport implements Serializable
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String country;
+    private String name;
     private String countryCode;
     private String city;
 
@@ -22,9 +23,10 @@ public class Airport implements Serializable
     {
     }
 
-    public Airport(String country, String countryCode, String city)
+    public Airport(String country, String name, String countryCode, String city)
     {
         this.country = country;
+        this.name = name;
         this.countryCode = countryCode;
         this.city = city;
     }
@@ -64,4 +66,13 @@ public class Airport implements Serializable
         this.city = city;
     }
 
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
 }
