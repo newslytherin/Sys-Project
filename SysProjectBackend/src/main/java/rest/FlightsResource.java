@@ -3,6 +3,8 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
+import entity.Flight;
+import exceptions.InvalidDataException;
 import facade.DataFacade;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -24,23 +26,23 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 @Path("flights")
 public class FlightsResource {
 
     @Context
     private UriInfo context;
-    private Gson gson;
+    private Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final String DATBOI$URL = "";
     private static final String MIXURL = "";
 
     public FlightsResource() {
-        gson = new GsonBuilder().setPrettyPrinting().create();
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String getFlights() {
+    public String getFlights() throws InvalidDataException {
         return gson.toJson(DataFacade.getAllFlights());
     }
 
@@ -64,28 +66,30 @@ public class FlightsResource {
             }));
         }
         JsonArray ja = new JsonArray();
-        for (Future<String> fut : data) {
+        data.forEach((fut) -> {
             try {
                 ja.add(fut.get());
             } catch (InterruptedException | ExecutionException ex) {
                 Logger.getLogger(FlightsResource.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
+        });
         return ja.getAsString();
     }
 
     @POST
     @Path("new")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void postFlights(String content) {
-        DataFacade.addNewFlight();
+    public Response postFlights(String content) throws InvalidDataException {
+        Flight f = gson.fromJson(content, Flight.class);
+        return Response.ok(gson.toJson(DataFacade.addNewFlight(f))).build();
     }
 
     @PUT
     @Path("edit")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void putFlights(String content) {
-        DataFacade.editFlight();
+    public Response putFlights(String content) {
+        Flight f = gson.fromJson(content, Flight.class);
+        return Response.ok(gson.toJson(DataFacade.editFlight(f))).build();
     }
 
     public static String getDatboi$Data() {
