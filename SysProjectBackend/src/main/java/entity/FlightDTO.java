@@ -1,6 +1,7 @@
 package entity;
 
 public class FlightDTO {
+
     private String airline;
     private String departure;
     private String destination;
