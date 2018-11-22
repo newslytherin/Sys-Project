@@ -1,4 +1,4 @@
-const URL = "http://localhost:8080/bob";
+const URL = "http://localhost:8080/Slytherin";
 
 function handleHttpErrors(res) {
     if (!res.ok) {
@@ -12,13 +12,13 @@ function handleHttpErrors(res) {
 
 class ApiFacade {
     fetchDataUser = () => {
-        const options = this.makeOptions("GET",true); //True add's the token
+        const options = this.makeOptions("GET", true); //True add's the token
         return fetch(URL + "/api/info/user", options).then(handleHttpErrors);
-      }     
+    }
     fetchDataAdmin = () => {
-        const options = this.makeOptions("GET",true); //True add's the token
+        const options = this.makeOptions("GET", true); //True add's the token
         return fetch(URL + "/api/info/admin", options).then(handleHttpErrors);
-      }     
+    }
     login = (user, pass) => {
         const options = this.makeOptions("POST", true, {
             username: user,
@@ -59,6 +59,28 @@ class ApiFacade {
             opts.body = JSON.stringify(body);
         }
         return opts;
+    }
+
+    addTrip = (trip) => {
+        const options = this.makeOptions("POST", true, {
+            airline: trip.airline,
+            departure: trip.departure,
+            destination: trip.destination,
+            depTime: trip.depTime,
+            arrTime: trip.arrTime,
+            duration: trip.duration,
+            price: trip.price,
+            cancelInsurance: trip.cancelInsurance,
+            airplane: trip.airline,
+            model: trip.model,
+            capacity: trip.capacity
+        });
+        return fetch(URL + "/api/flights/new", options, true)
+            .then(handleHttpErrors)
+            .then(res => {
+                this.setToken(res.token);
+                return res;
+            })
     }
 }
 const facade = new ApiFacade();

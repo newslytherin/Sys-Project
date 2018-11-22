@@ -4,10 +4,12 @@ const RootUrl = 'http://localhost:8090/Slytherin/api'
 
 class ApiFacade extends React.Component{
     getRootUrl = () => RootUrl
+    getAllAirportsUrl = () => `${RootUrl}/airports`
     getFlightsRootUrl = () => `${RootUrl}/flights`
+    getOwnFlightsRootUrl = () => `${RootUrl}/flights/own`
     getAllFlightsUrl = () => `${RootUrl}/flights/all`
     getAddFlightUrl = () => `${RootUrl}/flights/new`
-    getEditFlightUrl = () => `${RootUrl}/flights/edit`
+    getEditFlightUrl = () => `${RootUrl}/flights/edit/`
     
     getAllFligths = async() => {
         try {
@@ -17,9 +19,17 @@ class ApiFacade extends React.Component{
         }
     }
 
-    getAllLocalFligths = async() => {
+    getAllAirports = async() => {
         try {
-            return fetch(this.getFlightsRootUrl()).then(handleHttpErrors)
+            return fetch(this.getAllAirportsUrl()).then(handleHttpErrors)
+        } catch (err) {
+            console.log(`err:: ${err}`)
+        }
+    }
+
+    getOwnFligths = async() => {
+        try {
+            return fetch(this.getOwnFlightsRootUrl()).then(handleHttpErrors)
         } catch (err) {
             console.log(`err:: ${err}`)
         }

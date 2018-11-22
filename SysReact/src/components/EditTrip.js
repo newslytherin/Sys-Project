@@ -7,15 +7,24 @@ export default class EditTrip extends React.Component {
         super(props)
         this.state = { 
             trip: {},
+            airports: [],
             err: ''
         }
         this.getFlight()
+        this.getAirports()
     }
 
     getFlight = async() => {
-        const trips = await apiFacade.getAllLocalFligths()
+        const trips = await apiFacade.getOwnFligths()
         const trip = await trips[0]
         await this.setState({trip})
+        await console.log(this.state.trip)
+    }
+
+    getAirports = async() => {
+        const airports = await apiFacade.getAllAirports()
+        await this.setState({airports})
+        await console.log(airports)
     }
 
     inputChanged = (evt) => {
@@ -45,9 +54,11 @@ export default class EditTrip extends React.Component {
     send = async (evt) => {
         evt.preventDefault();
         console.log(this.state.trip)
-
+        
+        const uri = apiFacade.getEditFlightUrl() + this.state.trip.id
+        console.log(uri)
         /* try {
-            const response = await fetch(apiFacade.getEditFlightUrl, this.makeOptions('PUT',this.state.trip))
+            const response = await fetch(uri, this.makeOptions('PUT',this.state.trip))
             const content = await response.json()
             console.log(content)
         } catch (err) {
