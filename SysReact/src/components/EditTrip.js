@@ -1,39 +1,15 @@
 import React from 'react';
 import apiFacade from '../data/apiFacade'
+import { TextField, NumberField, DateField } from './InputFields'
 
 export default class EditTrip extends React.Component {
     constructor(props) {
         super(props)
         this.state = { 
-            trip: {
-                airline: '',
-                departure: '',
-                destination: '',
-                depTime: '',
-                arrTime: '',
-                duration: '',
-                price: '',
-                cancelInsurance: '',
-                airplane: '',
-                model: '',
-                capacity: ''
-            },
+            trip: {},
             err: ''
         }
-        this.getFlight();
-    }
-
-    getDate = () => {
-        const date = new Date()
-        const mm = date.getMinutes()
-        const hh = date.getHours()
-        const DD = date.getDate()
-        const MM = date.getMonth() + 1 // january is 0
-        const YYYY = date.getFullYear()
-    
-        if(DD < 10) DD = '0' + DD
-        if(MM < 10) MM = '0' + MM;
-        return `${YYYY}-${MM}-${DD}T${hh}:${mm}`
+        this.getFlight()
     }
 
     getFlight = async() => {
@@ -45,23 +21,39 @@ export default class EditTrip extends React.Component {
     inputChanged = (evt) => {
         const property = evt.target.id
         const value = evt.target.value
-        let trip = this.state.trip
+        const trip = this.state.trip
         trip[property] = value
+        this.changeDepartureTime()
+        trip.duration = this.setDuration()
         this.setState({trip})
+    }
+
+    changeDepartureTime = () => {
+        if (this.state.trip.depTime > this.state.trip.arrTime) {
+            const trip = this.state.trip
+            trip.arrTime = this.state.trip.depTime
+            this.setState({trip})
+        }
+    }
+
+    setDuration = () => {
+        const departure = new Date(this.state.trip.depTime).getTime()
+        const arrival = new Date(this.state.trip.arrTime).getTime()
+        return ((arrival - departure) / 1000) / 60 // ( x / 1000 ) => miliseconds to seconds ( x / 60 ) => seconds to minutes
     }
 
     send = async (evt) => {
         evt.preventDefault();
         console.log(this.state.trip)
 
-        try {
+        /* try {
             const response = await fetch(apiFacade.getEditFlightUrl, this.makeOptions('PUT',this.state.trip))
             const content = await response.json()
             console.log(content)
         } catch (err) {
             this.setState( {err} )
             console.log(`err:: ${err}`)
-        }
+        } */
     }
 
     makeOptions = (method, body) => {
@@ -84,127 +76,65 @@ export default class EditTrip extends React.Component {
         if (this.state.err) return <Error refresh={this.refresh}/>
         return (
             <form onSubmit={this.send}>
-                <label>
-                    airline:
-                    <input 
-                        type="text" 
-                        id="airline" 
-                        value={this.state.trip.airline} 
-                        onChange={this.inputChanged}
-                        required>
-                    </input>
-                </label>
-                <br/>
-                <label>
-                    departure:
-                    <input 
-                        type="text" 
-                        id="departure" 
-                        value={this.state.trip.departure} 
-                        onChange={this.inputChanged}
-                        required/>
-                </label>
-                <br/>
-                <label>
-                    destination:
-                    <input 
-                        type="text" 
-                        id="destination" 
-                        value={this.state.trip.destination} 
-                        onChange={this.inputChanged}
-                        required/>
-                </label>
-                <br/>
-                <label>
-                    departure time:
-                    <input 
-                        type="datetime-local"
-                        id="depTime" 
-                        min={this.getDate()} 
-                        max="2025-01-01T00:00"
-                        value={this.state.trip.depTime} 
-                        onChange={this.inputChanged}
-                        required/>
-                </label>
-                <br/>
-                <label>
-                    arrival time:
-                    <input 
-                        type="datetime-local" 
-                        id="arrTime" 
-                        min={this.getDate()} 
-                        max="2025-01-01T00:00"
-                        value={this.state.trip.arrTime} 
-                        onChange={this.inputChanged}
-                        required/>
-                </label>
-                <br/>
-                <label>
-                    duration:
-                    <input 
-                        type="number" min="0"
-                        id="duration" 
-                        value={this.state.trip.duration} 
-                        onChange={this.inputChanged}
-                        required/>
-                </label>
-                <br/>
-                <label>
-                    price:
-                    <input 
-                        type="number" min="0" 
-                        id="price" 
-                        value={this.state.trip.price} 
-                        onChange={this.inputChanged}
-                        required/>
-                </label>
-                <br/>
-                <label>
-                    cancel insurance:
-                    <input 
-                        type="number" min="0" 
-                        id="cancelInsurance" 
-                        value={this.state.trip.cancelInsurance} 
-                        onChange={this.inputChanged}
-                        required/>
-                </label>
-                <br/>
-                <label>
-                    airplane:
-                    <input 
-                        type="text" 
-                        id="airplane" 
-                        value={this.state.trip.airplane} 
-                        onChange={this.inputChanged}
-                        required/>
-                </label>
-                <br/>
-                <label>
-                model:
-                <input 
-                    type="text"
-                    id="model" 
+                <TextField title='airline'
+                    id='airline' 
+                    value={this.state.trip.airline} 
+                    onChanged={this.inputChanged}/>
+
+                <TextField title='departure'
+                    id='departure' 
+                    value={this.state.trip.departure} 
+                    onChanged={this.inputChanged}/>
+
+                <TextField title='destination'
+                    id='destination' 
+                    value={this.state.trip.destination} 
+                    onChanged={this.inputChanged}/>
+
+                <DateField title='arrival time' 
+                    id='arrTime' 
+                    value={this.state.trip.arrTime} 
+                    onChanged={this.inputChanged} />
+                    
+                <DateField title='departure time' 
+                    id='depTime' 
+                    value={this.state.trip.depTime} 
+                    onChanged={this.inputChanged} />
+
+                <p>{`duration: ${this.state.trip.duration} min.`}</p>
+
+                <NumberField title='price'
+                    id='price' 
+                    value={this.state.trip.price} 
+                    onChanged={this.inputChanged}/>
+
+                <NumberField title='cancel insurance'
+                    id='cancelInsurance' 
+                    value={this.state.trip.cancelInsurance} 
+                    onChanged={this.inputChanged}/>
+
+                <TextField title='airplane'
+                    id='airplane' 
+                    value={this.state.trip.airplane} 
+                    onChanged={this.inputChanged}/>
+
+                <TextField title='model'
+                    id='model' 
                     value={this.state.trip.model} 
-                    onChange={this.inputChanged}
-                    required/>
-                </label>
-                <br/>
-                <label>
-                    capacity:
-                    <input 
-                        type="number" min="1"
-                        id="capacity" 
-                        value={this.state.trip.capacity} 
-                        onChange={this.inputChanged}
-                        required/>
-                </label>
-                <br/>
+                    onChanged={this.inputChanged}/>
+                
+                <NumberField title='capacity'
+                    id='capacity' 
+                    value={this.state.trip.capacity} 
+                    onChanged={this.inputChanged}/>
+
                 <button>send</button>
             </form>
         )
     }
 }
 
+// to seperated file
 function Error(props) {
     return (
         <div>
@@ -213,3 +143,4 @@ function Error(props) {
         </div>
     )
 }
+
