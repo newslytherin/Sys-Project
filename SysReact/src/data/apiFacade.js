@@ -9,7 +9,7 @@ class ApiFacade extends React.Component{
     getOwnFlightsRootUrl = () => `${RootUrl}/flights/own`
     getAllFlightsUrl = () => `${RootUrl}/flights/all`
     getAddFlightUrl = () => `${RootUrl}/flights/new`
-    getEditFlightUrl = () => `${RootUrl}/flights/edit`
+    getEditFlightUrl = () => `${RootUrl}/flights/edit/`
     
     getAllFligths = async() => {
         try {

@@ -90,7 +90,7 @@ public class DataFacade {
         }
     }
     
-    public List<OwnFlightDTO> geOwnFlights() throws InvalidDataException {
+    public List<OwnFlightDTO> getOwnFlights() throws InvalidDataException {
         EntityManager em = emf.createEntityManager();
         String jpql = "SELECT new entity.OwnFlightDTO(f) FROM Flight f";
 

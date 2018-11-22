@@ -54,7 +54,7 @@ public class FlightsResource {
     @Path("own")
     @Produces(MediaType.APPLICATION_JSON)
     public String getOwnFlights() throws InvalidDataException {
-        return gson.toJson(facade.geOwnFlights());
+        return gson.toJson(facade.getOwnFlights());
     }
 
     @GET

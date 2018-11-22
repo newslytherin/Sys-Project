@@ -54,9 +54,11 @@ export default class EditTrip extends React.Component {
     send = async (evt) => {
         evt.preventDefault();
         console.log(this.state.trip)
-
+        
+        const uri = apiFacade.getEditFlightUrl() + this.state.trip.id
+        console.log(uri)
         /* try {
-            const response = await fetch(apiFacade.getEditFlightUrl, this.makeOptions('PUT',this.state.trip))
+            const response = await fetch(uri, this.makeOptions('PUT',this.state.trip))
             const content = await response.json()
             console.log(content)
         } catch (err) {
