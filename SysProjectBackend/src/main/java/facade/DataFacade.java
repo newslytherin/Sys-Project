@@ -77,7 +77,7 @@ public class DataFacade {
     public List<AirportDTO> getAllAirports() throws InvalidDataException
     {
         EntityManager em = emf.createEntityManager();
-        String jpql = "SELECT new entity.FlightDTO(f) FROM Flight f";
+        String jpql = "SELECT new entity.AirportDTO(a) FROM Airport a";
 
         try {
             TypedQuery<AirportDTO> query = em.createQuery(jpql, AirportDTO.class);
