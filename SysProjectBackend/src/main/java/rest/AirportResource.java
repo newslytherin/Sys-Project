@@ -31,30 +31,15 @@ public class AirportResource
     private UriInfo context;
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private DataFacade facade = new DataFacade();
-
-    /**
-     * Creates a new instance of AirportResource
-     */
+    
     public AirportResource()
     {
     }
 
-    /**
-     * Retrieves representation of an instance of rest.AirportResource
-     *
-     * @return an instance of java.lang.String
-     * @throws exceptions.InvalidDataException
-     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String getJson() throws InvalidDataException
+    public String getAllAirports() throws InvalidDataException
     {
         return gson.toJson(facade.getAllAirports());
     }
-
-    /**
-     * PUT method for updating or creating an instance of AirportResource
-     *
-     * @param content representation for the resource
-     */
 }
