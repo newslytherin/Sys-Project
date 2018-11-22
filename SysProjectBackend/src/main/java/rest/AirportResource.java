@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import exceptions.InvalidDataException;
 import facade.DataFacade;
+import javax.persistence.Persistence;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
@@ -34,6 +35,7 @@ public class AirportResource
     
     public AirportResource()
     {
+        facade.setEntityManagerFactory(Persistence.createEntityManagerFactory("pu"));
     }
 
     @GET
