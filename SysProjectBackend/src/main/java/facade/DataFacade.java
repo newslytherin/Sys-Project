@@ -2,6 +2,7 @@ package facade;
 
 import entity.Flight;
 import entity.FlightDTO;
+import entity.AirportDTO;
 import exceptions.InvalidDataException;
 import java.util.List;
 import java.util.logging.Level;
@@ -24,6 +25,7 @@ public class DataFacade {
     }
 
     private static EntityManagerFactory emf;
+
 
     public DataFacade() {
     }
@@ -72,4 +74,18 @@ public class DataFacade {
         return new FlightDTO(tmp);
     }
 
+    public List<AirportDTO> getAllAirports() throws InvalidDataException
+    {
+        EntityManager em = emf.createEntityManager();
+        String jpql = "SELECT new entity.FlightDTO(f) FROM Flight f";
+
+        try {
+            TypedQuery<AirportDTO> query = em.createQuery(jpql, AirportDTO.class);
+            return query.getResultList();
+        } catch (Exception ex) {
+            throw new InvalidDataException("Inserted data is not valid");
+        } finally {
+            em.close();
+        }
+    }
 }
