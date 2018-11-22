@@ -17,6 +17,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.Persistence;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
@@ -36,14 +37,16 @@ public class FlightsResource {
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final String DATBOI$URL = "";
     private static final String MIXURL = "";
+    private DataFacade facade = new DataFacade();
 
     public FlightsResource() {
+        facade.setEntityManagerFactory(Persistence.createEntityManagerFactory("pu"));
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getFlights() throws InvalidDataException {
-        return gson.toJson(DataFacade.getAllFlights());
+        return gson.toJson(facade.getAllFlights());
     }
 
     @GET
@@ -81,7 +84,7 @@ public class FlightsResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response postFlights(String content) throws InvalidDataException {
         Flight f = gson.fromJson(content, Flight.class);
-        return Response.ok(gson.toJson(DataFacade.addNewFlight(f))).build();
+        return Response.ok(gson.toJson(facade.addNewFlight(f))).build();
     }
 
     @PUT
@@ -89,7 +92,7 @@ public class FlightsResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response putFlights(String content) {
         Flight f = gson.fromJson(content, Flight.class);
-        return Response.ok(gson.toJson(DataFacade.editFlight(f))).build();
+        return Response.ok(gson.toJson(facade.editFlight(f))).build();
     }
 
     public static String getDatboi$Data() {
