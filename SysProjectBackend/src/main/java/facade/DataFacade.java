@@ -3,6 +3,7 @@ package facade;
 import entity.Flight;
 import entity.FlightDTO;
 import entity.AirportDTO;
+import entity.OwnFlightDTO;
 import exceptions.InvalidDataException;
 import java.util.List;
 import java.util.logging.Level;
@@ -61,12 +62,12 @@ public class DataFacade {
         return fdto;
     }
 
-    public FlightDTO editFlight(Flight f) {
+    public FlightDTO editFlight(Flight f, long id) {
         EntityManager em = emf.createEntityManager();
         Flight tmp = null;
         try {
             em.getTransaction().begin();
-            tmp = em.find(Flight.class, f.getId()).updateValues(f);
+            tmp = em.find(Flight.class, id).updateValues(f);
             em.getTransaction().commit();
         } finally {
             em.close();
@@ -81,6 +82,20 @@ public class DataFacade {
 
         try {
             TypedQuery<AirportDTO> query = em.createQuery(jpql, AirportDTO.class);
+            return query.getResultList();
+        } catch (Exception ex) {
+            throw new InvalidDataException("Inserted data is not valid");
+        } finally {
+            em.close();
+        }
+    }
+    
+    public List<OwnFlightDTO> geOwnFlights() throws InvalidDataException {
+        EntityManager em = emf.createEntityManager();
+        String jpql = "SELECT new entity.OwnFlightDTO(f) FROM Flight f";
+
+        try {
+            TypedQuery<OwnFlightDTO> query = em.createQuery(jpql, OwnFlightDTO.class);
             return query.getResultList();
         } catch (Exception ex) {
             throw new InvalidDataException("Inserted data is not valid");

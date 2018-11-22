@@ -7,15 +7,24 @@ export default class EditTrip extends React.Component {
         super(props)
         this.state = { 
             trip: {},
+            airports: [],
             err: ''
         }
         this.getFlight()
+        this.getAirports()
     }
 
     getFlight = async() => {
-        const trips = await apiFacade.getAllLocalFligths()
+        const trips = await apiFacade.getOwnFligths()
         const trip = await trips[0]
         await this.setState({trip})
+        await console.log(this.state.trip)
+    }
+
+    getAirports = async() => {
+        const airports = await apiFacade.getAllAirports()
+        await this.setState({airports})
+        await console.log(airports)
     }
 
     inputChanged = (evt) => {
