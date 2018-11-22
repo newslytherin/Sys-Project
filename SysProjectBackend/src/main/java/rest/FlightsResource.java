@@ -26,6 +26,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -47,6 +48,13 @@ public class FlightsResource {
     @Produces(MediaType.APPLICATION_JSON)
     public String getFlights() throws InvalidDataException {
         return gson.toJson(facade.getAllFlights());
+    }
+    
+    @GET
+    @Path("own")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getOwnFlights() throws InvalidDataException {
+        return gson.toJson(facade.geOwnFlights());
     }
 
     @GET
@@ -88,11 +96,11 @@ public class FlightsResource {
     }
 
     @PUT
-    @Path("edit")
+    @Path("edit/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response putFlights(String content) {
+    public Response putFlights(String content, @PathParam("id") long id) {
         Flight f = gson.fromJson(content, Flight.class);
-        return Response.ok(gson.toJson(facade.editFlight(f))).build();
+        return Response.ok(gson.toJson(facade.editFlight(f, id))).build();
     }
 
     public static String getDatboi$Data() {

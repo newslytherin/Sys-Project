@@ -36,7 +36,6 @@ public class DataFacadeTest {
     @After
     public void tearDown() {
     }
-
     @org.junit.Test
     public void testGetAllFlights() throws Exception {
         System.out.println("getAllFlights");
@@ -45,6 +44,9 @@ public class DataFacadeTest {
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
+        
+        
+        assertTrue(true);
     }
 
     @org.junit.Test
@@ -56,8 +58,12 @@ public class DataFacadeTest {
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
+        
+        
+        assertTrue(true);
     }
 
+    
     @org.junit.Test
     public void testEditFlight() {
         System.out.println("editFlight");
