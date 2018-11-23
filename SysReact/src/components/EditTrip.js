@@ -13,37 +13,33 @@ export default class EditTrip extends React.Component {
             isLoadingAirports: true
         }
         this.getFlight()
-        this.getAirports()
     }
-
+    
     getFlight = async() => {
         const trips = await apiFacade.getOwnFligths()
         const trip = await trips[0]
         await this.setState({trip, isLoadingFlights: false})
         await console.log(this.state.trip)
+        await this.getAirports()
     }
 
     getAirports = async() => {
         const airports = await apiFacade.getAllAirports()
         await this.setState({airports, isLoadingAirports: false})
+        await this.initializeAirports()
     }
-
+    
     inputChanged = (evt) => {
         const property = evt.target.id
         const value = evt.target.value
         const trip = this.state.trip
         trip[property] = value
-        
         this.changeDepartureTime()
         trip.duration = this.setDuration()
-        console.log(property)
-        trip[property] = (property == 'departure' || property == 'destination' ) ? this.setAiport(value) : value
-        
-        //trip.departure = this.state.airports[0]
-        //trip.destination = this.state.airports[1]
-        
+        trip[property] = (property === 'departure' || property === 'destination' ) ? this.setAiport(value) : value
         this.setState({trip})
         console.log(this.state.trip)
+        if (this.state.trip.departure.id === this.state.trip.destination.id) console.log('!!')
     }
 
     changeDepartureTime = () => {
@@ -60,16 +56,29 @@ export default class EditTrip extends React.Component {
         return ((arrival - departure) / 1000) / 60 // ( x / 1000 ) => miliseconds to seconds ( x / 60 ) => seconds to minutes
     }
 
+    initializeAirports = () => {
+        const trip = this.state.trip
+        const airports = this.state.airports
+
+        const dep = this.state.trip.departure
+        const des = this.state.trip.destination
+
+        trip.departure = airports.filter(airport => airport.name === dep.split(', ')[1])[0]      // .city => .name!!! >>> String.spilt(',')[1]
+        trip.destination = airports.filter(airport => airport.name === des.split(', ')[1])[0]
+
+        this.setState({trip})
+    }
+
     setAiport = (id) => {
         const airports = this.state.airports
-        return airports.filter(airport => airport.id == id)[0]
+        return airports.filter(airport => airport.id === Number(id))[0]
     }
 
     send = async (evt) => {
         evt.preventDefault();
         const uri = apiFacade.getEditFlightUrl() + this.state.trip.id
         const trip = this.state.trip
-        delete trip.id
+        delete trip.id // deletes the 'id' key from object
 
         console.log(trip)
         console.log(uri)
@@ -124,6 +133,7 @@ export default class EditTrip extends React.Component {
                 <SelectField 
                     title='departure'
                     id={'departure'}
+                    selected={this.state.trip.departure.id}
                     data={this.state.airports}
                     onChanged={this.inputChanged}
                 />
@@ -131,18 +141,19 @@ export default class EditTrip extends React.Component {
                 <SelectField 
                     title='destination'
                     id={'destination'}
+                    selected={this.state.trip.destination.id}
                     data={this.state.airports}
                     onChanged={this.inputChanged}
                 />
 
-                <DateField title='arrival time' 
-                    id='arrTime' 
-                    value={this.state.trip.arrTime} 
-                    onChanged={this.inputChanged} />
-                    
                 <DateField title='departure time' 
                     id='depTime' 
                     value={this.state.trip.depTime} 
+                    onChanged={this.inputChanged} />
+
+                <DateField title='arrival time' 
+                    id='arrTime' 
+                    value={this.state.trip.arrTime} 
                     onChanged={this.inputChanged} />
 
                 <p>{`duration: ${this.state.trip.duration} min.`}</p>
@@ -191,9 +202,9 @@ function Error(props) {
 // to seperated file
 function Loader(props) {
     return (
-        <>
+        <div style={{fontSize: 24, textAlign: 'center'}}>
             loading...
-        </>
+        </div>
     )
 }
 

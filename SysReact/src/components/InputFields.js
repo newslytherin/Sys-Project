@@ -45,14 +45,13 @@ export function DateField(props) {
     )
 }
 
-// lifting state up
 export function SelectField(props) {
     return (
         <>
          <label style={{display: 'block'}}>{`${props.title}:`}</label>
-        <select style={{display: 'block'}} onChange={props.onChanged} id={props.id}>
+        <select style={{display: 'block'}} onChange={props.onChanged} id={props.id}> 
             {props.data.map((item) => {
-                //console.log(item)
+                if (item.id === props.selected) return <option key={item.id} value={item.id} selected>{`${item.city}, ${item.name}, ${item.country}`}</option>
                 return <option key={item.id} value={item.id}>{`${item.city}, ${item.name}, ${item.country}`}</option>
             }
             )};
