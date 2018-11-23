@@ -1,10 +1,10 @@
 export default () => {
-    const date = new Date()
-    const mm = date.getMinutes()
-    const hh = date.getHours()
-    const DD = date.getDate()
-    const MM = date.getMonth() + 1 // january is 0
-    const YYYY = date.getFullYear()
+    let date = new Date()
+    let mm = date.getMinutes()
+    let hh = date.getHours()
+    let DD = date.getDate()
+    let MM = date.getMonth() + 1 // january is 0
+    let YYYY = date.getFullYear()
 
     if(DD < 10) DD = '0' + DD
     if(MM < 10) MM = '0' + MM;

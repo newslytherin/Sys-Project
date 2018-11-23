@@ -1,6 +1,6 @@
 import React from 'react';
 import apiFacade from '../data/apiFacade'
-import { TextField, NumberField, DateField } from './InputFields'
+import { TextField, NumberField, DateField, SelectField } from './InputFields'
 
 export default class EditTrip extends React.Component {
     constructor(props) {
@@ -8,7 +8,9 @@ export default class EditTrip extends React.Component {
         this.state = { 
             trip: {},
             airports: [],
-            err: ''
+            err: '',
+            isLoadingFlights: true,
+            isLoadingAirports: true
         }
         this.getFlight()
         this.getAirports()
@@ -17,14 +19,13 @@ export default class EditTrip extends React.Component {
     getFlight = async() => {
         const trips = await apiFacade.getOwnFligths()
         const trip = await trips[0]
-        await this.setState({trip})
+        await this.setState({trip, isLoadingFlights: false})
         await console.log(this.state.trip)
     }
 
     getAirports = async() => {
         const airports = await apiFacade.getAllAirports()
-        await this.setState({airports})
-        await console.log(airports)
+        await this.setState({airports, isLoadingAirports: false})
     }
 
     inputChanged = (evt) => {
@@ -32,9 +33,17 @@ export default class EditTrip extends React.Component {
         const value = evt.target.value
         const trip = this.state.trip
         trip[property] = value
+        
         this.changeDepartureTime()
         trip.duration = this.setDuration()
+        console.log(property)
+        trip[property] = (property == 'departure' || property == 'destination' ) ? this.setAiport(value) : value
+        
+        //trip.departure = this.state.airports[0]
+        //trip.destination = this.state.airports[1]
+        
         this.setState({trip})
+        console.log(this.state.trip)
     }
 
     changeDepartureTime = () => {
@@ -51,20 +60,39 @@ export default class EditTrip extends React.Component {
         return ((arrival - departure) / 1000) / 60 // ( x / 1000 ) => miliseconds to seconds ( x / 60 ) => seconds to minutes
     }
 
+    setAiport = (id) => {
+        const airports = this.state.airports
+        return airports.filter(airport => airport.id == id)[0]
+    }
+
     send = async (evt) => {
         evt.preventDefault();
-        console.log(this.state.trip)
-        
         const uri = apiFacade.getEditFlightUrl() + this.state.trip.id
+        const trip = this.state.trip
+        delete trip.id
+
+        console.log(trip)
         console.log(uri)
-        /* try {
-            const response = await fetch(uri, this.makeOptions('PUT',this.state.trip))
-            const content = await response.json()
-            console.log(content)
+
+        try {
+            const response = await fetch(uri, this.makeOptions('PUT', trip))
+            const content = await response.json() //this.handleHttpErrors(response)
+            await console.log(content)
         } catch (err) {
             this.setState( {err} )
             console.log(`err:: ${err}`)
-        } */
+        }
+    }
+
+    handleHttpErrors = (res) => {
+        if (!res.ok) {
+            //throw 'error ####'
+            return Promise.reject({
+                status: res.status,
+                fullError: res.json()
+            })
+        }
+        return res.json();
     }
 
     makeOptions = (method, body) => {
@@ -84,23 +112,28 @@ export default class EditTrip extends React.Component {
     }
 
     render() {
+        if (this.state.isLoadingAirports || this.state.isLoadingFlights) return <Loader />
         if (this.state.err) return <Error refresh={this.refresh}/>
         return (
-            <form onSubmit={this.send}>
+            <form onSubmit={this.send} style={{margin: 15}}>
                 <TextField title='airline'
                     id='airline' 
                     value={this.state.trip.airline} 
                     onChanged={this.inputChanged}/>
 
-                <TextField title='departure'
-                    id='departure' 
-                    value={this.state.trip.departure} 
-                    onChanged={this.inputChanged}/>
+                <SelectField 
+                    title='departure'
+                    id={'departure'}
+                    data={this.state.airports}
+                    onChanged={this.inputChanged}
+                />
 
-                <TextField title='destination'
-                    id='destination' 
-                    value={this.state.trip.destination} 
-                    onChanged={this.inputChanged}/>
+                <SelectField 
+                    title='destination'
+                    id={'destination'}
+                    data={this.state.airports}
+                    onChanged={this.inputChanged}
+                />
 
                 <DateField title='arrival time' 
                     id='arrTime' 
@@ -148,10 +181,19 @@ export default class EditTrip extends React.Component {
 // to seperated file
 function Error(props) {
     return (
-        <div>
+        <>
             a fail occurred, try to refresh or come back later
             <button onClick={props.refresh}>refresh</button>
-        </div>
+        </>
+    )
+}
+
+// to seperated file
+function Loader(props) {
+    return (
+        <>
+            loading...
+        </>
     )
 }
 
