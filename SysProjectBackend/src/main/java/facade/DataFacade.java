@@ -1,5 +1,6 @@
 package facade;
 
+import entity.Airport;
 import entity.Flight;
 import entity.FlightDTO;
 import entity.AirportDTO;
@@ -88,6 +89,19 @@ public class DataFacade {
         } finally {
             em.close();
         }
+    }
+    
+    public AirportDTO addNewAirport(Airport a) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(a);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        AirportDTO adto = new AirportDTO(a);
+        return adto;
     }
     
     public List<OwnFlightDTO> getOwnFlights() throws InvalidDataException {
