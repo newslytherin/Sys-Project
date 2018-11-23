@@ -69,6 +69,7 @@ public class DataFacade {
         try {
             em.getTransaction().begin();
             tmp = em.find(Flight.class, id).updateValues(f);
+            em.merge(tmp);
             em.getTransaction().commit();
         } finally {
             em.close();
