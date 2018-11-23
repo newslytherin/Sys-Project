@@ -18,12 +18,12 @@ const airlines = [
     { name: "Finnair", short: "FA" },
     { name: "WOW Air", short: "WA" }
 ]
-const airports = [
+const airports2 = [
     { id: 0, city: 'Kastrup', country: 'Denmark', code: 'DK', name: 'CBH' },
     { id: 1, city: 'Billund', country: 'Denmark', code: 'DK', name: 'BLL' },
-    { id: 2, city: 'Heathrow', country: 'England', code: 'BG', name: 'LHR' },
-    { id: 3, city: 'Gatwick', country: 'England', code: 'BG', name: 'LGW' },
-    { id: 4, city: 'Stansted', country: 'England', code: 'BG', name: 'STN' },
+    { id: 2, city: 'Heathrow', country: 'England', code: 'UK', name: 'LHR' },
+    { id: 3, city: 'Gatwick', country: 'England', code: 'UK', name: 'LGW' },
+    { id: 4, city: 'Stansted', country: 'England', code: 'UK', name: 'STN' },
     { id: 5, city: 'Brandenburg', country: 'Germany', code: 'DE', name: 'BER' },
     { id: 6, city: 'Berlin', country: 'Germany', code: 'DE', name: 'TXL' },
     { id: 7, city: 'Frankfurt', country: 'Germany', code: 'DE', name: 'FRA' },
@@ -41,37 +41,37 @@ const airports = [
     { id: 19, city: 'Vancouver', country: 'Canada', code: 'CA', name: 'CXH' }
 ]
 
-var airports2 = [    
-    {city:"London",code:"LHR",country:"England"},
-    {city:"Paris",code:"CDG",country:"Frankrig"},
-    {city:"Amsterdam",code:"AMS",country:"Holland"},
-    {city:"Frankfurt",code:"FRA",country:"Tyskland"},
-    {city:"Istanbul",code:"IST",country:"Tyrkiet"},
-    {city:"Madrid",code:"MAD",country:"Spanien"},
-    {city:"Barcelona",code:"BCN",country:"Spanien"},
-    {city:"London",code:"LGW",country:"England"},
-    {city:"München",code:"MUC",country:"Tyskland"},
-    {city:"Rom",code:"FCO",country:"Italien"},
-    {city:"Moskva",code:"SVO",country:"Rusland"},
-    {city:"Paris",code:"ORY",country:"Frankrig"},
-    {city:"Moskva",code:"DME",country:"Rusland"},
-    {city:"Dublin",code:"DUB",country:"Irland"},
-    {city:"Zürich",code:"ZRH",country:"Schweiz"},
-    {city:"København",code:"CPH",country:"Danmark"},
-    {city:"Palma de Mallorca",code:"PMI",country:"Spanien"},
-    {city:"Manchester",code:"MAN",country:"England"},
-    {city:"Oslo",code:"OSL",country:"Norge"},
-    {city:"Lissabon",code:"LIS",country:"Portugal"},
-    {city:"Stockholm",code:"ARN",country:"Sverige"},
-    {city:"London",code:"STN",country:"England"},
-    {city:"Bruxelles",code:"BRU",country:"Belgien"},
-    {city:"Düsseldorf",code:"DUS",country:"Tyskland"},
-    {city:"Wien",code:"VIE",country:"Østrig"},
-    {city:"Milano",code:"MXP",country:"Italien"},
-    {city:"Athen",code:"ATH",country:"Grækenland"},
-    {city:"Berlin",code:"TXL",country:"Tyskland"},
-    {city:"Helsinki",code:"HEL",country:"Finland"},
-    {city:"Málaga",code:"AGP",country:"Spanien"},
+var airports = [
+    { id: 0, city: "Málaga", name: "AGP", country: "Spanien", code: "ES" },
+    { id: 1, city: "London", name: "LHR", country: "England", code: "UK" },
+    { id: 2, city: "Paris", name: "CDG", country: "Frankrig", code: "FR" },
+    { id: 3, city: "Amsterdam", name: "AMS", country: "Holland", code: "NL" },
+    { id: 4, city: "Frankfurt", name: "FRA", country: "Tyskland", code: "DE" },
+    { id: 5, city: "Istanbul", name: "IST", country: "Tyrkiet", code: "TR" },
+    { id: 6, city: "Madrid", name: "MAD", country: "Spanien", code: "ES" },
+    { id: 7, city: "Barcelona", name: "BCN", country: "Spanien", code: "ES" },
+    { id: 8, city: "London", name: "LGW", country: "England", code: "UK" },
+    { id: 9, city: "München", name: "MUC", country: "Tyskland", code: "DE" },
+    { id: 10, city: "Rom", name: "FCO", country: "Italien", code: "IT" },
+    { id: 11, city: "Moskva", name: "SVO", country: "Rusland", code: "RU" },
+    { id: 12, city: "Paris", name: "ORY", country: "Frankrig", code: "FR" },
+    { id: 13, city: "Moskva", name: "DME", country: "Rusland", code: "RU" },
+    { id: 14, city: "Dublin", name: "DUB", country: "Irland", code: "IE" },
+    { id: 15, city: "Zürich", name: "ZRH", country: "Schweiz", code: "CH" },
+    { id: 16, city: "København", name: "CPH", country: "Danmark", code: "DK" },
+    { id: 17, city: "Palma de name", code: "PMI", country: "Spanien", code: "SP" },
+    { id: 18, city: "Manchester", name: "MAN", country: "England", code: "UK" },
+    { id: 19, city: "Oslo", name: "OSL", country: "Norge", code: "NO" },
+    { id: 20, city: "Lissabon", name: "LIS", country: "Portugal", code: "PT" },
+    { id: 21, city: "Stockholm", name: "ARN", country: "Sverige", code: "SW" },
+    { id: 22, city: "London", name: "STN", country: "England", code: "UK" },
+    { id: 23, city: "Bruxelles", name: "BRU", country: "Belgien", code: "BE" },
+    { id: 24, city: "Düsseldorf", name: "DUS", country: "Tyskland", code: "DE" },
+    { id: 25, city: "Wien", name: "VIE", country: "Østrig", code: "AT" },
+    { id: 26, city: "Milano", name: "MXP", country: "Italien", code: "IT" },
+    { id: 27, city: "Athen", name: "ATH", country: "Grækenland", code: "GR" },
+    { id: 28, city: "Berlin", name: "TXL", country: "Tyskland", code: "DE" },
+    { id: 29, city: "Helsinki", name: "HEL", country: "Finland", code: "FI" },
 ]
 
 const cancelIncurances = [
@@ -107,7 +107,7 @@ randomTime()
 function randomTime() {
     const times = []
 
-    const year1 = (randomRange(2018, 2019)).pad()
+    const year1 = 2020
     const month1 = (randomRange(1, 12)).pad()
     const day1 = randomRange(1, 30)
     const hour1 = randomRange(0, 23)
