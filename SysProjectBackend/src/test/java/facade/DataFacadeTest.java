@@ -17,11 +17,10 @@ import org.junit.Test;
 
 public class DataFacadeTest {
 
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("testpu");
-    private DataFacade facade = new DataFacade();
-
+//    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("testpu");
+//    private DataFacade facade = new DataFacade();
     public DataFacadeTest() {
-        facade.setEntityManagerFactory(emf);
+//        facade.setEntityManagerFactory(emf);
     }
 
     @BeforeClass
@@ -43,6 +42,9 @@ public class DataFacadeTest {
     @Test
     public void testAddNewFlightGetAllFlights() throws Exception {
         System.out.println("addNewFlight & getAllFlights");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("testpu");
+        DataFacade facade = new DataFacade();
+        facade.setEntityManagerFactory(emf);
         facade.addNewFlight(new Flight("SAS", new Airport("England", "LHR", "", "London"), new Airport("Frankrig", "CDG", "", "Paris"),
                 "2019-09-01T10:10", "2019-09-01T12:00", 2, 1500, 150, "1", "Boeing 747", 300));
         facade.addNewFlight(new Flight("Norwegian", new Airport("England", "LHR", "", "London"), new Airport("Holland", "AMS", "", "Amsterdam"),
@@ -71,27 +73,32 @@ public class DataFacadeTest {
     @Test
     public void testEditFlight() {
         System.out.println("editFlight");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("testpu");
+        DataFacade facade = new DataFacade();
+        facade.setEntityManagerFactory(emf);
         Flight f = new Flight("SAS", new Airport("England", "LHR", "", "London"), new Airport("Frankrig", "CDG", "", "Paris"),
                 "2019-09-01T10:10", "2019-09-01T12:00", 2, 1500, 150, "1", "Boeing 747", 300);
-        facade.addNewFlight(new Flight("Norwegian", new Airport("England", "LHR", "", "London"), new Airport("Holland", "AMS", "", "Amsterdam"),
-                "2019-09-01T10:10", "2019-09-01T12:00", 2, 1500, 150, "1", "Boeing 747", 300));
+//        facade.addNewFlight(new Flight("Norwegian", new Airport("England", "LHR", "", "London"), new Airport("Holland", "AMS", "", "Amsterdam"),
+//                "2019-09-01T10:10", "2019-09-01T12:00", 2, 1500, 150, "1", "Boeing 747", 300));
         FlightDTO result = facade.editFlight(f, 1);
         assertEquals("Paris, CDG, Frankrig", result.getDestination());
     }
 
-//    @Test
-//    public void testGetAllAirports() throws Exception {
-//        System.out.println("getAllAirports");
-//        DataFacade instance = new DataFacade();
-//        List<AirportDTO> expResult = null;
-//        List<AirportDTO> result = instance.getAllAirports();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+    @Test
+    public void testAddNewAirportGetAllAirports() throws Exception {
+        System.out.println("addNewAirport & getAllAirports");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("testpu");
+        DataFacade facade = new DataFacade();
+        facade.setEntityManagerFactory(emf);
+        List<AirportDTO> result = facade.getAllAirports();
+        assertEquals(12, result.size());
+    }
 
     @Test
     public void testGetOwnFlights() throws Exception {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("testpu");
+        DataFacade facade = new DataFacade();
+        facade.setEntityManagerFactory(emf);
 //        facade.addNewFlight(new Flight("SAS", new Airport("England", "LHR", "", "London"), new Airport("Frankrig", "CDG", "", "Paris"),
 //                "2019-09-01T10:10", "2019-09-01T12:00", 2, 1500, 150, "1", "Boeing 747", 300));
 //        facade.addNewFlight(new Flight("Norwegian", new Airport("England", "LHR", "", "London"), new Airport("Holland", "AMS", "", "Amsterdam"),
