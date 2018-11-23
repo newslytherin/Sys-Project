@@ -1,8 +1,10 @@
 package facade;
 
 import entity.Airport;
+import entity.AirportDTO;
 import entity.Flight;
 import entity.FlightDTO;
+import entity.OwnFlightDTO;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -11,6 +13,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class DataFacadeTest {
 
@@ -37,7 +40,7 @@ public class DataFacadeTest {
     public void tearDown() {
     }
 
-    @org.junit.Test
+    @Test
     public void testAddNewFlightGetAllFlights() throws Exception {
         System.out.println("addNewFlight & getAllFlights");
         facade.addNewFlight(new Flight("SAS", new Airport("England", "LHR", "", "London"), new Airport("Frankrig", "CDG", "", "Paris"),
@@ -52,26 +55,66 @@ public class DataFacadeTest {
                 "2019-09-01T10:10", "2019-09-01T12:00", 2, 1500, 150, "1", "Boeing 747", 300));
         List<FlightDTO> resultList = facade.getAllFlights();
         assertEquals(5, resultList.size());
+        assertEquals("SAS", resultList.get(0).getAirline());
         assertEquals("London, LHR, England", resultList.get(0).getDeparture());
-        assertEquals("London, LHR, England", resultList.get(1).getDeparture());
-        assertEquals("London, LHR, England", resultList.get(2).getDeparture());
-        assertEquals("London, LHR, England", resultList.get(3).getDeparture());
-        assertEquals("London, LHR, England", resultList.get(4).getDeparture());
         assertEquals("Paris, CDG, Frankrig", resultList.get(0).getDestination());
-        assertEquals("Amsterdam, AMS, Holland", resultList.get(1).getDestination());
-        assertEquals("Frankfurt, FRA, Tyskland", resultList.get(2).getDestination());
-        assertEquals("Istanbul, IST, Tyrkiet", resultList.get(3).getDestination());
-        assertEquals("Madrid, MAD, Spanien", resultList.get(4).getDestination());
+        assertEquals("2019-09-01T10:10", resultList.get(0).getDepTime());
+        assertEquals("2019-09-01T12:00", resultList.get(0).getArrTime());
+        assertEquals(2, resultList.get(0).getDuration());
+        assertEquals(1500, resultList.get(0).getPrice());
+        assertEquals(150, resultList.get(0).getCancelInsurance());
+        assertEquals("1", resultList.get(0).getAirplane());
+        assertEquals("Boeing 747", resultList.get(0).getModel());
+        assertEquals(300, resultList.get(0).getCapacity());
     }
 
-//    @org.junit.Test
-//    public void testEditFlight() {
-//        System.out.println("editFlight");
-//        Flight f = null;
-//        FlightDTO expResult = null;
-//        FlightDTO result = facade.editFlight(f);
+    @Test
+    public void testEditFlight() {
+        System.out.println("editFlight");
+        Flight f = new Flight("SAS", new Airport("England", "LHR", "", "London"), new Airport("Frankrig", "CDG", "", "Paris"),
+                "2019-09-01T10:10", "2019-09-01T12:00", 2, 1500, 150, "1", "Boeing 747", 300);
+        facade.addNewFlight(new Flight("Norwegian", new Airport("England", "LHR", "", "London"), new Airport("Holland", "AMS", "", "Amsterdam"),
+                "2019-09-01T10:10", "2019-09-01T12:00", 2, 1500, 150, "1", "Boeing 747", 300));
+        FlightDTO result = facade.editFlight(f, 1);
+        assertEquals("Paris, CDG, Frankrig", result.getDestination());
+    }
+
+//    @Test
+//    public void testGetAllAirports() throws Exception {
+//        System.out.println("getAllAirports");
+//        DataFacade instance = new DataFacade();
+//        List<AirportDTO> expResult = null;
+//        List<AirportDTO> result = instance.getAllAirports();
 //        assertEquals(expResult, result);
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
 //    }
+
+    @Test
+    public void testGetOwnFlights() throws Exception {
+//        facade.addNewFlight(new Flight("SAS", new Airport("England", "LHR", "", "London"), new Airport("Frankrig", "CDG", "", "Paris"),
+//                "2019-09-01T10:10", "2019-09-01T12:00", 2, 1500, 150, "1", "Boeing 747", 300));
+//        facade.addNewFlight(new Flight("Norwegian", new Airport("England", "LHR", "", "London"), new Airport("Holland", "AMS", "", "Amsterdam"),
+//                "2019-09-01T10:10", "2019-09-01T12:00", 2, 1500, 150, "1", "Boeing 747", 300));
+//        facade.addNewFlight(new Flight("American Airlines", new Airport("England", "LHR", "", "London"), new Airport("Tyskland", "FRA", "", "Frankfurt"),
+//                "2019-09-01T10:10", "2019-09-01T12:00", 2, 1500, 150, "1", "Boeing 747", 300));
+//        facade.addNewFlight(new Flight("British Airways", new Airport("England", "LHR", "", "London"), new Airport("Tyrkiet", "IST", "", "Istanbul"),
+//                "2019-09-01T10:10", "2019-09-01T12:00", 2, 1500, 150, "1", "Boeing 747", 300));
+//        facade.addNewFlight(new Flight("Lufthansa", new Airport("England", "LHR", "", "London"), new Airport("Spanien", "MAD", "", "Madrid"),
+//                "2019-09-01T10:10", "2019-09-01T12:00", 2, 1500, 150, "1", "Boeing 747", 300));
+        List<OwnFlightDTO> resultList = facade.getOwnFlights();
+        assertEquals(5, resultList.size());
+        assertEquals(1, resultList.get(0).getId());
+        assertEquals("SAS", resultList.get(0).getAirline());
+        assertEquals("London, LHR, England", resultList.get(0).getDeparture());
+        assertEquals("Paris, CDG, Frankrig", resultList.get(0).getDestination());
+        assertEquals("2019-09-01T10:10", resultList.get(0).getDepTime());
+        assertEquals("2019-09-01T12:00", resultList.get(0).getArrTime());
+        assertEquals(2, resultList.get(0).getDuration());
+        assertEquals(1500, resultList.get(0).getPrice());
+        assertEquals(150, resultList.get(0).getCancelInsurance());
+        assertEquals("1", resultList.get(0).getAirplane());
+        assertEquals("Boeing 747", resultList.get(0).getModel());
+        assertEquals(300, resultList.get(0).getCapacity());
+    }
 }
