@@ -17,6 +17,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.Persistence;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
@@ -25,6 +26,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -36,14 +38,23 @@ public class FlightsResource {
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final String DATBOI$URL = "";
     private static final String MIXURL = "";
+    private DataFacade facade = new DataFacade();
 
     public FlightsResource() {
+        facade.setEntityManagerFactory(Persistence.createEntityManagerFactory("pu"));
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getFlights() throws InvalidDataException {
-        return gson.toJson(DataFacade.getAllFlights());
+        return gson.toJson(facade.getAllFlights());
+    }
+    
+    @GET
+    @Path("own")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getOwnFlights() throws InvalidDataException {
+        return gson.toJson(facade.getOwnFlights());
     }
 
     @GET
@@ -81,15 +92,15 @@ public class FlightsResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response postFlights(String content) throws InvalidDataException {
         Flight f = gson.fromJson(content, Flight.class);
-        return Response.ok(gson.toJson(DataFacade.addNewFlight(f))).build();
+        return Response.ok(gson.toJson(facade.addNewFlight(f))).build();
     }
 
     @PUT
-    @Path("edit")
+    @Path("edit/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response putFlights(String content) {
+    public Response putFlights(String content, @PathParam("id") long id) {
         Flight f = gson.fromJson(content, Flight.class);
-        return Response.ok(gson.toJson(DataFacade.editFlight(f))).build();
+        return Response.ok(gson.toJson(facade.editFlight(f, id))).build();
     }
 
     public static String getDatboi$Data() {

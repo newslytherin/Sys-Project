@@ -1,6 +1,7 @@
 package entity;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,9 +16,9 @@ public class Flight implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String airline;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Airport departure;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Airport destination;
     private String depTime;
     private String arrTime;
@@ -31,7 +32,8 @@ public class Flight implements Serializable {
     public Flight() {
     }
 
-    public Flight(String airline, Airport departure, Airport destination, String depTime, String arrTime, int duration, int price, int cancelInsurance, String airplane, String model, int capacity) {
+    public Flight(String airline, Airport departure, Airport destination, String depTime, String arrTime,
+            int duration, int price, int cancelInsurance, String airplane, String model, int capacity) {
         this.airline = airline;
         this.departure = departure;
         this.destination = destination;
