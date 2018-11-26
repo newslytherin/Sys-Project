@@ -19,7 +19,6 @@ export default class EditTrip extends React.Component {
         const trips = await apiFacade.getOwnFligths()
         const trip = await trips[0]
         await this.setState({trip, isLoadingFlights: false})
-        await console.log(this.state.trip)
         await this.getAirports()
     }
 
@@ -129,7 +128,6 @@ export default class EditTrip extends React.Component {
                     id='airline' 
                     value={this.state.trip.airline} 
                     onChanged={this.inputChanged}/>
-
                 <SelectField 
                     title='departure'
                     id={'departure'}
@@ -156,7 +154,9 @@ export default class EditTrip extends React.Component {
                     value={this.state.trip.arrTime} 
                     onChanged={this.inputChanged} />
 
-                <p>{`duration: ${this.state.trip.duration} min.`}</p>
+                <div>{`duration:`}</div>
+                <div>{`${this.state.trip.duration} min.`}</div>
+                <hr />
 
                 <NumberField title='price'
                     id='price' 

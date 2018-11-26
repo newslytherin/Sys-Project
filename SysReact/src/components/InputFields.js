@@ -11,6 +11,7 @@ export function TextField(props) {
             value={props.value} 
             onChange={props.onChanged}
             required/>
+        <hr />
         </>
     )
 }
@@ -25,6 +26,7 @@ export function NumberField(props) {
             value={props.value} 
             onChange={props.onChanged}
             required/>
+        <hr />
         </>
     )
 }
@@ -41,6 +43,7 @@ export function DateField(props) {
             value={props.value} 
             onChange={props.onChanged}
             required/>
+        <hr />
         </>
     )
 }
@@ -56,6 +59,7 @@ export function SelectField(props) {
             }
             )};
         </select>
+        <hr />
         </>
     )
 }
