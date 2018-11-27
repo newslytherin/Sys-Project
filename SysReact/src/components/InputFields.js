@@ -32,6 +32,7 @@ export function NumberField(props) {
 }
 
 export function DateField(props) {
+    console.log(Date())
     return (
         <>
         <label style={{display: 'block'}}>{`${props.title}:`}</label>

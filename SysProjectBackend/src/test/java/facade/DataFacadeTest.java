@@ -22,7 +22,8 @@ public class DataFacadeTest {
     public DataFacadeTest() {
 //        facade.setEntityManagerFactory(emf);
     }
-
+}
+/*
     @BeforeClass
     public static void setUpClass() {
     }
@@ -125,3 +126,4 @@ public class DataFacadeTest {
         assertEquals(300, resultList.get(0).getCapacity());
     }
 }
+*/
