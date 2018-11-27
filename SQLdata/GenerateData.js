@@ -59,7 +59,7 @@ var airports = [
     { id: 14, city: "Dublin", name: "DUB", country: "Irland", code: "IE" },
     { id: 15, city: "Zürich", name: "ZRH", country: "Schweiz", code: "CH" },
     { id: 16, city: "København", name: "CPH", country: "Danmark", code: "DK" },
-    { id: 17, city: "Palma de name", code: "PMI", country: "Spanien", code: "SP" },
+    { id: 17, city: "Palma de Mallorca", name: "PMI", country: "Spanien", code: "SP" },
     { id: 18, city: "Manchester", name: "MAN", country: "England", code: "UK" },
     { id: 19, city: "Oslo", name: "OSL", country: "Norge", code: "NO" },
     { id: 20, city: "Lissabon", name: "LIS", country: "Portugal", code: "PT" },
@@ -128,25 +128,24 @@ function randomTime() {
 
 function generateFlight() {
     const times = randomTime()
-    const flight = []
+    let flight = "";
 
     const airline = randomFromArray(airlines)
-    flight.push(airline.name)
-    flight.push(times[0])
-    flight.push(times[1])
-    flight.push(times[2])
-    flight.push(randomRange(500, 10000))
-    flight.push(randomFromArray(cancelIncurances))
-    flight.push(airline.short + " " + randomRange(100, 2000))
-    flight.push(randomFromArray(models))
-    flight.push(randomRange(50, 600))
+    flight = "'" + airline.name + "',"
+    flight += "'" + times[0] + "',"
+    flight += "'" + times[1] + "',"
+    flight += times[2]  + ","
+    flight += randomRange(500, 10000) +","
+    flight += randomFromArray(cancelIncurances) + ","
+    flight += "'" + airline.short + " " + randomRange(100, 2000) + "',"
+    flight += "'" + randomFromArray(models) + "',"
+    flight += randomRange(50, 600) + ","
     const departure = randomFromArray(airports)
     const destination = randomFromArrayExcluding(departure, airports)
-    flight.push(departure.id)
-    flight.push(destination.id)
+    flight += departure.id + ","
+    flight += destination.id
 
-    const res = flight.join("', '")
-    return "('" + res + "')"
+    return "(" + flight + ")"
 }
 
 function generateFlights(n) {
@@ -165,7 +164,7 @@ function generateAirports() {
         tmp.push(a.country)
         tmp.push(a.code)
         tmp.push(a.name)
-        total.push("('" + tmp.join(", ") + "')")
+        total.push("('" + tmp.join("', '") + "')")
     });
     return total
 }
