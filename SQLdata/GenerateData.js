@@ -59,7 +59,7 @@ var airports = [
     { id: 14, city: "Dublin", name: "DUB", country: "Irland", code: "IE" },
     { id: 15, city: "Zürich", name: "ZRH", country: "Schweiz", code: "CH" },
     { id: 16, city: "København", name: "CPH", country: "Danmark", code: "DK" },
-    { id: 17, city: "Palma de name", code: "PMI", country: "Spanien", code: "SP" },
+    { id: 17, city: "Palma de Mallorca", name: "PMI", country: "Spanien", code: "SP" },
     { id: 18, city: "Manchester", name: "MAN", country: "England", code: "UK" },
     { id: 19, city: "Oslo", name: "OSL", country: "Norge", code: "NO" },
     { id: 20, city: "Lissabon", name: "LIS", country: "Portugal", code: "PT" },

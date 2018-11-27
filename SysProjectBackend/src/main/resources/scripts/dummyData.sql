@@ -27,7 +27,7 @@ VALUES
     ('Dublin', 'Irland', 'IE', 'DUB'), 
     ('Zürich', 'Schweiz', 'CH', 'ZRH'), 
     ('København', 'Danmark', 'DK', 'CPH'), 
-    ('Palma de name', 'Spanien', 'SP', ''), 
+    ('Palma de Mallorca', 'Spanien', 'SP', 'PMI'), 
     ('Manchester', 'England', 'UK', 'MAN'), 
     ('Oslo', 'Norge', 'NO', 'OSL'), 
     ('Lissabon', 'Portugal', 'PT', 'LIS'), 
