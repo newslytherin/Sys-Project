@@ -1,11 +1,13 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -28,6 +30,8 @@ public class Flight implements Serializable {
     private String airplane;
     private String model;
     private int capacity;
+    @OneToMany(mappedBy = "flight")
+    private List<DBOrder> orders;
 
     public Flight() {
     }
@@ -152,6 +156,16 @@ public class Flight implements Serializable {
 
     public Long getId() {
         return id;
+    }
+
+    public List<DBOrder> getOrders()
+    {
+        return orders;
+    }
+    
+    public void addOrder(DBOrder order)
+    {
+        order.setFlgiht(this);
     }
 
     @Override

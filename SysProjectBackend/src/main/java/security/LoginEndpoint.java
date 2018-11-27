@@ -1,6 +1,7 @@
 package security;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.nimbusds.jose.JOSEException;
@@ -12,6 +13,7 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import entity.Role;
 import entity.User;
+import entity.UserDTO;
 import entity.UserFacade;
 import java.util.Date;
 import java.util.List;
@@ -42,36 +44,41 @@ public class LoginEndpoint
     {
 
         JsonObject json = new JsonParser().parse(jsonString).getAsJsonObject();
-        String username = json.get("username").getAsString();
+        String email = json.get("email").getAsString();
         String password = json.get("password").getAsString();
 
         //Todo refactor into facade
         try
         {
-            User user = UserFacade.getInstance().getVeryfiedUser(username, password);
-            String token = createToken(username, user.getRolesAsStrings());
+
+            //check if login is valid
+            User user = UserFacade.getInstance().getVeryfiedUser(email, password);
+            String token = createToken(email, user.getRolesAsStrings());
 
             //old JsonObject responseJson = new JsonObject();
-            
             //old responseJson.addProperty("username", username);
             //old responseJson.addProperty("token", token);
-            
             //old return Response.ok(new Gson().toJson(responseJson)).build();
             
-            JSONObject responseJson2 = new JSONObject();
-            JSONArray jsonRoleArray = new JSONArray();
             
-            for(Role role :user.getRoleList()){
-                jsonRoleArray.add(role.getRoleName());
-            }
+            
+              /// OLD BUT NEVER THAN OTHER OLD
+//            JSONObject responseJson2 = new JSONObject();
+//            JSONArray jsonRoleArray = new JSONArray();
+//
+//            for (Role role : user.getRoleList())
+//            {
+//                jsonRoleArray.add(role.getRoleName());
+//            }
+//
+//            responseJson2.put("email", email);
+//            responseJson2.put("token", token);
+//            responseJson2.put("roles", jsonRoleArray);
+//            return Response.ok(new Gson().toJson(responseJson2)).build();
 
-            responseJson2.put("username", username);
-            responseJson2.put("token", token);
-            responseJson2.put("roles", jsonRoleArray);
-            
-            return Response.ok(new Gson().toJson(responseJson2)).build();
-            
-            
+            UserDTO userDTO = new UserDTO(user, token);
+            return Response.ok(new GsonBuilder().setPrettyPrinting().create().toJson(userDTO)).build();
+
         } catch (Exception ex)
         {
             if (ex instanceof AuthenticationException)
@@ -80,10 +87,10 @@ public class LoginEndpoint
             }
             Logger.getLogger(GenericExceptionMapper.class.getName()).log(Level.SEVERE, null, ex);
         }
-        throw new AuthenticationException("Invalid username or password! Please try again");
+        throw new AuthenticationException("Invalid email or password! Please try again");
     }
 
-    private String createToken(String userName, List<String> roles) throws JOSEException
+    private String createToken(String email, List<String> roles) throws JOSEException
     {
 
         StringBuilder res = new StringBuilder();
@@ -99,8 +106,8 @@ public class LoginEndpoint
         JWSSigner signer = new MACSigner(SharedSecret.getSharedKey());
         Date date = new Date();
         JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
-                .subject(userName)
-                .claim("username", userName)
+                .subject(email)
+                .claim("email", email)
                 .claim("roles", rolesAsString)
                 .claim("issuer", issuer)
                 .issueTime(date)
