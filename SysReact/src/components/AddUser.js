@@ -1,6 +1,7 @@
 import React from 'react'
 import { TextField, PasswordField, EmailField } from './InputFields'
 import facade from '../data/apiFacade'
+import User from './User'
 
 export default class Signup extends React.Component {
     constructor(props) {
@@ -27,7 +28,8 @@ export default class Signup extends React.Component {
         this.setState({notification: ''})
         const user = this.state.user
         delete user.confirmPassword
-        facade.signup(user)
+        const logUser = facade.signup(user)
+        this.render = () => <User username={logUser.name} roles={logUser.roles}/>
     }
 
     invalidCredentials = () => {

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import facade from "./../apiFacade";
+import facade from "./../data/apiFacade";
 import Signup from './../components/AddUser'
 
 export default class Welcome extends Component{

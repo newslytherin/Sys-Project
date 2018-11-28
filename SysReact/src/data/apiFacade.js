@@ -59,7 +59,9 @@ class ApiFacade extends React.Component{
     }
     
     signup = (user) => {
+        user.roles = ['user']
         console.log(user)
+        return user
         /*const options = this.makeOptions("POST", true, user);
         return fetch(this.getUserSignupUrl, options, true)
             .then(handleHttpErrors)
