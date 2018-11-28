@@ -8,6 +8,7 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import entity.Role;
+import entity.RoleFacade;
 import entity.User;
 import entity.UserFacade;
 import exceptions.InvalidDataException;
@@ -34,7 +35,6 @@ public class UserResource
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private DataFacade facade = new DataFacade();
 
-    
     public UserResource()
     {
         facade.setEntityManagerFactory(Persistence.createEntityManagerFactory("pu"));
@@ -51,12 +51,13 @@ public class UserResource
     @PUT
     @Path("edit/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response putUser(String content, @PathParam("id") int id) {
+    public Response putUser(String content, @PathParam("id") int id)
+    {
         User u = gson.fromJson(content, User.class);
         return Response.ok(gson.toJson(facade.editUser(u, id))).build();
     }
-    
-        UserFacade uf = UserFacade.getInstance();
+
+    UserFacade uf = UserFacade.getInstance();
 
     @POST
     @Path("add")
@@ -73,8 +74,17 @@ public class UserResource
             throw new InvalidDataException("Not enough data");
         }
 
-        user.addRole(new Role("user"));
+        Role role = RoleFacade.roleExist("user");
+        if (role == null)
+        {
+            role = new Role("user");
+            System.out.println("fisk");
+        }
         
+        
+        
+        user.addRole(role);
+
         user.BCryptPass();
 
         return Response.ok(gson.toJson(uf.addUser(user))).build();
