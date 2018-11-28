@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import facade from "./../apiFacade";
+import Signup from './../components/AddUser'
 
 export default class Welcome extends Component{
     constructor(props) {
         super(props);
-        this.state = { loggedIn: props.loggedIn, userinfo:{roles:props.roles} }
+        this.state = { loggedIn: props.loggedIn, userinfo:{roles:props.roles}, signUp: false }
     }
     logout = () => {
         facade.logout();
@@ -42,6 +43,7 @@ class LogIn extends Component {
         this.setState({[evt.target.id]: evt.target.value})
     }
     render() {
+        if (this.state.signUp) return <Signup />
         return (
             <div>
                 <h2>Login</h2>
@@ -50,6 +52,7 @@ class LogIn extends Component {
                     <input type="password" placeholder="Password" id="password" />
                     <button>Login</button>
                 </form>
+                <br/><p onClick={() => this.setState({signUp: true})}>create acount</p>
             </div>
         );
     }
