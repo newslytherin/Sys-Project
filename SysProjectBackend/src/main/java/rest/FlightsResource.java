@@ -77,10 +77,10 @@ public class FlightsResource {
             }));
         }
         List<String> dataAsString = new ArrayList<>();
-        JsonArray ja = new JsonArray();
+//        JsonArray ja = new JsonArray();
         data.forEach((fut) -> {
             try {
-                ja.add(fut.get());
+//                ja.add(fut.get());
                 dataAsString.add(fut.get());
             } catch (InterruptedException | ExecutionException ex) {
                 Logger.getLogger(FlightsResource.class.getName()).log(Level.SEVERE, null, ex);
