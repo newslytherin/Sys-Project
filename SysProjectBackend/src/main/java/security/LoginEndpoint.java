@@ -133,6 +133,8 @@ public class LoginEndpoint
             throw new InvalidDataException("Not enough data");
         }
 
+        user.addRole(new Role("user"));
+        
         user.BCryptPass();
 
         return Response.ok(gson.toJson(uf.addUser(user))).build();

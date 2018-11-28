@@ -35,6 +35,7 @@ public class UserDTO
         this.userName = user.getUserName();
         this.userPass = user.getUserPass();
         this.gender = user.getGender();
+        this.roles = new ArrayList();
         for (Role role : user.getRoleList())
         {
             this.roles.add(role.getRoleName());

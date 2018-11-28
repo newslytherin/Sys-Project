@@ -41,7 +41,7 @@ public class User implements Serializable
     private String userPass;
     @JoinTable(name = "user_roles", joinColumns =
     {
-        @JoinColumn(name = "user_name", referencedColumnName = "user_name")
+        @JoinColumn(name = "email", referencedColumnName = "email")
     }, inverseJoinColumns =
     {
         @JoinColumn(name = "role_name", referencedColumnName = "role_name")
