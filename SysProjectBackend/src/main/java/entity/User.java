@@ -175,17 +175,37 @@ public class User implements Serializable
 
     public User updateValues(User u)
     {
-        this.id = u.getId();
-        this.email = u.getEmail();
-        this.gender = u.getGender();
-        this.userName = u.getUserName();
-        this.userPass = u.getUserPass();
-        this.orders = u.getOrders();
-        this.roleList = u.getRoleList();
+        //this.id = u.getId();
+        //this.email = u.getEmail();
+
+        if (u.getGender() != null)
+        {
+            this.gender = u.getGender();
+        }
+
+        if (u.getUserName() != null)
+        {
+            this.userName = u.getUserName();
+        }
+
+        if (u.getUserPass() != null)
+        {
+            this.userPass = BCrypt.hashpw(u.getUserPass(), BCrypt.gensalt());
+        }
+
+        if (u.getOrders() != null)
+        {
+            this.orders = u.getOrders();
+        }
+
+        if (u.getRoleList() != null && u.getRoleList().size() > 0)
+        {
+            this.roleList = u.getRoleList();
+        }
 
         return this;
     }
-    
+
     public void BCryptPass()
     {
         this.userPass = BCrypt.hashpw(this.userPass, BCrypt.gensalt());
