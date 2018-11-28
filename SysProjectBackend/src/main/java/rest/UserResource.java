@@ -7,6 +7,7 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import entity.User;
 import facade.DataFacade;
 import javax.persistence.Persistence;
 import javax.ws.rs.core.Context;
@@ -16,7 +17,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 @Path("User")
 public class UserResource
@@ -42,8 +45,10 @@ public class UserResource
     }
 
     @PUT
+    @Path("edit/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void putJson(String content)
-    {
+    public Response putUser(String content, @PathParam("id") long id) {
+        User u = gson.fromJson(content, User.class);
+        return Response.ok(gson.toJson(facade.editUser(u, id))).build();
     }
 }
