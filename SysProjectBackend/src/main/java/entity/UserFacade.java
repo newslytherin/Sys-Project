@@ -12,33 +12,57 @@ import exceptions.AuthenticationException;
  *
  * @author lam@cphbusiness.dk
  */
-public class UserFacade {
+public class UserFacade
+{
 
     //Default EntityManagerFactory
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
     private static final UserFacade instance = new UserFacade();
-    
-    private UserFacade(){}
-    
-    public static UserFacade getInstance(){
+
+    private UserFacade()
+    {
+    }
+
+    public static UserFacade getInstance()
+    {
         return instance;
     }
-    
-    public User getVeryfiedUser(String email, String password) throws AuthenticationException {
+
+    public User getVeryfiedUser(String email, String password) throws AuthenticationException
+    {
         EntityManager em = emf.createEntityManager();
         User user;
-        try {
+        try
+        {
             user = em.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class)
                     .setParameter("email", email)
                     .getSingleResult();
             //user = em.find(User.class, email);
-            if (user == null || !user.verifyPassword(password)) {
+            if (user == null || !user.verifyPassword(password))
+            {
                 throw new AuthenticationException("Invalid email or password");
             }
-        } finally {
+        } finally
+        {
             em.close();
         }
         return user;
+    }
+
+    public UserDTO addUser(User u)
+    {
+        EntityManager em = emf.createEntityManager();
+        try
+        {
+            em.getTransaction().begin();
+            em.persist(u);
+            em.getTransaction().commit();
+        } finally
+        {
+            em.close();
+        }
+        UserDTO udto = new UserDTO(u);
+        return udto;
     }
 
 }

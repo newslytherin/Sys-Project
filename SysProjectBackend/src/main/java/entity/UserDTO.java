@@ -11,15 +11,15 @@ import java.util.List;
 public class UserDTO
 {
 
-    String email, user_name, user_pass, gender, token;
+    String email, userName, userPass, gender, token;
     List<String> roles;
 
     public UserDTO(User user, String token)
     {
         this.token = token;
         this.email = user.getEmail();
-        this.user_name = user.getUserName();
-        this.user_pass = user.getUserPass();
+        this.userName = user.getUserName();
+        this.userPass = user.getUserPass();
         this.gender = user.getGender();
         this.roles = new ArrayList();
         for (Role role : user.getRoleList())
@@ -32,8 +32,8 @@ public class UserDTO
     public UserDTO(User user)
     {
         this.email = user.getEmail();
-        this.user_name = user.getUserName();
-        this.user_pass = user.getUserPass();
+        this.userName = user.getUserName();
+        this.userPass = user.getUserPass();
         this.gender = user.getGender();
         for (Role role : user.getRoleList())
         {
@@ -48,12 +48,12 @@ public class UserDTO
 
     public String getUser_name()
     {
-        return user_name;
+        return userName;
     }
 
     public String getUser_pass()
     {
-        return user_pass;
+        return userPass;
     }
 
     public String getGender()
@@ -74,7 +74,7 @@ public class UserDTO
     @Override
     public String toString()
     {
-        return "UserDTO{" + "email=" + email + ", user_name=" + user_name + ", user_pass=" + user_pass + ", gender=" + gender + ", token=" + token + ", roles=" + roles + '}';
+        return "UserDTO{" + "email=" + email + ", user_name=" + userName + ", user_pass=" + userPass + ", gender=" + gender + ", token=" + token + ", roles=" + roles + '}';
     }
 
 }

@@ -28,6 +28,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import exceptions.AuthenticationException;
 import exceptions.GenericExceptionMapper;
+import exceptions.InvalidDataException;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 
@@ -59,10 +60,7 @@ public class LoginEndpoint
             //old responseJson.addProperty("username", username);
             //old responseJson.addProperty("token", token);
             //old return Response.ok(new Gson().toJson(responseJson)).build();
-            
-            
-            
-              /// OLD BUT NEVER THAN OTHER OLD
+            /// OLD BUT NEVER THAN OTHER OLD
 //            JSONObject responseJson2 = new JSONObject();
 //            JSONArray jsonRoleArray = new JSONArray();
 //
@@ -75,7 +73,6 @@ public class LoginEndpoint
 //            responseJson2.put("token", token);
 //            responseJson2.put("roles", jsonRoleArray);
 //            return Response.ok(new Gson().toJson(responseJson2)).build();
-
             UserDTO userDTO = new UserDTO(user, token);
             return Response.ok(new GsonBuilder().setPrettyPrinting().create().toJson(userDTO)).build();
 
@@ -118,4 +115,27 @@ public class LoginEndpoint
         return signedJWT.serialize();
 
     }
+
+    UserFacade uf = UserFacade.getInstance();
+
+    @POST
+    @Path("create")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response postUser(String json) throws InvalidDataException
+    {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+        User user = gson.fromJson(json, User.class);
+
+        if (user.getEmail() == null || user.getUserName() == null || user.getUserPass() == null)
+        {
+            throw new InvalidDataException("Not enough data");
+        }
+
+        user.BCryptPass();
+
+        return Response.ok(gson.toJson(uf.addUser(user))).build();
+    }
+
 }

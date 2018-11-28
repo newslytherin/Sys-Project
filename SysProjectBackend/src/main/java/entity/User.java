@@ -87,6 +87,7 @@ public class User implements Serializable
 
     public void setUserPass(String userPass)
     {
+        //this.userPass = userPass;
         this.userPass = userPass;
     }
 
@@ -183,6 +184,11 @@ public class User implements Serializable
         this.roleList = u.getRoleList();
 
         return this;
+    }
+    
+    public void BCryptPass()
+    {
+        this.userPass = BCrypt.hashpw(this.userPass, BCrypt.gensalt());
     }
 
 }
