@@ -5,6 +5,8 @@ import entity.Flight;
 import entity.FlightDTO;
 import entity.AirportDTO;
 import entity.OwnFlightDTO;
+import entity.User;
+import entity.UserDTO;
 import exceptions.InvalidDataException;
 import java.util.List;
 import java.util.logging.Level;
@@ -117,5 +119,19 @@ public class DataFacade {
         } finally {
             em.close();
         }
+    }
+    
+    public UserDTO editUser(User u, long id) {
+        EntityManager em = emf.createEntityManager();
+        User tmp = null;
+        try {
+            em.getTransaction().begin();
+            tmp = em.find(User.class, id).updateValues(u);
+            em.merge(tmp);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return new UserDTO(tmp);
     }
 }

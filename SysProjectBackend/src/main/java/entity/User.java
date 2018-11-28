@@ -172,6 +172,17 @@ public class User implements Serializable
         return "User{" + "id=" + id + ", userName=" + userName + ", userPass=" + userPass + ", roleList=" + roleList + ", gender=" + gender + ", email=" + email + '}';
     }
 
-    
-    
+    public User updateValues(User u)
+    {
+        this.id = u.getId();
+        this.email = u.getEmail();
+        this.gender = u.getGender();
+        this.userName = u.getUserName();
+        this.userPass = u.getUserPass();
+        this.orders = u.getOrders();
+        this.roleList = u.getRoleList();
+
+        return this;
+    }
+
 }

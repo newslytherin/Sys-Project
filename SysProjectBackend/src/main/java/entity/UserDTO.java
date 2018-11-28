@@ -29,6 +29,18 @@ public class UserDTO
 
     }
 
+    public UserDTO(User user)
+    {
+        this.email = user.getEmail();
+        this.user_name = user.getUserName();
+        this.user_pass = user.getUserPass();
+        this.gender = user.getGender();
+        for (Role role : user.getRoleList())
+        {
+            this.roles.add(role.getRoleName());
+        }
+    }
+
     public String getEmail()
     {
         return email;

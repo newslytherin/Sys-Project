@@ -42,7 +42,6 @@ const airports2 = [
 ]
 
 var airports = [
-    { id: 0, city: "Málaga", name: "AGP", country: "Spanien", code: "ES" },
     { id: 1, city: "London", name: "LHR", country: "England", code: "UK" },
     { id: 2, city: "Paris", name: "CDG", country: "Frankrig", code: "FR" },
     { id: 3, city: "Amsterdam", name: "AMS", country: "Holland", code: "NL" },
@@ -72,6 +71,7 @@ var airports = [
     { id: 27, city: "Athen", name: "ATH", country: "Grækenland", code: "GR" },
     { id: 28, city: "Berlin", name: "TXL", country: "Tyskland", code: "DE" },
     { id: 29, city: "Helsinki", name: "HEL", country: "Finland", code: "FI" },
+    { id: 30, city: "Málaga", name: "AGP", country: "Spanien", code: "ES" },
 ]
 
 const cancelIncurances = [

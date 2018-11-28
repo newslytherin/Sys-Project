@@ -1,4 +1,3 @@
-('Málaga', 'Spanien', 'ES', 'AGP'), 
 ('London', 'England', 'UK', 'LHR'), 
 ('Paris', 'Frankrig', 'FR', 'CDG'), 
 ('Amsterdam', 'Holland', 'NL', 'AMS'), 
@@ -15,7 +14,7 @@
 ('Dublin', 'Irland', 'IE', 'DUB'), 
 ('Zürich', 'Schweiz', 'CH', 'ZRH'), 
 ('København', 'Danmark', 'DK', 'CPH'), 
-('Palma de name', 'Spanien', 'SP', ''), 
+('Palma de Mallorca', 'Spanien', 'SP', 'PMI'), 
 ('Manchester', 'England', 'UK', 'MAN'), 
 ('Oslo', 'Norge', 'NO', 'OSL'), 
 ('Lissabon', 'Portugal', 'PT', 'LIS'), 
@@ -27,4 +26,5 @@
 ('Milano', 'Italien', 'IT', 'MXP'), 
 ('Athen', 'Grækenland', 'GR', 'ATH'), 
 ('Berlin', 'Tyskland', 'DE', 'TXL'), 
-('Helsinki', 'Finland', 'FI', 'HEL');
+('Helsinki', 'Finland', 'FI', 'HEL'), 
+('Málaga', 'Spanien', 'ES', 'AGP');
