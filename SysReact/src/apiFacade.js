@@ -28,6 +28,7 @@ class ApiFacade {
             .then(handleHttpErrors)
             .then(res => {
                 this.setToken(res.token);
+                this.setRole(res.roles);
                 return res;
             })
     }
@@ -37,12 +38,19 @@ class ApiFacade {
     getToken = () => {
         return localStorage.getItem('jwtToken')
     }
+    setRole = (role) => {
+        localStorage.setItem('role', role)
+    }
+    getRole = () => {
+        return localStorage.getItem('role')
+    }
     loggedIn = () => {
         const loggedIn = this.getToken() != null;
         return loggedIn;
     }
     logout = () => {
         localStorage.removeItem("jwtToken");
+        localStorage.removeItem("role");
     }
     makeOptions(method, addToken, body) {
         var opts = {

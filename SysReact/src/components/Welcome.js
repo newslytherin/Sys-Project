@@ -14,12 +14,10 @@ export default class Welcome extends Component{
     }
     login = async (user, pass) => {
         let userinfo = await facade.login(user,pass);
-        this.props.setroles(userinfo.roles);
         this.setState({userinfo});    
         this.setState({loggedIn:!this.state.loggedIn});
         this.props.changeLoggedIn();
         this.props.setname(user);
-        
     }
     render() {
         return (
@@ -63,7 +61,7 @@ class LoggedIn extends Component {
         this.state= {dataFromServer: "Fetching!!"};
     }
     componentDidMount(){
-        if(this.props.roles.includes('admin')){
+        if(facade.getRole().includes('admin')){
             facade.fetchDataAdmin().then(res=> this.setState({dataFromServer: res}));
         } else {
             facade.fetchDataUser().then(res=> this.setState({dataFromServer: res}));
