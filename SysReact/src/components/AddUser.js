@@ -6,30 +6,32 @@ import User from './User'
 export default class Signup extends React.Component {
     constructor(props) {
         super(props)
-        this.state = { user: {}, notification: '' }
+        this.state = { user: {}, loggedIn: false, notification: '' }
     }
 
     inputChanged = (evt) => {
         const property = evt.target.id
         const value = evt.target.value
         const user = this.state.user
-        this.state.user[property] = value
+        user[property] = value
         this.setState({user})
         console.log(this.state.user)
     }
 
     send = () => { 
-        (this.state.user.password == this.state.user.confirmPassword)
+        (this.state.user.userPass === this.state.user.confirmPassword)
             ? this.validCredentials()
             : this.invalidCredentials()
     }
 
-    validCredentials = () => {
+    validCredentials = async() => {
         this.setState({notification: ''})
         const user = this.state.user
         delete user.confirmPassword
-        const logUser = facade.signup(user)
-        this.render = () => <User username={logUser.name} roles={logUser.roles}/>
+        const logUser = await facade.signup(user)
+        await console.log(logUser)
+        await this.setState({ user: logUser })
+        await this.setState({ loggedIn: true })
     }
 
     invalidCredentials = () => {
@@ -39,12 +41,14 @@ export default class Signup extends React.Component {
         this.setState({user})
     }
 
-    render = () => (
+    render = () => {
+        if (this.state.loggedIn) return <User username={this.state.user.userName} roles={this.state.user.roles}/>
+        return (
         <form onSubmit={this.send} style={{ margin: 25 }}>
             <h2>Signup</h2>
 
-            <TextField title='name'
-            id='name' 
+            <TextField title='username'
+            id='userName' 
             value={this.state.user.name} 
             onChanged={this.inputChanged}/>
 
@@ -59,7 +63,7 @@ export default class Signup extends React.Component {
             onChanged={this.inputChanged}/>
 
             <PasswordField title='password'
-            id='password' 
+            id='userPass'
             value={this.state.user.password} 
             onChanged={this.inputChanged}/>
 
@@ -71,5 +75,6 @@ export default class Signup extends React.Component {
         <button>confirm</button>
 
         </form>
-    )
+        )
+    }
 }

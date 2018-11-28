@@ -16,7 +16,6 @@ export default class Welcome extends Component{
     login = async (user, pass) => {
         let userinfo = await facade.login(user,pass);
         this.setState({userinfo});    
-        this.setState({loggedIn:!this.state.loggedIn});
         this.props.changeLoggedIn();
         this.props.setname(user);
     }
@@ -65,9 +64,9 @@ class LoggedIn extends Component {
     }
     componentDidMount(){
         if(facade.getRole().includes('admin')){
-            facade.fetchDataAdmin().then(res=> this.setState({dataFromServer: res}));
+            console.log('I am admin')
         } else {
-            facade.fetchDataUser().then(res=> this.setState({dataFromServer: res}));
+            console.log('I am user')
         }
     }
     render() {
