@@ -9,7 +9,7 @@ export default class User extends Component{
     }
 
     render(){
-        if (facade.loggedIn() && this.state.roles.includes('user')) {
+        if (/*facade.loggedIn() &&*/ this.state.roles.includes('user')) {
             return(
                 <div>
                     <h1>Welcome {this.state.username}</h1>

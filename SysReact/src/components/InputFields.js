@@ -64,3 +64,33 @@ export function SelectField(props) {
         </>
     )
 }
+
+export function PasswordField(props) {
+    return ( 
+        <>
+        <label style={{display: 'block'}}>{`${props.title}:`}</label>
+        <input 
+            type="password" 
+            id={props.id}
+            value={props.value} 
+            onChange={props.onChanged}
+            required/>
+        <hr />
+        </>
+    )
+}
+
+export function EmailField(props) {
+    return ( 
+        <>
+        <label style={{display: 'block'}}>{`${props.title}:`}</label>
+        <input 
+            type="email" 
+            id={props.id}
+            value={props.value} 
+            onChange={props.onChanged}
+            required/>
+        <hr />
+        </>
+    )
+}
