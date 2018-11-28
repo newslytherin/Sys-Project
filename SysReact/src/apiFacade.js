@@ -1,4 +1,5 @@
-const URL = "http://localhost:8080/Slytherin";
+//const RootUrl = 'http://localhost:8090/Slytherin'
+const URL = "https://stephandjurhuus.com/travel/";
 
 function handleHttpErrors(res) {
     if (!res.ok) {
