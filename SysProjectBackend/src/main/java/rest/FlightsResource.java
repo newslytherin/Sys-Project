@@ -36,7 +36,7 @@ public class FlightsResource {
     @Context
     private UriInfo context;
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private static final String DATBOI$URL = "";
+    private static final String DATBOI$URL = "https://emilvh.dk/DATFlights/api/flights";
     private static final String MIXURL = "";
     private DataFacade facade = new DataFacade();
 
@@ -76,15 +76,19 @@ public class FlightsResource {
                 return getMixData();
             }));
         }
+        List<String> dataAsString = new ArrayList<>();
         JsonArray ja = new JsonArray();
         data.forEach((fut) -> {
             try {
                 ja.add(fut.get());
+                dataAsString.add(fut.get());
             } catch (InterruptedException | ExecutionException ex) {
                 Logger.getLogger(FlightsResource.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        return ja.getAsString();
+//        return ja.getAsString();
+        return dataAsString.toString();
+//        return data.toString();
     }
 
     @POST
@@ -104,7 +108,7 @@ public class FlightsResource {
     }
 
     public static String getDatboi$Data() {
-        String jsonStr = null;
+        String jsonStr = "";
         try {
             URL url = new URL(DATBOI$URL);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -112,8 +116,8 @@ public class FlightsResource {
             con.setRequestProperty("Accept", "application/json;charset=UTF-8");
             con.setRequestProperty("User-Agent", "server");
             Scanner scan = new Scanner(con.getInputStream());
-            if (scan.hasNext()) {
-                jsonStr = scan.nextLine();
+            while(scan.hasNext()) {
+                jsonStr += scan.nextLine();
             }
             scan.close();
         } catch (Exception ex) {
@@ -123,7 +127,7 @@ public class FlightsResource {
     }
 
     public static String getMixData() {
-        String jsonStr = null;
+        String jsonStr = "";
         try {
             URL url = new URL(MIXURL);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -131,8 +135,8 @@ public class FlightsResource {
             con.setRequestProperty("Accept", "application/json;charset=UTF-8");
             con.setRequestProperty("User-Agent", "server");
             Scanner scan = new Scanner(con.getInputStream());
-            if (scan.hasNext()) {
-                jsonStr = scan.nextLine();
+            while (scan.hasNext()) {
+                jsonStr += scan.nextLine();
             }
             scan.close();
         } catch (Exception ex) {
