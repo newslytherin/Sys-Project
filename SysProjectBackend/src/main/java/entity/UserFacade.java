@@ -55,7 +55,7 @@ public class UserFacade
         try
         {
             em.getTransaction().begin();
-            em.persist(u);
+            em.merge(u);
             em.getTransaction().commit();
         } finally
         {
