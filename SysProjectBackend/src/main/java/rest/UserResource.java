@@ -7,6 +7,7 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import entity.DBOrder;
 import entity.User;
 import facade.DataFacade;
 import javax.persistence.Persistence;
@@ -51,4 +52,13 @@ public class UserResource
         User u = gson.fromJson(content, User.class);
         return Response.ok(gson.toJson(facade.editUser(u, id))).build();
     }
+    
+    @PUT
+    @Path("add/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response addTripToUser(String Content, @PathParam("id") int id){
+        DBOrder o = gson.fromJson(Content, DBOrder.class);
+        return Response.ok(gson.toJson(facade.addOrderToUser(o, id))).build();
+    }
+    
 }

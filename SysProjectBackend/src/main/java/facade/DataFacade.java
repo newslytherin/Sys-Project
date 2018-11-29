@@ -4,6 +4,7 @@ import entity.Airport;
 import entity.Flight;
 import entity.FlightDTO;
 import entity.AirportDTO;
+import entity.DBOrder;
 import entity.OwnFlightDTO;
 import entity.User;
 import entity.UserDTO;
@@ -133,5 +134,20 @@ public class DataFacade {
             em.close();
         }
         return new UserDTO(tmp);
+    }
+    
+    public UserDTO addOrderToUser(DBOrder o, int id){
+        EntityManager em = emf.createEntityManager();
+        User u = null;
+        try{
+            em.getTransaction().begin();
+            u = em.find(User.class, id);
+            u.addOrder(o);
+            em.merge(u);
+            em.getTransaction().commit();
+        } finally{
+            em.close();
+        }
+        return new UserDTO(u);
     }
 }
