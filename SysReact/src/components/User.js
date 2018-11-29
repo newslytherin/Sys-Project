@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import facade from "./../apiFacade";
-
+import OrderTable from './OrderTable'
 
 export default class User extends Component{
     constructor(props){
@@ -8,11 +8,20 @@ export default class User extends Component{
         this.state = {username: props.username, roles: props.roles};
     }
 
+    arr = [
+        {depature: '2134', destination: '9876', depTime: '12:00', arrTime: '14:30', amount: '6', price: '1.500', id: 1},
+        {depature: '6803', destination: 'jhga', depTime: '13:00', arrTime: '13:30', amount: '4', price: '26.500', id: 2},
+        {depature: 'jhga', destination: '9876', depTime: '14:00', arrTime: '15:30', amount: '6', price: '5.500', id: 3},
+        {depature: '6bs9', destination: '6bs9', depTime: '16:00', arrTime: '13:30', amount: '2', price: '2.500', id: 4},
+        {depature: 'k8sk', destination: '9876', depTime: '11:00', arrTime: '18:30', amount: '1', price: '6.500', id: 5}
+    ]
+
     render(){
         if (facade.loggedIn() && this.state.roles.includes('user')) {
             return(
                 <div>
                     <h1>Welcome {this.state.username}</h1>
+                    <OrderTable orders={this.arr/*facade.getUserOrders(this.state.username)*/}/>
                 </div>
             );
         } else {

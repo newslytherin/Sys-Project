@@ -1,7 +1,6 @@
 import React from 'react'
 import { TextField, PasswordField, EmailField } from './InputFields'
 import facade from '../data/apiFacade'
-import User from './User'
 
 export default class Signup extends React.Component {
     constructor(props) {
@@ -42,7 +41,7 @@ export default class Signup extends React.Component {
     }
 
     render = () => {
-        if (this.state.loggedIn) return <User username={this.state.user.userName} roles={this.state.user.roles}/>
+        if (this.state.loggedIn) return <div style={{fontSize: 24, textAlign: 'center'}}>{`wellcome ${this.state.user.userName}`}</div>
         return (
         <form onSubmit={this.send} style={{ margin: 25 }}>
             <h2>Signup</h2>

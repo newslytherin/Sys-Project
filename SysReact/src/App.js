@@ -8,7 +8,8 @@ import LargeDataSet from "./components/LargeDataSet";
 import EditTrip from "./components/EditTrip";
 import AddFlight from "./components/MakeFlight";
 import FlightsTable from "./components/FlightsTable";
-import facade from "./apiFacade";
+import facade from "./data/apiFacade";
+import Signup from "./components/AddUser";
 
 export default class App extends Component {
   constructor(props){
@@ -45,6 +46,7 @@ export default class App extends Component {
           <Route path="/edit" component={EditTrip} />
           <Route path="/add" component={AddFlight} />
           <Route path="/flights" component={FlightsTable} />
+          <Route path="/signup"  render={() => <Signup roles={this.state.roles} setname={this.setname} changeLoggedIn={this.changeLoggedIn} />}/>
         </div>
       </Router>
     );
