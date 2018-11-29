@@ -10,12 +10,13 @@ import java.util.List;
 
 public class UserDTO
 {
-
+    int id;
     String email, userName, userPass, gender, token;
     List<String> roles;
 
     public UserDTO(User user, String token)
     {
+        this.id = user.getId();
         this.token = token;
         this.email = user.getEmail();
         this.userName = user.getUserName();
@@ -31,6 +32,7 @@ public class UserDTO
 
     public UserDTO(User user)
     {
+        this.id = user.getId();
         this.email = user.getEmail();
         this.userName = user.getUserName();
         this.userPass = user.getUserPass();

@@ -11,13 +11,13 @@ class ApiFacade extends React.Component{
     getAllFlightsUrl = () => `${RootUrl}/flights/all`
     getAddFlightUrl = () => `${RootUrl}/flights/new`
     getEditFlightUrl = () => `${RootUrl}/flights/edit/`
-    getOrderTripURL = () => `${RootUrl}/TBD`
+    getOrderTripURL = (id) => `${RootUrl}/user/add/${id}`
     getUserLoginUrl = () => `${RootUrl}/login`
     getUserSignupUrl = () => `${RootUrl}/user/add`
     
-    newOrder = async (trip) => {
+    newOrder = async (trip,id) => {
         try{
-            fetch(this.getOrderTripURL(),this.makeOptions('POST',false,trip))
+            fetch(this.getOrderTripURL(id),this.makeOptions('POST',false,trip)).then(handleHttpErrors)
         } catch(err){
             console.log(`err:: ${err}`)
         }
