@@ -1,6 +1,6 @@
 import React from 'react'
 
-//const RootUrl = 'http://localhost:8090/Slytherin/api'
+// const RootUrl = 'http://localhost:8090/Slytherin/api'
 const RootUrl = 'https://stephandjurhuus.com/travel/api'
 
 class ApiFacade extends React.Component{
@@ -11,13 +11,21 @@ class ApiFacade extends React.Component{
     getAllFlightsUrl = () => `${RootUrl}/flights/all`
     getAddFlightUrl = () => `${RootUrl}/flights/new`
     getEditFlightUrl = () => `${RootUrl}/flights/edit/`
-
+    getOrderTripURL = () => `${RootUrl}/TBD`
     getUserLoginUrl = () => `${RootUrl}/login`
     getUserSignupUrl = () => `${RootUrl}/user/add`
     
+    newOrder = async (trip) => {
+        try{
+            fetch(this.getOrderTripURL(),this.makeOptions('POST',false,trip))
+        } catch(err){
+            console.log(`err:: ${err}`)
+        }
+    }
+
     getAllFligths = async() => {
         try {
-            return fetch(this.getAllFlightsUrl()).then(handleHttpErrors)
+            return await fetch(this.getAllFlightsUrl()).then(handleHttpErrors);
         } catch (err) {
             console.log(`err:: ${err}`)
         }
