@@ -23,11 +23,11 @@ public class ApplicationConfig extends Application {
   private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(cors.CorsRequestFilter.class);
         resources.add(cors.CorsResponseFilter.class);
-        resources.add(entity.InitResource.class);
         resources.add(exceptions.GenericExceptionMapper.class);
         resources.add(rest.AirportResource.class);
         resources.add(rest.DemoResource.class);
         resources.add(rest.FlightsResource.class);
+        resources.add(rest.InitResource.class);
         resources.add(rest.PeopleResource.class);
         resources.add(rest.SwapiResource.class);
         resources.add(rest.UserResource.class);

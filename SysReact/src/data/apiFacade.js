@@ -1,8 +1,7 @@
 import React from 'react'
 
-const RootUrl = 'http://localhost:8090/Slytherin/api'
-//const RootUrl = 'https://2c51ed2a.ngrok.io/Slytherin/api'
-
+//const RootUrl = 'http://localhost:8090/Slytherin/api'
+const RootUrl = 'https://stephandjurhuus.com/travel/api'
 
 class ApiFacade extends React.Component{
     getRootUrl = () => RootUrl
@@ -12,6 +11,9 @@ class ApiFacade extends React.Component{
     getAllFlightsUrl = () => `${RootUrl}/flights/all`
     getAddFlightUrl = () => `${RootUrl}/flights/new`
     getEditFlightUrl = () => `${RootUrl}/flights/edit/`
+
+    getUserLoginUrl = () => `${RootUrl}/login`
+    getUserSignupUrl = () => `${RootUrl}/user/add`
     
     getAllFligths = async() => {
         try {
@@ -37,42 +39,41 @@ class ApiFacade extends React.Component{
         }
     }
 
-    fetchDataUser = () => {
-        const options = this.makeOptions("GET", true); //True add's the token
-        return fetch(this.getUserInfoUrl, options).then(handleHttpErrors);
-    }
-    fetchDataAdmin = () => {
-        const options = this.makeOptions("GET", true); //True add's the token
-        return fetch(this.getAdminInfoUrl, options).then(handleHttpErrors);
-    }
-    login = (user, pass) => {
+    login = (email, pass) => {
         const options = this.makeOptions("POST", true, {
-            username: user,
+            email: email,
             password: pass
         });
-        return fetch(this.getUserLoginUrl, options, true)
+        return fetch(this.getUserLoginUrl(), options, true)
             .then(handleHttpErrors)
             .then(res => {
                 this.setToken(res.token);
+                this.setRole(res.roles);
                 return res;
             })
     }
     
-    signup = (user) => {
-        console.log(user)
-        /*const options = this.makeOptions("POST", true, user);
-        return fetch(this.getUserSignupUrl, options, true)
-            .then(handleHttpErrors)
-            .then(res => {
-                this.setToken(res.token);
-                return res;
-            })*/
-    }
     setToken = (token) => {
         localStorage.setItem('jwtToken', token)
     }
     getToken = () => {
         return localStorage.getItem('jwtToken')
+    }
+    setRole = (role) => {
+        localStorage.setItem('role', role)
+    }
+    getRole = () => {
+        return localStorage.getItem('role')
+    }
+    signup = (user) => {
+        const options = this.makeOptions("POST", true, user);
+        return fetch(this.getUserSignupUrl(), options, true)
+            .then(handleHttpErrors)
+            .then(res => {
+                this.setToken(res.token);
+                this.setRole(res.roles);
+                return res;
+            })
     }
     loggedIn = () => {
         const loggedIn = this.getToken() != null;

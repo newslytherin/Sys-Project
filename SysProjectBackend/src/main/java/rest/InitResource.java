@@ -1,4 +1,4 @@
-package entity;
+package rest;
 
 import javax.persistence.Persistence;
 import javax.ws.rs.core.Context;

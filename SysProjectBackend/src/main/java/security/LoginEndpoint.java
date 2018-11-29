@@ -115,29 +115,4 @@ public class LoginEndpoint
         return signedJWT.serialize();
 
     }
-
-    UserFacade uf = UserFacade.getInstance();
-
-    @POST
-    @Path("create")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response postUser(String json) throws InvalidDataException
-    {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-        User user = gson.fromJson(json, User.class);
-
-        if (user.getEmail() == null || user.getUserName() == null || user.getUserPass() == null)
-        {
-            throw new InvalidDataException("Not enough data");
-        }
-
-        user.addRole(new Role("user"));
-        
-        user.BCryptPass();
-
-        return Response.ok(gson.toJson(uf.addUser(user))).build();
-    }
-
 }

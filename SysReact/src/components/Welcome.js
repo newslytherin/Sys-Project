@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-import facade from "./../apiFacade";
+import facade from "./../data/apiFacade";
+import Signup from './../components/AddUser'
 
 export default class Welcome extends Component{
     constructor(props) {
         super(props);
-        this.state = { loggedIn: props.loggedIn, userinfo:{roles:props.roles} }
+        this.state = { loggedIn: props.loggedIn, userinfo:{roles:props.roles}, signUp: false }
     }
     logout = () => {
         facade.logout();
@@ -15,7 +16,6 @@ export default class Welcome extends Component{
     login = async (user, pass) => {
         let userinfo = await facade.login(user,pass);
         this.setState({userinfo});    
-        this.setState({loggedIn:!this.state.loggedIn});
         this.props.changeLoggedIn();
         this.props.setname(user);
     }
@@ -42,6 +42,7 @@ class LogIn extends Component {
         this.setState({[evt.target.id]: evt.target.value})
     }
     render() {
+        if (this.state.signUp) return <Signup />
         return (
             <div>
                 <h2>Login</h2>
@@ -50,6 +51,7 @@ class LogIn extends Component {
                     <input type="password" placeholder="Password" id="password" />
                     <button>Login</button>
                 </form>
+                <br/><p onClick={() => this.setState({signUp: true})}>create acount</p>
             </div>
         );
     }
@@ -62,9 +64,9 @@ class LoggedIn extends Component {
     }
     componentDidMount(){
         if(facade.getRole().includes('admin')){
-            facade.fetchDataAdmin().then(res=> this.setState({dataFromServer: res}));
+            console.log('I am admin')
         } else {
-            facade.fetchDataUser().then(res=> this.setState({dataFromServer: res}));
+            console.log('I am user')
         }
     }
     render() {

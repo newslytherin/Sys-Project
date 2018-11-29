@@ -122,7 +122,7 @@ public class DataFacade {
         }
     }
     
-    public UserDTO editUser(User u, long id) {
+    public UserDTO editUser(User u, int id) {
         EntityManager em = emf.createEntityManager();
         User tmp = null;
         try {
