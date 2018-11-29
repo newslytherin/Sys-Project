@@ -124,17 +124,14 @@ function RowComponent(props) {
       <td>{airplane}</td>
       <td>{model}</td>
       <td>{capacity}</td>
-      <td><button id={props.index} onClick={(e) => send(e,props.data)}>Order</button></td>
+      {(facade.loggedIn())?<td><button id={props.index} onClick={(e) => send(e,props.data)}>Order</button></td>:<td>log in to order trip</td>}
     </>
   );
 }
 
 function send(e,data){
-  console.log(e.target.id);
-  console.log(data);
-  
   e.preventDefault();
-  facade.newOrder(data);
+  facade.newOrder(data,facade.getId());
 }
 
 const filterArray = (arr, filter) => {
