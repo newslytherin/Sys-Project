@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import entity.Role;
 import entity.RoleFacade;
+import entity.DBOrder;
 import entity.User;
 import entity.UserFacade;
 import exceptions.InvalidDataException;
@@ -90,4 +91,13 @@ public class UserResource
         return Response.ok(gson.toJson(uf.addUser(user))).build();
     }
 
+    
+    @PUT
+    @Path("add/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response addTripToUser(String Content, @PathParam("id") int id){
+        DBOrder o = gson.fromJson(Content, DBOrder.class);
+        return Response.ok(gson.toJson(facade.addOrderToUser(o, id))).build();
+    }
+    
 }

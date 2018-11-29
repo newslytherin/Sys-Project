@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import facade from "./../data/apiFacade";
-import Signup from './../components/AddUser'
+import { Route, Redirect } from 'react-router'
 
 export default class Welcome extends Component{
     constructor(props) {
@@ -42,7 +42,7 @@ class LogIn extends Component {
         this.setState({[evt.target.id]: evt.target.value})
     }
     render() {
-        if (this.state.signUp) return <Signup />
+        if (this.state.signUp) return <Route exact path="/" render={() => <Redirect to="signup/"/>}/>
         return (
             <div>
                 <h2>Login</h2>

@@ -173,7 +173,7 @@ function saveToFile(name, text) {
     const fs = require('fs');
 
     // write to a new file named text.txt
-    fs.writeFile(name + '.txt', text.join(', \n') + ";", (err) => {
+    fs.writeFile(name + '.txt', text.join(',') + ";", (err) => {
         // throws an error, you could also catch it here
         if (err) throw err;
 
