@@ -54,6 +54,12 @@ public class DBOrder implements Serializable
         return user;
     }
 
+    public Flight getFlight()
+    {
+        return flight;
+    }
+    
+
     //-----------------------------------//
     public void setId(Integer id)
     {

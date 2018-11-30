@@ -5,13 +5,16 @@ import entity.Flight;
 import entity.FlightDTO;
 import entity.AirportDTO;
 import entity.DBOrder;
+import entity.DBOrderDTO;
 import entity.OwnFlightDTO;
 import entity.User;
 import entity.UserDTO;
 import exceptions.InvalidDataException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -29,7 +32,7 @@ public class DataFacade {
         }
     }
 
-    private static EntityManagerFactory emf;
+    private static EntityManagerFactory emf  = Persistence.createEntityManagerFactory("pu");;
 
 
     public DataFacade() {
@@ -149,5 +152,29 @@ public class DataFacade {
             em.close();
         }
         return new UserDTO(u);
+    }
+    
+    public List<DBOrderDTO> getOrderByUserId(int id) throws InvalidDataException{
+        
+        setEntityManagerFactory(Persistence.createEntityManagerFactory("pu"));
+        EntityManager em = emf.createEntityManager();
+
+        List<DBOrderDTO> orders = new ArrayList();
+        
+        try{
+            orders = em.createQuery("SELECT new entity.DBOrderDTO(o) FROM DBOrder o WHERE o.user.id = :id", DBOrderDTO.class)
+                    .setParameter("id", id)
+                    .getResultList();
+        }catch(Exception ex) {
+            throw new InvalidDataException("Unlucky");
+        }finally{
+            em.close();
+        }
+        
+        return orders;
+        //return orders
+        //        .stream()
+        //        .map(order -> new DBOrderDTO(order))
+        //        .collect(Collectors.toList());
     }
 }
