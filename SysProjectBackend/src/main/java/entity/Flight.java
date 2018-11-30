@@ -32,8 +32,6 @@ public class Flight implements Serializable {
     private String airplane;
     private String model;
     private int capacity;
-    @OneToMany(mappedBy = "flight")
-    private List<DBOrder> orders;
 
     public Flight() {
     }
@@ -158,16 +156,6 @@ public class Flight implements Serializable {
 
     public Long getId() {
         return id;
-    }
-
-    public List<DBOrder> getOrders()
-    {
-        return orders;
-    }
-    
-    public void addOrder(DBOrder order)
-    {
-        order.setFlgiht(this);
     }
 
     @Override

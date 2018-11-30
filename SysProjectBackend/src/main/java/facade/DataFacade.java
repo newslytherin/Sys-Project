@@ -32,7 +32,9 @@ public class DataFacade {
         }
     }
 
-    private static EntityManagerFactory emf  = Persistence.createEntityManagerFactory("pu");;
+    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+
+    ;
 
 
     public DataFacade() {
@@ -83,8 +85,7 @@ public class DataFacade {
         return new FlightDTO(tmp);
     }
 
-    public List<AirportDTO> getAllAirports() throws InvalidDataException
-    {
+    public List<AirportDTO> getAllAirports() throws InvalidDataException {
         EntityManager em = emf.createEntityManager();
         String jpql = "SELECT new entity.AirportDTO(a) FROM Airport a";
 
@@ -97,7 +98,7 @@ public class DataFacade {
             em.close();
         }
     }
-    
+
     public AirportDTO addNewAirport(Airport a) {
         EntityManager em = emf.createEntityManager();
         try {
@@ -110,7 +111,7 @@ public class DataFacade {
         AirportDTO adto = new AirportDTO(a);
         return adto;
     }
-    
+
     public List<OwnFlightDTO> getOwnFlights() throws InvalidDataException {
         EntityManager em = emf.createEntityManager();
         String jpql = "SELECT new entity.OwnFlightDTO(f) FROM Flight f";
@@ -124,7 +125,7 @@ public class DataFacade {
             em.close();
         }
     }
-    
+
     public UserDTO editUser(User u, int id) {
         EntityManager em = emf.createEntityManager();
         User tmp = null;
@@ -138,55 +139,58 @@ public class DataFacade {
         }
         return new UserDTO(tmp);
     }
-    
-    public UserDTO addOrderToUser(DBOrder o, int id){
+
+    public DBOrderDTO addOrderToUser(DBOrder o, int id) {
         EntityManager em = emf.createEntityManager();
         User u = null;
-        try{
+        try {
             em.getTransaction().begin();
             u = em.find(User.class, id);
             u.addOrder(o);
             em.merge(u);
             em.getTransaction().commit();
-        } finally{
+        } finally {
             em.close();
         }
-        return new UserDTO(u);
+        return new DBOrderDTO(o);
     }
-    
-    public List<DBOrderDTO> getOrderByUserId(int id) throws InvalidDataException{
-        
+
+    public List<DBOrderDTO> getOrderByUserId(int id) throws InvalidDataException {
+
         setEntityManagerFactory(Persistence.createEntityManagerFactory("pu"));
         EntityManager em = emf.createEntityManager();
 
         List<DBOrderDTO> orders = new ArrayList();
-        
-        try{
+
+        try {
             orders = em.createQuery("SELECT new entity.DBOrderDTO(o) FROM DBOrder o WHERE o.user.id = :id", DBOrderDTO.class)
                     .setParameter("id", id)
                     .getResultList();
-        }catch(Exception ex) {
+        } catch (Exception ex) {
             throw new InvalidDataException("Unlucky");
-        }finally{
+        } finally {
             em.close();
         }
-        
+
         return orders;
         //return orders
         //        .stream()
         //        .map(order -> new DBOrderDTO(order))
         //        .collect(Collectors.toList());
-    public DBOrderDTO removeOrder(int id){
-        EntityManager em = emf.createEntityManager();
-        DBOrder o = null;
-        try{
-            em.getTransaction().begin();
-            o = em.find(DBOrder.class, id);
-            em.remove(o);
-            em.getTransaction().commit();
-        } finally{
-            em.close();
-        }
-        return new DBOrderDTO(o);
+
     }
+
+//    public DBOrderDTO removeOrder(int id) {
+//        EntityManager em = emf.createEntityManager();
+//        DBOrder o = null;
+//        try {
+//            em.getTransaction().begin();
+//            o = em.find(DBOrder.class, id);
+//            em.remove(o);
+//            em.getTransaction().commit();
+//        } finally {
+//            em.close();
+//        }
+//        return new DBOrderDTO(o);
+//    }
 }

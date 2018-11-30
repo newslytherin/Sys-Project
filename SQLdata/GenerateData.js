@@ -127,9 +127,10 @@ function randomTime() {
     const hour1 = randomRange(0, 23)
     const minute1 = randomRange(0, 59)
 
-    const day2 = randomRange(day1, (day1 + 1))
-    const offset = (day2 != day1) ? 0 : (hour1 + 2)
-    const hour2 = randomRange(offset, 23)
+    const offset1 = (hour1 >= 22) ? (day1 + 1) : day1
+    const day2 = randomRange(offset1, (day1 + 1))
+    const offset2 = (day2 != day1) ? 0 : (hour1 + 2)
+    const hour2 = randomRange(offset2, 23)
     const minute2 = randomRange(0, 59)
 
     const duration = ((day2 - day1) * 24 * 60) + ((hour2 - hour1) * 60) + (minute2 - minute1)
@@ -151,7 +152,7 @@ function generateFlight() {
     flight += times[2] + ","
     flight += randomRange(500, 10000) + ","
     flight += randomFromArray(cancelIncurances) + ","
-    flight += "'" + airline.short + " " + randomRange(100, 2000) + "',"
+    flight += "'" + airline.short + randomRange(100, 2000) + "',"
     flight += "'" + randomFromArray(models) + "',"
     flight += randomRange(50, 600) + ","
     const departure = randomFromArray(airports)
@@ -225,9 +226,9 @@ function saveToFile(name, text) {
     });
 }
 
+saveToFile("test",generateFlights(2))
 
-
-saveToFile("flights", generateFlights(1500))
+// saveToFile("flights", generateFlights(1500))
 // saveToFile("airports", generateAirports())
 // saveToFile("Users", generateUsers())
 // saveToFile("Users Roles", generateUserRoles())

@@ -100,10 +100,4 @@ public class UserResource
         return Response.ok(gson.toJson(facade.addOrderToUser(o, id))).build();
     }
     
-    @POST
-    @Path("remove/{id}")
-    public Response removeTrip(@PathParam("id") int id){
-        return Response.ok(gson.toJson(facade.removeOrder(id))).build();
-    }
-    
 }
