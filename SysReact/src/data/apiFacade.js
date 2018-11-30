@@ -14,12 +14,19 @@ class ApiFacade extends React.Component{
     getOrderTripURL = (id) => `${RootUrl}/user/add/${id}`
     getUserLoginUrl = () => `${RootUrl}/login`
     getUserSignupUrl = () => `${RootUrl}/user/add`
-
+    getEditUserUrl = (id) => `${RootUrl}/user/edit/${id}`
     getUserOrdersUrl = () => `${RootUrl}/` // <- TO-BE-DONE
     
     newOrder = async (trip,id) => {
         try{
             fetch(this.getOrderTripURL(id),this.makeOptions('POST',false,trip)).then(handleHttpErrors)
+        } catch(err){
+            console.log(`err:: ${err}`)
+        }
+    }
+    editUser = async (user,id) => {
+        try{
+            fetch(this.getEditUserUrl(id),this.makeOptions('PUT',false,user)).then(handleHttpErrors)
         } catch(err){
             console.log(`err:: ${err}`)
         }
@@ -64,8 +71,8 @@ class ApiFacade extends React.Component{
     
     setUser = (user) => {
         sessionStorage.setItem('id',user.id);
-        sessionStorage.setItem('email',user.email);
         sessionStorage.setItem('name',user.userName);
+        sessionStorage.setItem('email',user.email);
         sessionStorage.setItem('gender',user.gender);
         sessionStorage.setItem('jwtToken',user.token);
         sessionStorage.setItem('roles',user.roles);
