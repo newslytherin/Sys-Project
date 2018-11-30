@@ -180,17 +180,15 @@ public class DataFacade {
 
     }
 
-//    public DBOrderDTO removeOrder(int id) {
-//        EntityManager em = emf.createEntityManager();
-//        DBOrder o = null;
-//        try {
-//            em.getTransaction().begin();
-//            o = em.find(DBOrder.class, id);
-//            em.remove(o);
-//            em.getTransaction().commit();
-//        } finally {
-//            em.close();
-//        }
-//        return new DBOrderDTO(o);
-//    }
+    public void deleteOrder(int id) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.remove(em.find(DBOrder.class, id));
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+
+    }
 }

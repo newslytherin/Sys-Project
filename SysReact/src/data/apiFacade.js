@@ -15,7 +15,7 @@ class ApiFacade extends React.Component{
     getUserLoginUrl = () => `${RootUrl}/login`
     getUserSignupUrl = () => `${RootUrl}/user/add`
     getEditUserUrl = (id) => `${RootUrl}/user/edit/${id}`
-    getUserOrdersUrl = () => `${RootUrl}/` // <- TO-BE-DONE
+    getUserOrdersUrl = () => `${RootUrl}/order/id/` // <- TO-BE-DONE
     
     newOrder = async (trip,id) => {
         try{
@@ -113,6 +113,13 @@ class ApiFacade extends React.Component{
         sessionStorage.removeItem("token");
         sessionStorage.removeItem("roles");
     }
+
+    getUserOrders = () => {
+        const options = this.makeOptions("GET", true);
+        return fetch(this.getUserOrdersUrl() + this.getId(), options, true)
+            .then(res => handleHttpErrors(res))
+    }
+
     makeOptions(method, addToken, body) {
         var opts = {
             method: method,
