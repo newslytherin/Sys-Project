@@ -1,7 +1,7 @@
 import React from 'react'
 
-//const RootUrl = 'http://localhost:8090/Slytherin/api'
-const RootUrl = 'https://stephandjurhuus.com/travel/api'
+const RootUrl = 'http://localhost:8090/Slytherin/api'
+//const RootUrl = 'https://stephandjurhuus.com/travel/api'
 
 class ApiFacade extends React.Component{
     getRootUrl = () => RootUrl
@@ -14,6 +14,8 @@ class ApiFacade extends React.Component{
 
     getUserLoginUrl = () => `${RootUrl}/login`
     getUserSignupUrl = () => `${RootUrl}/user/add`
+
+    getUserOrdersUrl = () => `${RootUrl}/` // <- TO-BE-DONE
     
     getAllFligths = async() => {
         try {
@@ -98,6 +100,13 @@ class ApiFacade extends React.Component{
         }
         return opts;
     }
+
+    getUserOrders(username) {
+        const options = this.makeOptions("GET", true);
+        return fetch(`${this.getUserOrdersUrl()} username`, options, true)
+            .then(handleHttpErrors)
+            .then(res => (res))
+    }
 }
 
 const facade = new ApiFacade();
@@ -105,6 +114,7 @@ export default facade;
 
 function handleHttpErrors(res) {
     if (!res.ok) {
+        console.log(res)
         return Promise.reject({
             status: res.status,
             fullError: res.json()
