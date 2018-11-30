@@ -1,12 +1,11 @@
 import React from 'react'
 import { TextField, PasswordField, EmailField } from './InputFields'
 import facade from '../data/apiFacade'
-import User from './User'
 
 export default class Signup extends React.Component {
     constructor(props) {
         super(props)
-        this.state = { user: {}, loggedIn: false, notification: '' }
+        this.state = { user: {}, loggedIn: false, invalidEmail: '', invalidPassword: '' }
     }
 
     inputChanged = (evt) => {
@@ -20,38 +19,55 @@ export default class Signup extends React.Component {
 
     send = () => { 
         (this.state.user.userPass === this.state.user.confirmPassword)
-            ? this.validCredentials()
-            : this.invalidCredentials()
+            ? this.validPassword()
+            : this.invalidPassword()
     }
 
-    validCredentials = async() => {
-        this.setState({notification: ''})
+    validateEmail = (response) => {
+        (response.ok)
+            ? this.setState({invalidEmail: ''})
+            : this.setState({invalidEmail: 'email is already used'})
+    }
+
+    validatePassword = () => {
+
+    }
+
+    validPassword = async() => {
+        this.setState({ invalidPassword: '', invalidEmail: '' })
         const user = this.state.user
+        user.confirmPassword = ''
+        this.setState({ user })
         delete user.confirmPassword
-        const logUser = await facade.signup(user)
-        await console.log(logUser)
-        await this.setState({ user: logUser })
-        await this.setState({ loggedIn: true })
+        try {
+            const logUser = await facade.signup(user)
+            await this.setState({ user: logUser, loggedIn: true, invalidEmail: '' })
+        } catch (err) {
+            console.log('err:: ' + err)
+            this.setState({invalidEmail: 'email is already used'})
+        }
     }
 
-    invalidCredentials = () => {
-        this.setState({notification: 'unmatching passwords'})
+    invalidPassword = () => {
+        console.log('wrong pass')
+        this.setState({invalidPassword: 'unmatching passwords'})
         const user = this.state.user
         user.confirmPassword = ''
         this.setState({user})
     }
 
     render = () => {
-        if (this.state.loggedIn) return <User username={this.state.user.userName} roles={this.state.user.roles}/>
+        if (this.state.loggedIn) return <div style={{fontSize: 24, textAlign: 'center'}}>{`welcome ${this.state.user.userName}`}</div>
         return (
-        <form onSubmit={this.send} style={{ margin: 25 }}>
+            <form onSubmit={this.send} style={{ margin: 25 }}>
             <h2>Signup</h2>
 
-            <TextField title='username'
+            <TextField title='name'
             id='userName' 
             value={this.state.user.name} 
             onChanged={this.inputChanged}/>
 
+            <p style={{fontSIze: 18, color: '#ff0000'}}>{this.state.invalidEmail}</p>
             <EmailField title='email'
             id='email' 
             value={this.state.user.email} 
@@ -67,11 +83,11 @@ export default class Signup extends React.Component {
             value={this.state.user.password} 
             onChanged={this.inputChanged}/>
 
+            <p style={{fontSIze: 18, color: '#ff0000'}}>{this.state.invalidPassword}</p>
             <PasswordField title='confirm password'
             id='confirmPassword' 
             value={this.state.user.confirmPassword} 
             onChanged={this.inputChanged}/>
-            <p style={{color: '#ff0000'}}>{this.state.notification}</p>
         <button>confirm</button>
 
         </form>

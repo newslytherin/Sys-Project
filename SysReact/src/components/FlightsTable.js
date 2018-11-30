@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import impData from "../data/dummy-data";
+import facade from "../data/apiFacade";
 
 function SelectAmount(props) {
   const realMax = props.max < 25 ? props.max : 25;
@@ -123,8 +124,14 @@ function RowComponent(props) {
       <td>{airplane}</td>
       <td>{model}</td>
       <td>{capacity}</td>
+      {(facade.loggedIn())?<td><button id={props.index} onClick={(e) => send(e,props.data)}>Order</button></td>:<td>log in to order trip</td>}
     </>
   );
+}
+
+function send(e,data){
+  e.preventDefault();
+  facade.newOrder(data,facade.getId());
 }
 
 const filterArray = (arr, filter) => {
@@ -158,26 +165,35 @@ const filterArray = (arr, filter) => {
 };
 
 const sortArray = (a, b, name) => {
-  console.log("a", a);
-  console.log("b", b);
-  console.log("name", name);
+  // console.log("a", a);
+  // console.log("b", b);
+  // console.log("name", name);
   if (a[name] < b[name]) return -1;
   if (a[name] > b[name]) return 1;
   return 0;
 };
 
+async function getAllFlights(arr){
+  let f = await facade.getAllFligths();
+  await console.log(f);
+  await f.forEach(d => {
+    arr.push(...d);
+  });
+}
+
 export default function FilghtsTable() {
   const bigData = [];
   bigData.push(...impData);
   bigData.push(...impData);
-  //   bigData.push(...impData);
-  //   bigData.push(...impData);
-  //   bigData.push(...impData);
-  //   bigData.push(...impData);
-  //   bigData.push(...impData);
   bigData.push(...impData);
+  bigData.push(...impData);
+  bigData.push(...impData);
+  bigData.push(...impData);
+  bigData.push(...impData);
+  bigData.push(...impData);
+  getAllFlights(bigData);
 
-  console.log("-------------------");
+  // console.log("-------------------");
 
   const [data, setData] = useState(bigData);
   const [page, setPage] = useState(1);
@@ -203,7 +219,7 @@ export default function FilghtsTable() {
     sortedDataArrayStart,
     sortedDataArrayEnd
   );
-  console.log(sortedData);
+  // console.log(sortedData);
 
   //   console.log("Current Page", page);
   //   console.log("Elements on page", pageAmount);
@@ -299,7 +315,7 @@ export default function FilghtsTable() {
         <tbody>
           {sortedData.map((item, index) => (
             <tr key={index}>
-              <RowComponent data={item} />
+              <RowComponent data={item} index={index}/>
             </tr>
           ))}
         </tbody>

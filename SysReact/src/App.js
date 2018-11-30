@@ -8,7 +8,8 @@ import LargeDataSet from "./components/LargeDataSet";
 import EditTrip from "./components/EditTrip";
 import AddFlight from "./components/MakeFlight";
 import FlightsTable from "./components/FlightsTable";
-import facade from "./apiFacade";
+import facade from "./data/apiFacade";
+import Signup from "./components/AddUser";
 
 export default class App extends Component {
   constructor(props){
@@ -22,11 +23,12 @@ export default class App extends Component {
     this.setState({loggedIn: !this.state.loggedIn});
   }
   render() {
+    {console.log(facade.getRole())}
     return (
       <Router>
         <div>
           <ul className="header">
-            <li>{(this.state.loggedIn)?this.state.username:''}</li>
+            <li>{(facade.loggedIn())?facade.getName():''}</li>
             <li> <NavLink exact to="/">Home</NavLink> </li>
             <li> <NavLink to="/swapi">SWAPI</NavLink> </li>
             <li> <NavLink to="/large-data-set">Large Data Set</NavLink> </li>
@@ -45,6 +47,7 @@ export default class App extends Component {
           <Route path="/edit" component={EditTrip} />
           <Route path="/add" component={AddFlight} />
           <Route path="/flights" component={FlightsTable} />
+          <Route path="/signup"  render={() => <Signup roles={this.state.roles} setname={this.setname} changeLoggedIn={this.changeLoggedIn} />}/>
         </div>
       </Router>
     );

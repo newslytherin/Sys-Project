@@ -11,9 +11,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
-public class DBOrder implements Serializable {
+@Table(name = "DBORDER")
+public class DBOrder implements Serializable
+{
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -27,7 +30,11 @@ public class DBOrder implements Serializable {
     @ManyToOne
     private Flight flight;
 
-    public DBOrder(int attendees, User user, Flight flight) {
+    public DBOrder() {
+    }
+    
+    public DBOrder(int attendees, User user, Flight flight)
+    {
         this.attendees = attendees;
         this.user = user;
         this.flight = flight;
@@ -49,9 +56,11 @@ public class DBOrder implements Serializable {
         return user;
     }
 
-    public Flight getFlight() {
+    public Flight getFlight()
+    {
         return flight;
     }
+    
 
     //-----------------------------------//
     public void setId(Integer id) {

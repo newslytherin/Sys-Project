@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import facade from "./../data/apiFacade";
-import Signup from './../components/AddUser'
+import { Route, Redirect } from 'react-router'
 
 export default class Welcome extends Component{
     constructor(props) {
         super(props);
-        this.state = { loggedIn: props.loggedIn, userinfo:{roles:props.roles}, signUp: false }
+        this.state = { loggedIn: props.loggedIn, userinfo:{roles:props.roles}, signUp: false, validation: '' }
     }
     logout = () => {
         facade.logout();
@@ -14,15 +14,20 @@ export default class Welcome extends Component{
         this.props.setname('');
     }
     login = async (user, pass) => {
-        let userinfo = await facade.login(user,pass);
-        this.setState({userinfo});    
-        this.props.changeLoggedIn();
-        this.props.setname(user);
+        try {
+            let userinfo = await facade.login(user,pass);
+            this.setState({userinfo, validation: ''});    
+            this.props.changeLoggedIn();
+            this.props.setname(user);
+        } catch (err) {
+            console.log('err:: ' + err)
+            this.setState({validation: 'invalid username or password'})
+        }
     }
     render() {
         return (
             <div>
-                {!this.state.loggedIn ? (<LogIn login={this.login} />) :
+                {!this.state.loggedIn ? (<LogIn login={this.login} validation={this.state.validation}/>) :
                  (<div> <LoggedIn roles={this.state.userinfo.roles} /> <button onClick={this.logout}>Logout</button> </div>)}
             </div>
         );
@@ -42,10 +47,11 @@ class LogIn extends Component {
         this.setState({[evt.target.id]: evt.target.value})
     }
     render() {
-        if (this.state.signUp) return <Signup />
+        if (this.state.signUp) return <Route exact path="/" render={() => <Redirect to="signup/"/>}/>
         return (
             <div>
                 <h2>Login</h2>
+                <p style={{color: '#ff0000'}}>{this.props.validation}</p>
                 <form onSubmit={this.login} onChange={this.onChange} >
                     <input type="text" placeholder="User Name" id="username" />
                     <input type="password" placeholder="Password" id="password" />
