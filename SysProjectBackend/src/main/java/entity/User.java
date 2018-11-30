@@ -20,7 +20,7 @@ import javax.validation.constraints.Size;
 import org.mindrot.jbcrypt.BCrypt;
 
 @Entity
-@Table(name = "users")
+@Table(name = "USERS")
 public class User implements Serializable
 {
 
@@ -40,7 +40,7 @@ public class User implements Serializable
     @Size(min = 1, max = 255)
     @Column(name = "user_pass")
     private String userPass;
-    @JoinTable(name = "user_roles", joinColumns =
+    @JoinTable(name = "USER_ROLES", joinColumns =
     {
         @JoinColumn(name = "email", referencedColumnName = "email")
     }, inverseJoinColumns =
