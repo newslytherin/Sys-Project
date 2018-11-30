@@ -5,7 +5,7 @@ import facade from '../data/apiFacade'
 export default class Signup extends React.Component {
     constructor(props) {
         super(props)
-        this.state = { user: {}, loggedIn: false, invalidUsername: '', invalidPassword: '' }
+        this.state = { user: {}, loggedIn: false, invalidEmail: '', invalidPassword: '' }
     }
 
     inputChanged = (evt) => {
@@ -19,29 +19,45 @@ export default class Signup extends React.Component {
 
     send = () => { 
         (this.state.user.userPass === this.state.user.confirmPassword)
-            ? this.validCredentials()
-            : this.invalidCredentials()
+            ? this.validPassword()
+            : this.invalidPassword()
     }
 
-    validCredentials = async() => {
-        this.setState({ invalidPassword: '', invalidUsername: '' })
+    validateEmail = (response) => {
+        (response.ok)
+            ? this.setState({invalidEmail: ''})
+            : this.setState({invalidEmail: 'email is already used'})
+    }
+
+    validatePassword = () => {
+
+    }
+
+    validPassword = async() => {
+        this.setState({ invalidPassword: '', invalidEmail: '' })
         const user = this.state.user
+        user.confirmPassword = ''
+        this.setState({ user })
         delete user.confirmPassword
-        const logUser = await facade.signup(user)
-        await console.log(logUser)
-        await this.setState({ user: logUser })
-        await this.setState({ loggedIn: true })
+        try {
+            const logUser = await facade.signup(user)
+            await this.setState({ user: logUser, loggedIn: true, invalidEmail: '' })
+        } catch (err) {
+            console.log('err:: ' + err)
+            this.setState({invalidEmail: 'email is already used'})
+        }
     }
 
-    invalidCredentials = () => {
-        this.setState({notification: 'unmatching passwords'})
+    invalidPassword = () => {
+        console.log('wrong pass')
+        this.setState({invalidPassword: 'unmatching passwords'})
         const user = this.state.user
         user.confirmPassword = ''
         this.setState({user})
     }
 
     render = () => {
-        if (this.state.loggedIn) return <div style={{fontSize: 24, textAlign: 'center'}}>{`wellcome ${this.state.user.userName}`}</div>
+        if (this.state.loggedIn) return <div style={{fontSize: 24, textAlign: 'center'}}>{`welcome ${this.state.user.userName}`}</div>
         return (
             <form onSubmit={this.send} style={{ margin: 25 }}>
             <h2>Signup</h2>
@@ -51,7 +67,7 @@ export default class Signup extends React.Component {
             value={this.state.user.name} 
             onChanged={this.inputChanged}/>
 
-            <p style={{fontSIze: 18, color: '#ff0000'}}>{this.state.invalidUsername}</p>
+            <p style={{fontSIze: 18, color: '#ff0000'}}>{this.state.invalidEmail}</p>
             <EmailField title='email'
             id='email' 
             value={this.state.user.email} 

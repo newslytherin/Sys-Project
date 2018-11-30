@@ -91,13 +91,9 @@ class ApiFacade extends React.Component{
     signup = (user) => {
         const options = this.makeOptions("POST", true, user);
         return fetch(this.getUserSignupUrl(), options, true)
-            .then(handleHttpErrors)
-            .then(res => {
-                this.setToken(res.token);
-                this.setRole(res.roles);
-                return res;
-            })
+            .then(res => handleHttpErrors(res))
     }
+
     loggedIn = () => {
         const loggedIn = this.getToken() != null;
         return loggedIn;
@@ -140,11 +136,22 @@ export default facade;
 
 function handleHttpErrors(res) {
     if (!res.ok) {
-        console.log(res)
         return Promise.reject({
             status: res.status,
             fullError: res.json()
         })
     }
     return res.json();
+}
+
+function _handleHttpErrors(res) {
+    try {
+        // someting
+        return res.json();
+    } catch (err) {
+        return Promise.reject({
+            status: res.status,
+            fullError: res.json()
+        })
+    }
 }
