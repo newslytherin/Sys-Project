@@ -23,11 +23,12 @@ export default class App extends Component {
     this.setState({loggedIn: !this.state.loggedIn});
   }
   render() {
+    {console.log(facade.getRole())}
     return (
       <Router>
         <div>
           <ul className="header">
-            <li>{(this.state.loggedIn)?this.state.username:''}</li>
+            <li>{(facade.loggedIn())?facade.getName():''}</li>
             <li> <NavLink exact to="/">Home</NavLink> </li>
             <li> <NavLink to="/swapi">SWAPI</NavLink> </li>
             <li> <NavLink to="/large-data-set">Large Data Set</NavLink> </li>

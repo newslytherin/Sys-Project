@@ -1,7 +1,7 @@
 import React from 'react'
 
-const RootUrl = 'http://localhost:8090/Slytherin/api'
-//const RootUrl = 'https://stephandjurhuus.com/travel/api'
+// const RootUrl = 'http://localhost:8090/Slytherin/api'
+const RootUrl = 'https://stephandjurhuus.com/travel/api'
 
 class ApiFacade extends React.Component{
     getRootUrl = () => RootUrl
@@ -11,15 +11,23 @@ class ApiFacade extends React.Component{
     getAllFlightsUrl = () => `${RootUrl}/flights/all`
     getAddFlightUrl = () => `${RootUrl}/flights/new`
     getEditFlightUrl = () => `${RootUrl}/flights/edit/`
-
+    getOrderTripURL = (id) => `${RootUrl}/user/add/${id}`
     getUserLoginUrl = () => `${RootUrl}/login`
     getUserSignupUrl = () => `${RootUrl}/user/add`
 
     getUserOrdersUrl = () => `${RootUrl}/` // <- TO-BE-DONE
     
+    newOrder = async (trip,id) => {
+        try{
+            fetch(this.getOrderTripURL(id),this.makeOptions('POST',false,trip)).then(handleHttpErrors)
+        } catch(err){
+            console.log(`err:: ${err}`)
+        }
+    }
+
     getAllFligths = async() => {
         try {
-            return fetch(this.getAllFlightsUrl()).then(handleHttpErrors)
+            return await fetch(this.getAllFlightsUrl()).then(handleHttpErrors);
         } catch (err) {
             console.log(`err:: ${err}`)
         }
@@ -49,23 +57,36 @@ class ApiFacade extends React.Component{
         return fetch(this.getUserLoginUrl(), options, true)
             .then(handleHttpErrors)
             .then(res => {
-                this.setToken(res.token);
-                this.setRole(res.roles);
+                this.setUser(res);
                 return res;
             })
     }
     
-    setToken = (token) => {
-        localStorage.setItem('jwtToken', token)
+    setUser = (user) => {
+        sessionStorage.setItem('id',user.id);
+        sessionStorage.setItem('email',user.email);
+        sessionStorage.setItem('name',user.userName);
+        sessionStorage.setItem('gender',user.gender);
+        sessionStorage.setItem('jwtToken',user.token);
+        sessionStorage.setItem('roles',user.roles);
+    }
+    getId = () => {
+        return sessionStorage.getItem('id')
+    }
+    getEmail = () => {
+        return sessionStorage.getItem('email')
+    }
+    getName = () => {
+        return sessionStorage.getItem('name')
+    }
+    getGender = () => {
+        return sessionStorage.getItem('gender')
     }
     getToken = () => {
-        return localStorage.getItem('jwtToken')
-    }
-    setRole = (role) => {
-        localStorage.setItem('role', role)
+        return sessionStorage.getItem('jwtToken')
     }
     getRole = () => {
-        return localStorage.getItem('role')
+        return sessionStorage.getItem('roles')
     }
     signup = (user) => {
         const options = this.makeOptions("POST", true, user);
@@ -82,7 +103,12 @@ class ApiFacade extends React.Component{
         return loggedIn;
     }
     logout = () => {
-        localStorage.removeItem("jwtToken");
+        sessionStorage.removeItem("id");
+        sessionStorage.removeItem("email");
+        sessionStorage.removeItem("name");
+        sessionStorage.removeItem("gender");
+        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("roles");
     }
     makeOptions(method, addToken, body) {
         var opts = {

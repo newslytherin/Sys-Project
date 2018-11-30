@@ -1,11 +1,10 @@
 import React, { Component } from "react"
-import facade from "./../apiFacade";
+import facade from "./../data/apiFacade";
 import OrderTable from './OrderTable'
 
 export default class User extends Component{
     constructor(props){
         super(props)
-        this.state = {username: props.username, roles: props.roles};
     }
 
     arr = [
@@ -17,10 +16,10 @@ export default class User extends Component{
     ]
 
     render(){
-        if (facade.loggedIn() && this.state.roles.includes('user')) {
+        if (facade.loggedIn() && facade.getRole().includes('user')) {
             return(
                 <div>
-                    <h1>Welcome {this.state.username}</h1>
+                    <h1>Welcome {facade.getName()}</h1>
                     <OrderTable orders={this.arr/*facade.getUserOrders(this.state.username)*/}/>
                 </div>
             );
