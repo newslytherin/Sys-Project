@@ -18,11 +18,11 @@ public class SetupTestUsers {
         em.getTransaction().begin();
         Role userRole = new Role("user");
         Role adminRole = new Role("admin");
-        User user = new User("user1@mail.dk","user", "test", "male");
+        User user = new User("user15@mail.dk","user", "test", "male");
         user.addRole(userRole);
-        User admin = new User("user2@mail.dk","admin", "test", "male");
+        User admin = new User("user20@mail.dk","admin", "test", "male");
         admin.addRole(adminRole);
-        User both = new User("user3@mail.dk","user_admin", "test", "male");
+        User both = new User("user30@mail.dk","user_admin", "test", "male");
         both.addRole(userRole);
         both.addRole(adminRole);
         em.persist(userRole);

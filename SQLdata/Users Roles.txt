@@ -1,0 +1,1 @@
+('admin','admin@mail.dk'),('user','admin@mail.dk'),('user','user1@mail.dk'),('user','user2@mail.dk'),('user','user3@mail.dk'),('user','user4@mail.dk'),('user','user5@mail.dk'),('user','user6@mail.dk'),('user','user7@mail.dk'),('user','user8@mail.dk'),('user','user9@mail.dk'),('user','user10@mail.dk');

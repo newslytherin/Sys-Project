@@ -58,46 +58,52 @@ public class UserResource
         return Response.ok(gson.toJson(facade.editUser(u, id))).build();
     }
 
-    UserFacade uf = UserFacade.getInstance();
-
-    @POST
-    @Path("add")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response postUser(String json) throws InvalidDataException
-    {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-        User user = gson.fromJson(json, User.class);
-
-        if (user.getEmail() == null || user.getUserName() == null || user.getUserPass() == null)
-        {
-            throw new InvalidDataException("Not enough data");
-        }
-
-        Role role = RoleFacade.roleExist("user");
-        if (role == null)
-        {
-            role = new Role("user");
-            System.out.println("fisk");
-        }
-        
-        
-        
-        user.addRole(role);
-
-        user.BCryptPass();
-
-        return Response.ok(gson.toJson(uf.addUser(user))).build();
-    }
+//    UserFacade uf = UserFacade.getInstance();
+//
+//    @POST
+//    @Path("add")
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response postUser(String json) throws InvalidDataException
+//    {
+//        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//
+//        User user = gson.fromJson(json, User.class);
+//
+//        if (user.getEmail() == null || user.getUserName() == null || user.getUserPass() == null)
+//        {
+//            throw new InvalidDataException("Not enough data");
+//        }
+//
+//        Role role = RoleFacade.roleExist("user");
+//        if (role == null)
+//        {
+//            role = new Role("user");
+//            System.out.println("fisk");
+//        }
+//        
+//        
+//        
+//        user.addRole(role);
+//
+//        user.BCryptPass();
+//
+//        return Response.ok(gson.toJson(uf.addUser(user))).build();
+//    }
 
     
     @PUT
     @Path("add/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addTripToUser(String Content, @PathParam("id") int id){
-        DBOrder o = gson.fromJson(Content, DBOrder.class);
+    public Response addTripToUser(String content, @PathParam("id") int id){
+        DBOrder o = gson.fromJson(content, DBOrder.class);
         return Response.ok(gson.toJson(facade.addOrderToUser(o, id))).build();
+    }
+    
+    @POST
+    @Path("remove/{id}")
+    public Response removeTrip(@PathParam("id") int id){
+        return Response.ok(gson.toJson(facade.removeOrder(id))).build();
     }
     
 }

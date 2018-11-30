@@ -74,6 +74,20 @@ var airports = [
     { id: 30, city: "Málaga", name: "AGP", country: "Spanien", code: "ES" },
 ]
 
+var names = [
+    "Daniel", "Jacob", "Nikolaj", "Stephan", "Bob", "Kurt", "Lars", "Peter", "Jens", "Michael", "Henrik", "Thomas", "Søren", "Jan", "Christian", "Martin", "Niels", "Anders", "Morten", "Jesper", "Jørgen", "Hans", "Per", "Ole", "Rasmus",
+    "Anne", "Kirsten", "Mette", "Hanne", "Susanne", "Lene", "Maria", "Marianne", "Lone", "Camilla", "Inge", "Pia", "Karen", "Bente", "Louise", "Charlotte", "Jette", "Tina", "Asger", "Lars", "Gitte", "Magne", "Thor", "Sigurd", "Jakob",
+    "Ida", "Emma", "Sofia", "Ella", "Freja", "Josefine", "Alma", "Alberte", "Anna", "Agnes", "Laura", "Nora", "Clara", "Karla", "Isabella", "Olivia", "Lærke", "Victoria", "Mille", "Luna", "Aya", "Sofie", "Ellen", "Lily", "Mathilde",
+    "Maja", "Frida", "Emilie", "Marie", "Esther", "Liva", "Emily", "Caroline", "Sara", "Astrid", "Ellie", "Rosa", "Asta", "Alba", "Liv", "Hannah", "Andrea", "Vilma", "Mynte", "Eva", "Naja", "Nanna", "Lea", "Saga", "Vigga", "William",
+    "Noah", "Oscar", "Lucas", "Carl", "Oliver", "Victor", "Alfred", "Malthe", "Emil", "Valdemar", "Elias", "Magnus", "Aksel", "Frederik", "Felix", "Elliot", "August", "Anton", "Nohr", "Alexander", "Villads", "Christian", "Johan", "Adam",
+    "Arthur", "Liam", "Albert", "Theo", "Mikkel", "Viggo", "Benjamin", "Theodor", "Storm", "Sebastian", "Mads", "Mathias", "Milas", "Philip", "Otto", "Konrad", "Lauge", "Louie", "Marius", "Villum"
+];
+
+var pass = '$2a$10$RyHqChIuHrTmnIwm9ZtrL.edk7uk1Ms2bZsWOh3RfQXawQZW6rvLm'
+var mail = '@mail.dk'
+
+var genders = ['Male', 'Female', 'Attack helicopter', 'unicorn', 'chicken', 'cis male', 'cis female']
+
 const cancelIncurances = [
     200, 300, 500, 1000
 ]
@@ -103,11 +117,11 @@ function randomFromArrayExcluding(exclude, arr) {
 function randomRange(low, high) {
     return Math.round((Math.random() * (high - low)) + low)
 }
-randomTime()
+
 function randomTime() {
     const times = []
 
-    const year1 = 2020
+    const year1 = 2019
     const month1 = (randomRange(1, 12)).pad()
     const day1 = randomRange(1, 30)
     const hour1 = randomRange(0, 23)
@@ -134,8 +148,8 @@ function generateFlight() {
     flight = "'" + airline.name + "',"
     flight += "'" + times[0] + "',"
     flight += "'" + times[1] + "',"
-    flight += times[2]  + ","
-    flight += randomRange(500, 10000) +","
+    flight += times[2] + ","
+    flight += randomRange(500, 10000) + ","
     flight += randomFromArray(cancelIncurances) + ","
     flight += "'" + airline.short + " " + randomRange(100, 2000) + "',"
     flight += "'" + randomFromArray(models) + "',"
@@ -169,6 +183,35 @@ function generateAirports() {
     return total
 }
 
+function generateUsers() {
+    const res = []
+    res.push("('admin" + mail + "','" + randomFromArray(genders) + "','" + randomFromArray(names) + "','" + pass + "')")
+    for (let i = 1; i <= 10; i++) {
+        res.push("('user" + i + mail + "','" + randomFromArray(genders) + "','" + randomFromArray(names) + "','" + pass + "')")
+    }
+    return res
+}
+
+function generateUserRoles() {
+    const res = []
+    res.push("('admin','admin" + mail + "')")
+    res.push("('user','admin" + mail + "')")
+    for (let i = 1; i <= 10; i++) {
+        res.push("('user','user" + i + mail + "')")
+    }
+    return res
+}
+
+function generateOrders() {
+    const res = []
+    for (let i = 1; i <= 11; i++) {
+        for (let j = 0; j < 10; j++) {
+            res.push("(" + randomRange(1,4) + "," + randomRange(1,1500) + "," + i + ")")
+        }
+    }
+    return res
+}
+
 function saveToFile(name, text) {
     const fs = require('fs');
 
@@ -185,4 +228,7 @@ function saveToFile(name, text) {
 
 
 saveToFile("flights", generateFlights(1500))
-saveToFile("airports", generateAirports())
+// saveToFile("airports", generateAirports())
+// saveToFile("Users", generateUsers())
+// saveToFile("Users Roles", generateUserRoles())
+// saveToFile("Orders", generateOrders())

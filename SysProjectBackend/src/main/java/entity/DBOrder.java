@@ -13,8 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class DBOrder implements Serializable
-{
+public class DBOrder implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -28,56 +27,54 @@ public class DBOrder implements Serializable
     @ManyToOne
     private Flight flight;
 
-    public DBOrder(int attendees, User user, Flight flight)
-    {
+    public DBOrder(int attendees, User user, Flight flight) {
         this.attendees = attendees;
         this.user = user;
         this.flight = flight;
     }
 
+    public DBOrder() {
+    }
+
     //-----------------------------------//
-    public Integer getId()
-    {
+    public Integer getId() {
         return id;
     }
 
-    public int getAttendees()
-    {
+    public int getAttendees() {
         return attendees;
     }
 
-    public User getUser()
-    {
+    public User getUser() {
         return user;
     }
 
+    public Flight getFlight() {
+        return flight;
+    }
+
     //-----------------------------------//
-    public void setId(Integer id)
-    {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public void setAttendees(int attendees)
-    {
+    public void setAttendees(int attendees) {
         this.attendees = attendees;
     }
 
-    public void setUser(User user)
-    {
+    public void setUser(User user) {
         this.user = user;
         user.getOrders().add(this);
     }
 
-    public void setFlgiht(Flight flight)
-    {
+    public void setFlgiht(Flight flight) {
         this.flight = flight;
         flight.getOrders().add(this);
     }
 
     //-----------------------------------//
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "entity.Order[ id=" + id + " ]";
     }
 
