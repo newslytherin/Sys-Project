@@ -5,7 +5,7 @@ import facade from '../data/apiFacade'
 export default class Signup extends React.Component {
     constructor(props) {
         super(props)
-        this.state = { user: {}, loggedIn: false, notification: '' }
+        this.state = { user: {}, loggedIn: false, invalidUsername: '', invalidPassword: '' }
     }
 
     inputChanged = (evt) => {
@@ -24,7 +24,7 @@ export default class Signup extends React.Component {
     }
 
     validCredentials = async() => {
-        this.setState({notification: ''})
+        this.setState({ invalidPassword: '', invalidUsername: '' })
         const user = this.state.user
         delete user.confirmPassword
         const logUser = await facade.signup(user)
@@ -43,14 +43,15 @@ export default class Signup extends React.Component {
     render = () => {
         if (this.state.loggedIn) return <div style={{fontSize: 24, textAlign: 'center'}}>{`wellcome ${this.state.user.userName}`}</div>
         return (
-        <form onSubmit={this.send} style={{ margin: 25 }}>
+            <form onSubmit={this.send} style={{ margin: 25 }}>
             <h2>Signup</h2>
 
-            <TextField title='username'
+            <TextField title='name'
             id='userName' 
             value={this.state.user.name} 
             onChanged={this.inputChanged}/>
 
+            <p style={{fontSIze: 18, color: '#ff0000'}}>{this.state.invalidUsername}</p>
             <EmailField title='email'
             id='email' 
             value={this.state.user.email} 
@@ -66,11 +67,11 @@ export default class Signup extends React.Component {
             value={this.state.user.password} 
             onChanged={this.inputChanged}/>
 
+            <p style={{fontSIze: 18, color: '#ff0000'}}>{this.state.invalidPassword}</p>
             <PasswordField title='confirm password'
             id='confirmPassword' 
             value={this.state.user.confirmPassword} 
             onChanged={this.inputChanged}/>
-            <p style={{color: '#ff0000'}}>{this.state.notification}</p>
         <button>confirm</button>
 
         </form>

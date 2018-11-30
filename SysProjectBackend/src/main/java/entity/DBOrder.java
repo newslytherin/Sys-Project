@@ -28,6 +28,9 @@ public class DBOrder implements Serializable
     @ManyToOne
     private Flight flight;
 
+    public DBOrder() {
+    }
+    
     public DBOrder(int attendees, User user, Flight flight)
     {
         this.attendees = attendees;
