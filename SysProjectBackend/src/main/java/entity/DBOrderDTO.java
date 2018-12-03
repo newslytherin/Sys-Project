@@ -36,6 +36,7 @@ public class DBOrderDTO
     }    
 
     public DBOrderDTO(DBOrder o) {
+        this.id = o.getId();
         this.userDTO = new UserDTO(o.getUser());
         this.attendees = o.getAttendees();
         this.airline = o.getAirline();

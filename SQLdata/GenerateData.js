@@ -130,11 +130,14 @@ function randomTime() {
     const minute1 = randomRange(0, 59)
 
     offset = (hour1 >= 22) ? (day1 + 1) : day1
-    const day2 = randomRange(offset, (day1 + 1))
-    if(day1 == day2 && hour1 >= 22){
+    let day2 = randomRange(offset, (day1 + 1))
+    if(hour1 >= 22){
         day2 = day2 + 1
+        offset = (hour1 + 3) % 24
+        console.log("offset", offset)
+    }else{
+        offset = (day2 != day1) ? 0 : (hour1 + 3)
     }
-    offset = (day2 != day1) ? 0 : (hour1 + 3)
     const hour2 = randomRange(offset, 23)
     const minute2 = randomRange(0, 59)
 
