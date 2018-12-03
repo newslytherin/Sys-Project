@@ -35,13 +35,7 @@ const InputText = props => {
   return (
     <div>
       <label htmlFor={nameCode}>{namePretty}</label>
-      <input
-        type="text"
-        id={nameCode}
-        name={nameCode}
-        onChange={onChange}
-        required
-      />
+      <input type="text" id={nameCode} name={nameCode} onChange={onChange} required />
       {errorMsg}
     </div>
   );
@@ -59,13 +53,7 @@ const InputDate = props => {
   return (
     <div>
       <label htmlFor={nameCode}>{namePretty}</label>
-      <input
-        type="datetime-local"
-        id={nameCode}
-        name={nameCode}
-        onChange={onChange}
-        required
-      />
+      <input type="datetime-local" id={nameCode} name={nameCode} onChange={onChange} required />
       {errorMsg}
     </div>
   );
@@ -83,16 +71,7 @@ const InputNumber = props => {
   return (
     <div>
       <label htmlFor={nameCode}>{namePretty}</label>
-      <input
-        type="number"
-        id={nameCode}
-        name={nameCode}
-        onChange={onChange}
-        min={min}
-        max={max}
-        pattern="[0-9]"
-        required
-      />
+      <input type="number" id={nameCode} name={nameCode} onChange={onChange} min={min} max={max} pattern="[0-9]" required />
       {errorMsg}
     </div>
   );
@@ -229,37 +208,13 @@ export default function MakeFlight() {
               <Input nameCode="model" namePretty="Model" />
               <Input nameCode="capacity" namePretty="Capacity" number min={1} />
               <hr />
-              <Input
-                nameCode="depcity"
-                namePretty="Depature City"
-                options={[1, 2, 3, 4]}
-              />
-              <Input
-                nameCode="depairport"
-                namePretty="Depature Airport"
-                options={[1, 2, 3, 4]}
-              />
-              <Input
-                nameCode="depcountry"
-                namePretty="Depature Country"
-                options={[1, 2, 3, 4]}
-              />
+              <Input nameCode="depcity" namePretty="Depature City" options={[1, 2, 3, 4]} />
+              <Input nameCode="depairport" namePretty="Depature Airport" options={[1, 2, 3, 4]} />
+              <Input nameCode="depcountry" namePretty="Depature Country" options={[1, 2, 3, 4]} />
               <hr />
-              <Input
-                nameCode="descity"
-                namePretty="Destination City"
-                options={[1, 2, 3, 4]}
-              />
-              <Input
-                nameCode="desairport"
-                namePretty="Destination Airport"
-                options={[1, 2, 3, 4]}
-              />
-              <Input
-                nameCode="descountry"
-                namePretty="Destination Country"
-                options={[1, 2, 3, 4]}
-              />
+              <Input nameCode="descity" namePretty="Destination City" options={[1, 2, 3, 4]} />
+              <Input nameCode="desairport" namePretty="Destination Airport" options={[1, 2, 3, 4]} />
+              <Input nameCode="descountry" namePretty="Destination Country" options={[1, 2, 3, 4]} />
               <hr />
               <Input nameCode="deptime" namePretty="destime" date />
 

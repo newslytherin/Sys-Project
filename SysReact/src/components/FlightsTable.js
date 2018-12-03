@@ -29,8 +29,7 @@ function HeadersFromVariableNames(props) {
       <td
         onClick={
           // set asc to true if its a new varName we are sorting by
-          () =>
-            updateSortBy(varName, sortBy.name !== varName ? true : !sortBy.asc)
+          () => updateSortBy(varName, sortBy.name !== varName ? true : !sortBy.asc)
         }
       >
         {varName}
@@ -49,9 +48,7 @@ function PageButtons(props) {
 
   //prev page
   if (page > 1) {
-    buttonArray.push(
-      <button onClick={() => updatePage(page - 1)}>{"<"}</button>
-    );
+    buttonArray.push(<button onClick={() => updatePage(page - 1)}>{"<"}</button>);
   } else {
     buttonArray.push(<button>{"<x"}</button>);
   }
@@ -87,9 +84,7 @@ function PageButtons(props) {
 
   //next page
   if (page < totalPages) {
-    buttonArray.push(
-      <button onClick={() => updatePage(page + 1)}>{">"}</button>
-    );
+    buttonArray.push(<button onClick={() => updatePage(page + 1)}>{">"}</button>);
   } else {
     buttonArray.push(<button>{"x>"}</button>);
   }
@@ -97,41 +92,37 @@ function PageButtons(props) {
 }
 
 function RowComponent(props) {
-  const {
-    airline,
-    airplane,
-    arrTime,
-    cancellationInsurance,
-    capacity,
-    depTime,
-    duration,
-    from,
-    model,
-    price,
-    to
-  } = props.data;
+  const { airline, airplane, arrTime, cancelInsurance, capacity, depTime, departure, destination, duration, model, price } = props.data;
 
   return (
     <>
       <td>{airline}</td>
-      <td>{from}</td>
-      <td>{to}</td>
+      <td>{departure}</td>
+      <td>{destination}</td>
       <td>{depTime}</td>
       <td>{arrTime}</td>
       <td>{duration}</td>
       <td>{price}</td>
-      <td>{cancellationInsurance}</td>
+      <td>{cancelInsurance}</td>
       <td>{airplane}</td>
       <td>{model}</td>
       <td>{capacity}</td>
-      {(facade.loggedIn())?<td><button id={props.index} onClick={(e) => send(e,props.data)}>Order</button></td>:<td>log in to order trip</td>}
+      {facade.loggedIn() ? (
+        <td>
+          <button id={props.index} onClick={e => send(e, props.data)}>
+            Order
+          </button>
+        </td>
+      ) : (
+        <td>log in to order trip</td>
+      )}
     </>
   );
 }
 
-function send(e,data){
+function send(e, data) {
   e.preventDefault();
-  facade.newOrder(data,facade.getId());
+  facade.newOrder(data, facade.getId());
 }
 
 const filterArray = (arr, filter) => {
@@ -173,25 +164,22 @@ const sortArray = (a, b, name) => {
   return 0;
 };
 
-async function getAllFlights(arr){
+async function getAllFlights(arr) {
   let f = await facade.getAllFligths();
   await console.log(f);
   await f.forEach(d => {
     arr.push(...d);
   });
 }
+async function getFlightsFrommDB() {
+  let f = await facade.getAllFligths();
+
+  return f[0].concat(f[1]);
+}
 
 export default function FilghtsTable() {
   const bigData = [];
-  bigData.push(...impData);
-  bigData.push(...impData);
-  bigData.push(...impData);
-  bigData.push(...impData);
-  bigData.push(...impData);
-  bigData.push(...impData);
-  bigData.push(...impData);
-  bigData.push(...impData);
-  getAllFlights(bigData);
+  //getAllFlights(bigData);
 
   // console.log("-------------------");
 
@@ -215,10 +203,15 @@ export default function FilghtsTable() {
 
   const sortedDataArrayStart = (page - 1) * pageAmount;
   const sortedDataArrayEnd = page * pageAmount;
-  const sortedData = FilteredArray.slice(
-    sortedDataArrayStart,
-    sortedDataArrayEnd
-  );
+  const sortedData = FilteredArray.slice(sortedDataArrayStart, sortedDataArrayEnd);
+
+  useEffect(async () => {
+    if (data.length < 1) {
+      const arr = await getFlightsFrommDB();
+      console.log(arr);
+      setData(arr);
+    }
+  });
   // console.log(sortedData);
 
   //   console.log("Current Page", page);
@@ -264,26 +257,9 @@ export default function FilghtsTable() {
 
   return (
     <div className="content">
-      <input
-        type="text"
-        onChange={changeSearchFilter}
-        name="airline"
-        placeholder="airline"
-      />
-      <input
-        type="number"
-        onChange={changeRangeFilter}
-        name="price"
-        data-style="from"
-        placeholder="from"
-      />
-      <input
-        type="number"
-        onChange={changeRangeFilter}
-        name="price"
-        data-style="to"
-        placeholder="to"
-      />
+      <input type="text" onChange={changeSearchFilter} name="airline" placeholder="airline" />
+      <input type="number" onChange={changeRangeFilter} name="price" data-style="from" placeholder="from" />
+      <input type="number" onChange={changeRangeFilter} name="price" data-style="to" placeholder="to" />
 
       <div>
         <p>Current page: {page}</p>
@@ -291,31 +267,19 @@ export default function FilghtsTable() {
         <p>Total Pages: {totalPages}</p>
         <p>Filter Object: {JSON.stringify(filter)}</p>
         <p>Sort by Object: {JSON.stringify(sortBy)}</p>
-        <SelectAmount
-          updateAmount={updateAmount}
-          max={data.length}
-          pageAmount={pageAmount}
-        />
-        <PageButtons
-          page={page}
-          totalPages={totalPages}
-          updatePage={updatePage}
-        />
+        <SelectAmount updateAmount={updateAmount} max={data.length} pageAmount={pageAmount} />
+        <PageButtons page={page} totalPages={totalPages} updatePage={updatePage} />
       </div>
       <table>
         <thead>
           <tr>
-            <HeadersFromVariableNames
-              data={sortedData[0]}
-              sortBy={sortBy}
-              updateSortBy={updateSortBy}
-            />
+            <HeadersFromVariableNames data={sortedData[0]} sortBy={sortBy} updateSortBy={updateSortBy} />
           </tr>
         </thead>
         <tbody>
           {sortedData.map((item, index) => (
             <tr key={index}>
-              <RowComponent data={item} index={index}/>
+              <RowComponent data={item} index={index} />
             </tr>
           ))}
         </tbody>
