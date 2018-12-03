@@ -5,7 +5,7 @@ import OrderTable from './OrderTable'
 export default class User extends Component{
     constructor(props){
         super(props)
-        this.state = {user:{name:facade.getName(),email:facade.getEmail(),gender:facade.getGender()}, orders: [], loadingOrders: true}
+        this.state = {user:{name:facade.getName(),email:facade.getEmail(),gender:facade.getGender()}, orders: [], loadingOrders: true, updateTable: false}
         this.getOrders()
     }
 
@@ -14,6 +14,11 @@ export default class User extends Component{
         await this.setState({orders, loadingOrders: false})
         console.log(this.state.orders)
     }
+
+    updateTable = () => {
+        this.getOrders()
+        console.log('TEST::')
+    } 
 
     render(){
         if (facade.loggedIn() && facade.getRole().includes('user')) {
@@ -44,7 +49,7 @@ export default class User extends Component{
                     <div>
                         {(this.state.loadingOrders) 
                             ? <div style={{fontSize: 24, textAlign: 'center'}}>loading...</div>
-                            : <OrderTable orders={this.state.orders}/>
+                            : <OrderTable orders={this.state.orders} onUpdate={this.updateTable}/>
                         }
                         </div>
                 </div>

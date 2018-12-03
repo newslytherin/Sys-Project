@@ -47,7 +47,7 @@ public class DBOrderDTO
         this.duration = o.getDuration();
         this.price = o.getPrice();
         this.cancelInsurance = o.getCancelInsurance();
-        this.airplane = o.getAirline();
+        this.airplane = o.getAirplane();
     }
 
     

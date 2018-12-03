@@ -15,11 +15,12 @@ class ApiFacade extends React.Component{
     getUserLoginUrl = () => `${RootUrl}/login`
     getUserSignupUrl = () => `${RootUrl}/user/add`
     getEditUserUrl = (id) => `${RootUrl}/user/edit/${id}`
-    getUserOrdersUrl = () => `${RootUrl}/order/id/` // <- TO-BE-DONE
+    getUserOrdersUrl = () => `${RootUrl}/order/id/`
+    getUserDeleteOrderUrl = () => `${RootUrl}/order/delete/`
     
     newOrder = async (trip,id) => {
         try{
-            fetch(this.getOrderTripURL(id),this.makeOptions('POST',false,trip)).then(handleHttpErrors)
+            fetch(this.getOrderTripURL(id),this.makeOptions('PUT',false,trip)).then(handleHttpErrors)
         } catch(err){
             console.log(`err:: ${err}`)
         }
@@ -120,6 +121,11 @@ class ApiFacade extends React.Component{
             .then(res => handleHttpErrors(res))
     }
 
+    deleteOrder = (id) => {
+        const options = this.makeOptions("DELETE", true);
+        return fetch(this.getUserDeleteOrderUrl() + id, options, true)
+    }
+
     makeOptions(method, addToken, body) {
         var opts = {
             method: method,
@@ -158,14 +164,4 @@ function handleHttpErrors(res) {
     return res.json();
 }
 
-function _handleHttpErrors(res) {
-    try {
-        // someting
-        return res.json();
-    } catch (err) {
-        return Promise.reject({
-            status: res.status,
-            fullError: res.json()
-        })
-    }
-}
+
