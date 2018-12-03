@@ -121,16 +121,21 @@ function randomRange(low, high) {
 function randomTime() {
     const times = []
 
+    let offset
+
     const year1 = 2019
     const month1 = (randomRange(1, 12)).pad()
     const day1 = randomRange(1, 30)
     const hour1 = randomRange(0, 23)
     const minute1 = randomRange(0, 59)
 
-    const offset1 = (hour1 >= 22) ? (day1 + 1) : day1
-    const day2 = randomRange(offset1, (day1 + 1))
-    const offset2 = (day2 != day1) ? 0 : (hour1 + 2)
-    const hour2 = randomRange(offset2, 23)
+    offset = (hour1 >= 22) ? (day1 + 1) : day1
+    const day2 = randomRange(offset, (day1 + 1))
+    if(day1 == day2 && hour1 >= 22){
+        day2 = day2 + 1
+    }
+    offset = (day2 != day1) ? 0 : (hour1 + 3)
+    const hour2 = randomRange(offset, 23)
     const minute2 = randomRange(0, 59)
 
     const duration = ((day2 - day1) * 24 * 60) + ((hour2 - hour1) * 60) + (minute2 - minute1)
@@ -152,7 +157,7 @@ function generateFlight() {
     flight += times[2] + ","
     flight += randomRange(500, 10000) + ","
     flight += randomFromArray(cancelIncurances) + ","
-    flight += "'" + airline.short + randomRange(100, 2000) + "',"
+    flight += "'" + airline.short + randomRange(100, 999) + "',"
     flight += "'" + randomFromArray(models) + "',"
     flight += randomRange(50, 600) + ","
     const departure = randomFromArray(airports)
@@ -161,6 +166,38 @@ function generateFlight() {
     flight += destination.id
 
     return "(" + flight + ")"
+}
+// (`AIRLINE`, `ARRTIME`, `DEPTIME`, `DURATION`, `PRICE`, `CANCELINSURANCE`, `AIRPLANE`, `MODEL`, `CAPACITY`, `DEPARTURE_ID`, `DESTINATION_ID`)
+// ('JetBlue Airways','2019-09-02T22:19','2019-09-02T24:49',150,3517,300,'B6 304','A320',143,9,6)
+
+function generateOrders(numOfUsers, numOfOrders) {
+    // INSERT INTO DBORDER (`AIRLINE`, `AIRPLANE`, `ATTENDEES`, `CANCELINSURANCE`, `DEPTIME`, `ARRTIME`, `DURATION`, `DEPARTURE`, `DESTINATION`, `TOTALPRICE`, `USER_ID`)
+    const res = []
+    
+    let tmp
+    for (let id = 1; id <= numOfUsers; id++) {
+        for (let j = 0; j < numOfOrders; j++) {
+            const times = randomTime()
+            const attendees = randomRange(1, 4) 
+            const airline = randomFromArray(airlines)
+            const departure = randomFromArray(airports)
+            const destination = randomFromArrayExcluding(departure, airports)
+            tmp = "'" + airline.name + "',"                                     //airline name
+            tmp += "'" + airline.short + randomRange(100, 999) + "',"           //airplane name
+            tmp += "'" + attendees + "',"                                       //attendees amount
+            tmp += "'" + randomFromArray(cancelIncurances) + "',"               //cancel insurance
+            tmp += "'" + times[0] + "',"                                        //arrtime
+            tmp += "'" + times[1] + "',"                                        //deptime
+            tmp += "'" + times[2] + "',"                                        //duration
+            tmp += "'" + departure.name + "',"                                  //dep
+            tmp += "'" + destination.name + "',"                                //des
+            tmp += "'" + (randomRange(500, 10000) * attendees) + "',"           //totalprice
+            tmp += "'" + id + "'"                                               //user_id
+            res.push("(" + tmp + ")")
+        }
+    }
+    
+    return res
 }
 
 function generateFlights(n) {
@@ -203,15 +240,6 @@ function generateUserRoles() {
     return res
 }
 
-function generateOrders() {
-    const res = []
-    for (let i = 1; i <= 11; i++) {
-        for (let j = 0; j < 10; j++) {
-            res.push("(" + randomRange(1,4) + "," + randomRange(1,1500) + "," + i + ")")
-        }
-    }
-    return res
-}
 
 function saveToFile(name, text) {
     const fs = require('fs');
@@ -226,10 +254,9 @@ function saveToFile(name, text) {
     });
 }
 
-saveToFile("test",generateFlights(2))
-
-// saveToFile("flights", generateFlights(1500))
+saveToFile("flights", generateFlights(1500))
 // saveToFile("airports", generateAirports())
 // saveToFile("Users", generateUsers())
 // saveToFile("Users Roles", generateUserRoles())
-// saveToFile("Orders", generateOrders())
+saveToFile("Orders", generateOrders(11,10))
+
