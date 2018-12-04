@@ -4,7 +4,7 @@ import { Styles } from '../resources/Styles';
 import Touchable from './Touchable';
 import Loader from './Loader';
 
-const URL = 'http://localhost:8090/bob/api/swapi/async';
+const URL = 'https://stephandjurhuus.com/travel/api/flights/all';
 
 export default class FlatListBasics extends Component {
 
@@ -24,19 +24,52 @@ export default class FlatListBasics extends Component {
         this.getData();
     }
 
+    handleHttpErrors(res) {
+        if (!res.ok) {
+            return Promise.reject({
+                status: res.status,
+                fullError: res.json()
+            })
+        }
+        return res.json();
+    }
+
+    getAllFligths = async() => {
+        try {
+            return await fetch(URL).then(handleHttpErrors);
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
     async getData() {
         try {
-            const data = await fetch(URL).then(res => res.json());
-            const list = await data.map((object, index) => {
+            console.log('in getData()');
+            const data = await fetch(URL)
+            .then(res => {
+                console.log('in first then');
+                console.log(res);
+                return res.json()
+            });
+            console.log(data);
+            let dataArr = [];
+            data.forEach(e => {
+                dataArr.push(...e);
+            });
+            const list = await dataArr.map((object, index) => {
                 return {
                     key: `${index}`,
-                    val: `${object.name}, ${object.birth_year} ${object.gender}`
+                    val: `${object.airline},
+                    ${object.departure}, ${object.destination},
+                    ${object.depTime}, ${object.arrTime}, ${object.duration},
+                    ${object.price}, ${object.cancelInsurance},
+                    ${object.airplane}, ${object.model}, ${object.capacitys}`
                 }
             })
             await this.setState({data: list, isLoading: false});
 
         } catch (err) {
-            console.log('err:: ' + err)
+            console.log(err)
             this.setState({isError: true, isLoading: false});
         } 
     }
@@ -50,7 +83,7 @@ export default class FlatListBasics extends Component {
     if (this.state.isLoading) return (<Loader />)
     else if (this.state.isError) return (
         <View style={Styles.container}>
-            <Text style={Styles.error}>A failed occurred, try refreshing or come back later</Text>
+            <Text style={Styles.error}>An error occurred, try refreshing or come back later</Text>
             <Touchable onPress={() => this.refresh()} title="refresh" />
         </View>
     )
