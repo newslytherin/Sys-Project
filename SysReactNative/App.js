@@ -9,6 +9,7 @@ import Touchable from './components/Touchable';
 import ListView from './components/ListView';
 import LocCal from './components/LocationCollecter';
 import OrderTable from './components/OrderTable';
+import facade from './data/apiFacade'
 
 class Dashboard extends React.Component {
   static navigationOptions = navOptions;
