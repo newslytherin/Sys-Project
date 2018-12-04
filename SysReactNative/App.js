@@ -8,6 +8,7 @@ import { Styles } from './resources/Styles';
 import Touchable from './components/Touchable';
 import ListView from './components/ListView';
 import OrderTable from './components/OrderTable';
+import facade from './data/apiFacade'
 
 class Dashboard extends React.Component {
   static navigationOptions = navOptions;
@@ -16,10 +17,8 @@ class Dashboard extends React.Component {
     const { navigate } = this.props.navigation;
     return (
       <View style={Styles.dashboardContainer}>
-        <Text style={Styles.largeText}>Hello from newSlytherin</Text>
-        <Text style={Styles.smallText}>{StarWarsText}</Text>
         <Touchable onPress={() => navigate('listView')} title="Show Star Wars" />
-        <Touchable onPress={() => navigate('orderTable', {test: 'this is a test'})} title="orders" />
+        <Touchable onPress={() => navigate('orderTable')} title="orders" />
       </View>
     )
   }

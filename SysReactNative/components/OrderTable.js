@@ -1,5 +1,9 @@
 import React from 'react'
+import Loader from './Loader';
+import { AppRegistry, Text, StyleSheet } from 'react-native';
 import facade from '../data/apiFacade'
+
+const URL = "https://stephandjurhuus.com/travel/api/order/id/2"
 
 export default class OrderTable extends React.Component {
 
@@ -12,26 +16,42 @@ export default class OrderTable extends React.Component {
     constructor(props) {
         super(props)
         // this.state = { user: { name: facade.getName(), email: facade.getEmail(), gender: facade.getGender() }, orders: [], loadingOrders: true, updateTable: false, updates: 0}
-        this.state = {test: props.navigation.state.params.test}
+        this.state = {
+            data: [], 
+            isLoading: true, 
+            isError: false
+        }
+        this.getData();
     }
 
-    // deleteOrder = async(evt) => {
-    //     await facade.deleteOrder(evt.target.id)
-    //     await this.props.onUpdate()
-    //     await this.setState({ updates: ++this.state.updates })
-    // }
+    async getData() {
+        try {
+            const data = await fetch(URL).then(res => res.json());
+            // console.log("data", data)
+            // const list = await data.map((object, index) => {
+            //     return {
+                    
+            //     }
+            // })
+            await this.setState({data: data, isLoading: false});
 
+        } catch (err) {
+            console.log('err:: ' + err)
+            this.setState({isError: true, isLoading: false});
+        } 
+    }
     render() {
-        return (
-            <>
-                {console.log("props", this.props)}
-                {console.log("state", this.state.test)}
-                {/* {this.props.orders.map((order) => {
-                    console.log(order)
-                    return <Order order={order} id={order.id} key={order.id} onUpdate={this.deleteOrder} />
-                })} */}
-            </>
-        )
+        if (this.state.isLoading) return (<Loader />)
+        else{
+            return (
+                <>
+                    {this.state.data.map((order) => {
+                        console.log(order)
+                        return <Order order={order} id={order.id} key={order.id} onUpdate={this.deleteOrder} />
+                    })}
+                </>
+            )
+        }
     }
 }
 
@@ -40,13 +60,11 @@ export default class OrderTable extends React.Component {
 function Order(props) {
     return (
         <>
-            <div>{`airline: ${props.order.airline}, airplane: ${props.order.airplane}`}</div>
-            <div>{`from: ${props.order.departure}, to ${props.order.destination}`}</div>
-            <div>{`depature: ${props.order.depTime}, arrival ${props.order.arrTime}`}</div>
-            <div>{`attendees: ${props.order.attendees} stk, duration ${props.order.duration} (min)`}</div>
-            <div>{`price: ${props.order.price} kr., cancel insurance: ${props.order.cancelInsurance} kr.`}</div>
-            {/* <button id={props.id} onClick={props.onUpdate}>cancel</button> */}
-            <hr />
+            <Text>{`airline: ${props.order.airline}, airplane: ${props.order.airplane}`}</Text>
+            <Text>{`from: ${props.order.departure}, to ${props.order.destination}`}</Text>
+            <Text>{`depature: ${props.order.depTime}, arrival ${props.order.arrTime}`}</Text>
+            <Text>{`attendees: ${props.order.attendees} stk, duration ${props.order.duration} (min)`}</Text>
+            <Text>{`price: ${props.order.price} kr., cancel insurance: ${props.order.cancelInsurance} kr.`}</Text>
         </>
     )
 }
