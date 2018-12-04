@@ -21,6 +21,7 @@ export default class Signup extends React.Component {
         (this.state.user.userPass === this.state.user.confirmPassword)
             ? this.validPassword()
             : this.invalidPassword()
+            console.log("is lost")
     }
 
     validateEmail = (response) => {
@@ -43,7 +44,7 @@ export default class Signup extends React.Component {
             const logUser = await facade.signup(user)
             await this.setState({ user: logUser, loggedIn: true, invalidEmail: '' })
         } catch (err) {
-            console.log('err:: ' + err)
+            console.log('err:: ', err)
             this.setState({invalidEmail: 'email is already used'})
         }
     }
