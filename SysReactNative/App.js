@@ -8,6 +8,7 @@ import { Styles } from './resources/Styles';
 import Touchable from './components/Touchable';
 import ListView from './components/ListView';
 import LocCal from './components/LocationCollecter';
+import OrderTable from './components/OrderTable';
 
 class Dashboard extends React.Component {
   static navigationOptions = navOptions;
@@ -20,6 +21,7 @@ class Dashboard extends React.Component {
         <Text style={Styles.smallText}>Filler text</Text>
         <Touchable onPress={() => navigate('listView')} title="Show Star Wars" />
         <Touchable onPress={() => navigate('location')} title="Show location" />
+        <Touchable onPress={() => navigate('orderTable', {test: 'this is a test'})} title="orders" />
       </ScrollView>
     )
   }
@@ -29,6 +31,7 @@ const RouteStack = createStackNavigator({
   dashboard: { screen: Dashboard },
   listView: { screen: ListView },
   location: { screen: LocCal },
+  orderTable: { screen: OrderTable },
 });
 
 export default App = () => <RouteStack style={{ marginTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight / 2 }} />

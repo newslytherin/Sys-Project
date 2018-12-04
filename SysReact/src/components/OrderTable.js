@@ -2,6 +2,7 @@ import React from 'react'
 import facade from '../data/apiFacade'
 
 export default class OrderTable extends React.Component {
+
     constructor(props) {
         super(props)
         this.state = { updates: 0 }
