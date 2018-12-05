@@ -19,9 +19,9 @@ export default class FlightView extends Component {
         this.changeFormats()
     }
 
-    componentWillMount() {
-        this.getLocationAsync();
-        facade.sendUserData({
+    async componentWillMount() {
+        await this.getLocationAsync();
+        await facade.sendUserData({
             altitude:this.state.location.coords.altitude,
             latitude:this.state.location.coords.latitude,
             longitude:this.state.location.coords.longitude,

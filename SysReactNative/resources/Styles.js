@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 export const Styles = StyleSheet.create({
     largeText: {
-        color: '#000',
+        color: '#808080',
         textAlign: "center", 
         fontSize: 34,
         margin: 30,
@@ -26,14 +26,16 @@ export const Styles = StyleSheet.create({
         margin: 20,
         alignItems: 'center',
         backgroundColor: '#fff',
-        borderColor: 'gray', 
+        borderColor: '#00ca00', 
         borderWidth: 1,
+
+        borderRadius:100,
     },
     buttonText: {
         padding: 7,
         fontSize: 18,
         fontWeight: "bold",
-        color: '#000'
+        color: '#00ca00'
     },
     listItem: {
         padding: 10,

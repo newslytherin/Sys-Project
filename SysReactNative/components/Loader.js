@@ -5,6 +5,6 @@ import { Styles } from '../resources/Styles';
 export default () => (
     <View style={Styles.container}>
         <Text style={Styles.largeText}>loading...</Text>
-        <ActivityIndicator size="large" color="#2196F3" />
+        <ActivityIndicator size="large" color="#00ca00" />
     </View>
 )
