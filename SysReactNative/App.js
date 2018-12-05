@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, Platform } from 'react-native';
+import { Text, View, Platform, ScrollView } from 'react-native';
 import { Constants } from "expo";
 import { createStackNavigator } from 'react-navigation';
 import { StarWarsText } from './resources/StarWarsText';
@@ -7,6 +7,7 @@ import { navOptions } from './resources/NavigationOptions';
 import { Styles } from './resources/Styles';
 import Touchable from './components/Touchable';
 import ListView from './components/ListView';
+import LocCal from './components/LocationCollecter';
 import OrderTable from './components/OrderTable';
 import Login from './components/Login'
 import facade from './data/apiFacade'
@@ -17,11 +18,13 @@ class Dashboard extends React.Component {
     render() {
         const { navigate } = this.props.navigation;
         return (
-            <View style={Styles.dashboardContainer}>
-                <Touchable onPress={() => navigate('login')} title="Log in" />
+            <ScrollView style={Styles.dashboardContainer}>
+                <Text style={Styles.largeText}>Hello from Slytherin</Text>
+                <Text style={Styles.smallText}>Filler text</Text>
                 <Touchable onPress={() => navigate('listView')} title="Show Star Wars" />
+                <Touchable onPress={() => navigate('location')} title="Show location" />
                 <Touchable onPress={() => navigate('orderTable')} title="orders" />
-            </View>
+            </ScrollView>
         )
     }
 }
@@ -29,8 +32,8 @@ class Dashboard extends React.Component {
 const RouteStack = createStackNavigator({
     dashboard: { screen: Dashboard },
     listView: { screen: ListView },
+    location: { screen: LocCal },
     orderTable: { screen: OrderTable },
-    login: { screen: Login }
 });
 
 export default App = () => <RouteStack style={{ marginTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight / 2 }} />

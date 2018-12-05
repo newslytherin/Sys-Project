@@ -4,7 +4,7 @@ import { AsyncStorage } from "react-native"
 // const RootUrl = 'http://localhost:8090/Slytherin/api'
 const RootUrl = 'https://stephandjurhuus.com/travel/api'
 
-class ApiFacade extends React.Component{
+class ApiFacade extends React.Component {
     getRootUrl = () => RootUrl
     getAllAirportsUrl = () => `${RootUrl}/airports`
     getFlightsRootUrl = () => `${RootUrl}/flights`
@@ -18,16 +18,16 @@ class ApiFacade extends React.Component{
     getEditUserUrl = (id) => `${RootUrl}/user/edit/${id}`
     getUserOrdersUrl = () => `${RootUrl}/order/id/`
     getUserDeleteOrderUrl = () => `${RootUrl}/order/delete/`
-    
-    newOrder = async (trip,id) => {
-        try{
-            fetch(this.getOrderTripURL(id),this.makeOptions('PUT',false,trip)).then(handleHttpErrors)
-        } catch(err){
+
+    newOrder = async (trip, id) => {
+        try {
+            fetch(this.getOrderTripURL(id), this.makeOptions('PUT', false, trip)).then(handleHttpErrors)
+        } catch (err) {
             console.log(`err:: ${err}`)
         }
     }
 
-    login = (email, pass) => {
+    login = async (email, pass) => {
         const options = this.makeOptions("POST", true, {
             email: email,
             password: pass
@@ -37,34 +37,63 @@ class ApiFacade extends React.Component{
             .then(res => {
                 this.setUser(res);
                 return res;
-            })
+            }).catch(function (error) {
+                alert("failed to login " + error)
+            });
     }
-    
+
     setUser = (user) => {
-        AsyncStorage.setItem('id',user.id);
-        AsyncStorage.setItem('name',user.userName);
-        AsyncStorage.setItem('email',user.email);
-        AsyncStorage.setItem('gender',user.gender);
-        AsyncStorage.setItem('jwtToken',user.token);
-        AsyncStorage.setItem('roles',user.roles);
+        const id = user.id.toString()
+        AsyncStorage.setItem('id', id)
+            .catch(function (error) {
+                alert("err1 " + error)
+            });
+        AsyncStorage.setItem('name', user.userName)
+            .catch(function (error) {
+                alert("err2 " + error)
+            });
+        AsyncStorage.setItem('email', user.email)
+            .catch(function (error) {
+                alert("err3 " + error)
+            });
+        AsyncStorage.setItem('gender', user.gender)
+            .catch(function (error) {
+                alert("err4 " + error)
+            });
+        AsyncStorage.setItem('jwtToken', user.token)
+            .catch(function (error) {
+                alert("err5 " + error)
+            });
     }
     getId = () => {
-        return AsyncStorage.getItem('id')
+        return parseFloat(AsyncStorage.getItem('id'))
+            .catch(function (error) {
+                alert("not found in storage")
+            });
     }
     getEmail = () => {
         return AsyncStorage.getItem('email')
+            .catch(function (error) {
+                alert("not found in storage")
+            });
     }
     getName = () => {
         return AsyncStorage.getItem('name')
+            .catch(function (error) {
+                alert("not found in storage")
+            });
     }
     getGender = () => {
         return AsyncStorage.getItem('gender')
+            .catch(function (error) {
+                alert("not found in storage")
+            });
     }
     getToken = () => {
         return AsyncStorage.getItem('jwtToken')
-    }
-    getRole = () => {
-        return AsyncStorage.getItem('roles')
+            .catch(function (error) {
+                alert("not found in storage")
+            });
     }
     signup = (user) => {
         const options = this.makeOptions("POST", true, user);
@@ -77,12 +106,26 @@ class ApiFacade extends React.Component{
         return loggedIn;
     }
     logout = () => {
-        AsyncStorage.removeItem("id");
-        AsyncStorage.removeItem("email");
-        AsyncStorage.removeItem("name");
-        AsyncStorage.removeItem("gender");
-        AsyncStorage.removeItem("jwtToken");
-        AsyncStorage.removeItem("roles");
+        AsyncStorage.removeItem("id")
+        .catch(function (error) {
+                alert("error " + error)
+            });
+        AsyncStorage.removeItem("email")
+        .catch(function (error) {
+                alert("error " + error)
+            });
+        AsyncStorage.removeItem("name")
+        .catch(function (error) {
+                alert("error " + error)
+            });
+        AsyncStorage.removeItem("gender")
+        .catch(function (error) {
+                alert("error " + error)
+            });
+        AsyncStorage.removeItem("jwtToken")
+        .catch(function (error) {
+                alert("error " + error)
+            });
     }
 
     getUserOrders = () => {

@@ -1,55 +1,62 @@
 import React from 'react'
-import Loader from './Loader';
-import { AppRegistry, Text, StyleSheet } from 'react-native';
+import Loader from './Loader'
+import Login from './Login'
+import { AppRegistry, Text, StyleSheet, ScrollView } from 'react-native'
 import facade from '../data/apiFacade'
 
 const URL = "https://stephandjurhuus.com/travel/api/order/id/2"
 
 export default class OrderTable extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            data: [],
+            isLoading: true,
+            isError: false,
+            isLoggedIn: false,
+            errorMsg: "good"
+        }
+    }
 
     static navigationOptions = {
         title: 'informations',
         headerTitleStyle: { color: '#fff' },
         headerStyle: { backgroundColor: '#000' },
-    };
-
-    constructor(props) {
-        super(props)
-        // this.state = { user: { name: facade.getName(), email: facade.getEmail(), gender: facade.getGender() }, orders: [], loadingOrders: true, updateTable: false, updates: 0}
-        this.state = {
-            data: [], 
-            isLoading: true, 
-            isError: false
-        }
-        this.getData();
     }
 
     async getData() {
         try {
             const data = await fetch(URL).then(res => res.json());
-            // console.log("data", data)
-            // const list = await data.map((object, index) => {
-            //     return {
-                    
-            //     }
-            // })
-            await this.setState({data: data, isLoading: false});
+            await this.setState({ data: data, isLoading: false });
 
         } catch (err) {
             console.log('err:: ' + err)
-            this.setState({isError: true, isLoading: false});
-        } 
+            this.setState({ isError: true, isLoading: false });
+        }
     }
+
+    didLogin = (loggedIn) => {
+        alert(loggedIn)
+        this.setState({isLoggedIn: loggedIn})
+    }
+
     render() {
-        if (this.state.isLoading) return (<Loader />)
-        else{
+        if (!this.state.isLoggedIn) return (<Login didLogin={this.didLogin} />)
+        // if (!this.state.isLoggedIn) return (<Login onLoginPress={() => this.setState({ isLoggedIn: false })} />)
+        else if (this.state.isLoading) {
+            this.getData()
             return (
-                <>
+                <Loader />
+            )
+        }
+        else {
+            return (
+                <ScrollView>
                     {this.state.data.map((order) => {
                         console.log(order)
-                        return <Order order={order} id={order.id} key={order.id} onUpdate={this.deleteOrder} />
+                        return <Order order={order} id={order.id} key={order.id} />
                     })}
-                </>
+                </ScrollView>
             )
         }
     }
