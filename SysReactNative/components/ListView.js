@@ -179,11 +179,11 @@ export default class FlatListBasics extends Component {
 function ListItem(props) {
     return (
         <View style={{padding: 10, margin: 15, backgroundColor: '#fff', borderBottomColor: '#808080', borderBottomWidth: 1 }}>
-            <Text style={{color: '#000', fontSize: 12}}>{`departure`}</Text>
-            <Text style={{color: '#000', fontWeight: 'bold', fontSize: 16}}>{`${props.item.departure}`}</Text>
-            <Text style={{color: '#000', fontSize: 12}}>{`destination`}</Text>
-            <Text style={{color: '#000', fontWeight: 'bold', fontSize: 16}}>{`${props.item.destination}`}</Text>
-            <Text style={{color: '#000', fontSize: 16, padding: 5}}>{`${props.item.airline} | ${props.item.depTime}`}</Text>
+            <Text style={{color: '#000', fontSize: 16, textAlign: 'center', padding: 5}}>{`${props.item.airline} | ${props.item.depTime}`}</Text>
+            <Text style={{color: '#808080', fontSize: 14}}>{`departure`}</Text>
+            <Text style={{color: '#000', fontWeight: 'bold', fontSize: 16, padding: 10}}>{`${props.item.departure}`}</Text>
+            <Text style={{color: '#808080', fontSize: 14}}>{`destination`}</Text>
+            <Text style={{color: '#000', fontWeight: 'bold', fontSize: 16, padding: 10}}>{`${props.item.destination}`}</Text>
             <Text style={{color: '#000', fontSize: 18, color: '#00ca00', fontWeight: 'bold', textAlign: 'center', margin: 15}}>{`price: ${props.item.price}.00 kr`}</Text>
         </View>
     )
