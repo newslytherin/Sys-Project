@@ -17,6 +17,7 @@ class Dashboard extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
+      // <View>
       <ScrollView style={Styles.dashboardContainer}>
         <Text style={Styles.largeText}>Hello from Slytherin</Text>
         <Text style={Styles.smallText}>Filler text</Text>
@@ -24,6 +25,7 @@ class Dashboard extends React.Component {
         <Touchable onPress={() => navigate('location')} title="Show location" />
         <Touchable onPress={() => navigate('orderTable', {test: 'this is a test'})} title="orders" />
       </ScrollView>
+      // </View>
     )
   }
 }

@@ -1,5 +1,7 @@
-package entity;
+package facade;
 
+import entity.User;
+import entity.UserDTO;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
