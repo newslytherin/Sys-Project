@@ -133,7 +133,7 @@ export default class FlatListBasics extends Component {
     if (this.state.isLoading) return (<Loader />)
     else if (this.state.isError) return (
         <View style={Styles.container}>
-            <Text style={Styles.error}>A failed occurred, try refreshing or come back later</Text>
+            <Text style={Styles.error}>An error occurred, try refreshing or come back later</Text>
             <Touchable onPress={() => navigate('listView')} title="refresh" />
         </View>
     )

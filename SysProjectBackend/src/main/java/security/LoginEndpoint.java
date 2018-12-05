@@ -14,7 +14,7 @@ import com.nimbusds.jwt.SignedJWT;
 import entity.Role;
 import entity.User;
 import entity.UserDTO;
-import entity.UserFacade;
+import facade.UserFacade;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;

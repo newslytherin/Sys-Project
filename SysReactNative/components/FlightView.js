@@ -1,15 +1,49 @@
 import React, { Component } from 'react';
 import { Text, ScrollView, View } from 'react-native';
+import { Location, Permissions } from 'expo';
+import facade from '../data/apiFacade';
 
 export default class FlightView extends Component {
     constructor(props) {
         super(props)
-        this.state = { flight: props.navigation.state.params.flight, depTime: '', arrTime: '', duration: '' }
+        this.state = {
+            flight: props.navigation.state.params.flight,
+            location: null,
+            depTime: '', 
+            arrTime: '', 
+            duration: ''
+        }
     }
 
     componentDidMount() {
         this.changeFormats()
     }
+
+    componentWillMount() {
+        this.getLocationAsync();
+        facade.sendUserData({
+            altitude:this.state.location.coords.altitude,
+            latitude:this.state.location.coords.latitude,
+            longitude:this.state.location.coords.longitude,
+            price:this.state.flight.price,
+            airline:this.state.flight.airline,
+            departure:this.state.flight.departure,
+            destination:this.state.flight.destination,
+            model:this.state.flight.model
+        });
+    }
+  
+    getLocationAsync = async () => {
+      let { status } = await Permissions.askAsync(Permissions.LOCATION);
+      if (status !== 'granted') {
+        this.setState({
+          errorMessage: 'Permission to access location was denied',
+        });
+      }
+  
+      let location = await Location.getCurrentPositionAsync({});
+      this.setState({ location });
+    };
 
     static navigationOptions = { 
         title: 'flight info',
