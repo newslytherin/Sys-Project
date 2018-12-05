@@ -1,4 +1,5 @@
 import React from 'react'
+import { AsyncStorage } from "react-native"
 
 // const RootUrl = 'http://localhost:8090/Slytherin/api'
 const RootUrl = 'https://stephandjurhuus.com/travel/api'
@@ -24,6 +25,64 @@ class ApiFacade extends React.Component{
         } catch(err){
             console.log(`err:: ${err}`)
         }
+    }
+
+    login = (email, pass) => {
+        const options = this.makeOptions("POST", true, {
+            email: email,
+            password: pass
+        });
+        return fetch(this.getUserLoginUrl(), options, true)
+            .then(handleHttpErrors)
+            .then(res => {
+                this.setUser(res);
+                return res;
+            })
+    }
+    
+    setUser = (user) => {
+        AsyncStorage.setItem('id',user.id);
+        AsyncStorage.setItem('name',user.userName);
+        AsyncStorage.setItem('email',user.email);
+        AsyncStorage.setItem('gender',user.gender);
+        AsyncStorage.setItem('jwtToken',user.token);
+        AsyncStorage.setItem('roles',user.roles);
+    }
+    getId = () => {
+        return AsyncStorage.getItem('id')
+    }
+    getEmail = () => {
+        return AsyncStorage.getItem('email')
+    }
+    getName = () => {
+        return AsyncStorage.getItem('name')
+    }
+    getGender = () => {
+        return AsyncStorage.getItem('gender')
+    }
+    getToken = () => {
+        return AsyncStorage.getItem('jwtToken')
+    }
+    getRole = () => {
+        return AsyncStorage.getItem('roles')
+    }
+    signup = (user) => {
+        const options = this.makeOptions("POST", true, user);
+        return fetch(this.getUserSignupUrl(), options, true)
+            .then(res => handleHttpErrors(res))
+    }
+
+    loggedIn = () => {
+        const loggedIn = this.getToken() != null;
+        return loggedIn;
+    }
+    logout = () => {
+        AsyncStorage.removeItem("id");
+        AsyncStorage.removeItem("email");
+        AsyncStorage.removeItem("name");
+        AsyncStorage.removeItem("gender");
+        AsyncStorage.removeItem("jwtToken");
+        AsyncStorage.removeItem("roles");
     }
 
     getUserOrders = () => {
