@@ -4,7 +4,7 @@ import { Text, ScrollView, View } from 'react-native';
 export default class FlightView extends Component {
     constructor(props) {
         super(props)
-        this.state = { flight: props.navigation.state.params.flight }
+        this.state = { flight: props.navigation.state.params.flight, depTime: '', arrTime: '', duration: '' }
     }
 
     componentDidMount() {
@@ -32,10 +32,10 @@ export default class FlightView extends Component {
 
     changeFormats = () => {
         const flight = this.state.flight
-        flight.depTime = this.formatDate(this.state.flight.depTime)
-        flight.arrTime = this.formatDate(this.state.flight.arrTime)
-        flight.duration = this.formatDuration(this.state.flight.duration)
-        this.setState({flight})
+        const depTime = this.formatDate(this.state.flight.depTime)
+        const arrTime = this.formatDate(this.state.flight.arrTime)
+        const duration = this.formatDuration(this.state.flight.duration)
+        this.setState({ flight, depTime, arrTime, duration })
     }
 
     ValueLabel = (props) => (
@@ -50,9 +50,9 @@ export default class FlightView extends Component {
                 <this.ValueLabel label='airline' value={this.state.flight.airline} />
                 <this.ValueLabel label='departure' value={this.state.flight.departure} />
                 <this.ValueLabel label='destination' value={this.state.flight.destination} />
-                <this.ValueLabel label='departure time' value={this.state.flight.depTime} />
-                <this.ValueLabel label='arrival time' value={this.state.flight.arrTime} />
-                <this.ValueLabel label='duration' value={this.state.flight.duration} />
+                <this.ValueLabel label='departure time' value={this.state.depTime} />
+                <this.ValueLabel label='arrival time' value={this.state.arrTime} />
+                <this.ValueLabel label='duration' value={this.state.duration} />
                 <this.ValueLabel label='price' value={`${this.state.flight.price}.00 kr.`} />
                 <this.ValueLabel label='cancel insurance' value={`${this.state.flight.cancelInsurance}.00 kr.`} />
                 <this.ValueLabel label='airplane' value={`${this.state.flight.airplane}`} />
