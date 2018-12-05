@@ -10,30 +10,34 @@ import ListView from './components/ListView';
 import LocCal from './components/LocationCollecter';
 import OrderTable from './components/OrderTable';
 import Login from './components/Login'
+import FlightView from './components/FlightView';
 import facade from './data/apiFacade'
 
 class Dashboard extends React.Component {
     static navigationOptions = navOptions;
 
-    render() {
-        const { navigate } = this.props.navigation;
-        return (
-            <ScrollView style={Styles.dashboardContainer}>
-                <Text style={Styles.largeText}>Hello from Slytherin</Text>
-                <Text style={Styles.smallText}>Filler text</Text>
-                <Touchable onPress={() => navigate('listView')} title="Show Star Wars" />
-                <Touchable onPress={() => navigate('location')} title="Show location" />
-                <Touchable onPress={() => navigate('orderTable')} title="orders" />
-            </ScrollView>
-        )
-    }
+  render() {
+    const { navigate } = this.props.navigation;
+    return (
+      <View style={Styles.dashboardContainer}>
+        <Text style={Styles.largeText}>Hello from Slytherin</Text>
+        <ScrollView style={Styles.dashboardContainer}>
+          <Text style={Styles.smallText}>Filler text</Text>
+          <Touchable onPress={() => navigate('listView')} title="Show Star Wars" />
+          <Touchable onPress={() => navigate('location')} title="Show location" />
+          <Touchable onPress={() => navigate('orderTable')} title="orders" />
+        </ScrollView>
+      </View>
+    )
+  }
 }
 
 const RouteStack = createStackNavigator({
-    dashboard: { screen: Dashboard },
-    listView: { screen: ListView },
-    location: { screen: LocCal },
-    orderTable: { screen: OrderTable },
+  dashboard: { screen: Dashboard },
+  listView: { screen: ListView },
+  location: { screen: LocCal },
+  orderTable: { screen: OrderTable },
+  flightView: { screen: FlightView },
 });
 
 export default App = () => <RouteStack style={{ marginTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight / 2 }} />

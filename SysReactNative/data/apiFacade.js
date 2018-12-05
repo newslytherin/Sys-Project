@@ -12,18 +12,19 @@ class ApiFacade extends React.Component {
     getAllFlightsUrl = () => `${RootUrl}/flights/all`
     getAddFlightUrl = () => `${RootUrl}/flights/new`
     getEditFlightUrl = () => `${RootUrl}/flights/edit/`
-    getOrderTripURL = (id) => `${RootUrl}/user/add/${id}`
+    getOrderTripUrl = (id) => `${RootUrl}/user/add/${id}`
     getUserLoginUrl = () => `${RootUrl}/login`
     getUserSignupUrl = () => `${RootUrl}/user/add`
     getEditUserUrl = (id) => `${RootUrl}/user/edit/${id}`
     getUserOrdersUrl = () => `${RootUrl}/order/id/`
     getUserDeleteOrderUrl = () => `${RootUrl}/order/delete/`
+    getUserDataUrl = () => `${RootUrl}/userdata`
 
     newOrder = async (trip, id) => {
         try {
-            fetch(this.getOrderTripURL(id), this.makeOptions('PUT', false, trip)).then(handleHttpErrors)
+            fetch(this.getOrderTripUrl(id), this.makeOptions('PUT', false, trip)).then(handleHttpErrors)
         } catch (err) {
-            console.log(`err:: ${err}`)
+            console.log(err)
         }
     }
 
@@ -107,28 +108,36 @@ class ApiFacade extends React.Component {
     }
     logout = () => {
         AsyncStorage.removeItem("id")
-        .catch(function (error) {
+            .catch(function (error) {
                 alert("error " + error)
             });
         AsyncStorage.removeItem("email")
-        .catch(function (error) {
+            .catch(function (error) {
                 alert("error " + error)
             });
         AsyncStorage.removeItem("name")
-        .catch(function (error) {
+            .catch(function (error) {
                 alert("error " + error)
             });
         AsyncStorage.removeItem("gender")
-        .catch(function (error) {
+            .catch(function (error) {
                 alert("error " + error)
             });
         AsyncStorage.removeItem("jwtToken")
-        .catch(function (error) {
+            .catch(function (error) {
                 alert("error " + error)
             });
     }
 
-    getUserOrders = () => {
+    sendUserData = async (userdata) => {
+        try {
+            fetch(this.getUserDataUrl(), this.makeOptions('POST', false, userdata)).then(handleHttpErrors)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    getUserOrders = async () => {
         const options = this.makeOptions("GET", false);
         return fetch(this.getUserOrdersUrl() + 1, options, true)
             .then(res => handleHttpErrors(res))
