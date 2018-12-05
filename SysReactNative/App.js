@@ -22,7 +22,7 @@ class Dashboard extends React.Component {
         <Text style={Styles.largeText}>Hello from Slytherin</Text>
         <ScrollView style={Styles.dashboardContainer}>
           <Text style={Styles.smallText}>Filler text</Text>
-          <Touchable onPress={() => navigate('listView')} title="Show Star Wars" />
+          <Touchable onPress={() => navigate('listView')} title="Show flights" />
           <Touchable onPress={() => navigate('location')} title="Show location" />
           <Touchable onPress={() => navigate('orderTable', {test: 'this is a test'})} title="orders" />
         </ScrollView>
