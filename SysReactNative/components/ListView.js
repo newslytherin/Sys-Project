@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FlatList, Text, View, TouchableOpacity, TextInput, Slider } from 'react-native';
-import { Styles } from '../resources/Styles';
+import { Style } from '../resources/Styles';
 import Touchable from './Touchable';
 import Loader from './Loader';
 
@@ -145,13 +145,13 @@ export default class FlatListBasics extends Component {
     const { navigate } = this.props.navigation;
     if (this.state.isLoading) return (<Loader />)
     else if (this.state.isError) return (
-        <View style={Styles.container}>
-            <Text style={Styles.error}>An error occurred, try refreshing or come back later</Text>
+        <View style={Style.container}>
+            <Text style={Style.error}>An error occurred, try refreshing or come back later</Text>
             <Touchable onPress={() => navigate('listView')} title="refresh" />
         </View>
     )
     else return (
-      <View style={Styles.container}>
+      <View style={Style.container}>
         <Filters 
             departure={this.state.departure}
             destination={this.state.destination}

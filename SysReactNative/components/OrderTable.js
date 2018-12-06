@@ -3,8 +3,9 @@ import Loader from './Loader'
 import Login from './Login'
 import { AppRegistry, Text, StyleSheet, ScrollView } from 'react-native'
 import facade from '../data/apiFacade'
+import Touchable from './Touchable';
 
-const URL = "https://stephandjurhuus.com/travel/api/order/id/2"
+const URL = "https://stephandjurhuus.com/travel/api/order/id/"
 
 export default class OrderTable extends React.Component {
     constructor(props) {
@@ -18,16 +19,27 @@ export default class OrderTable extends React.Component {
         }
     }
 
-    static navigationOptions = {
-        title: 'informations',
-        headerTitleStyle: { color: '#fff' },
-        headerStyle: { backgroundColor: '#000' },
+    componentDidMount = async () => {
+        const isLoggedIn = await facade.loggedIn()
+        this.setState({ isLoggedIn })
+        if (isLoggedIn) this.getData()
     }
 
-    async getData() {
+    static navigationOptions = {
+        title: 'User page',
+        headerTitleStyle: { color: '#000' },
+        headerStyle: { backgroundColor: '#fff' },
+    };
+
+    getData = async () => {
         try {
-            const data = await fetch(URL).then(res => res.json());
-            await this.setState({ data: data, isLoading: false });
+            const id = await facade.getId()
+            console.log("id", id)
+            const URI = URL + id;
+            console.log("uri", URI)
+            const data = await fetch(URI).then(res => res.json());
+            console.log("data", data)
+            this.setState({ data: data, isLoading: false });
 
         } catch (err) {
             console.log('err:: ' + err)
@@ -35,16 +47,20 @@ export default class OrderTable extends React.Component {
         }
     }
 
-    didLogin = (loggedIn) => {
-        alert(loggedIn)
-        this.setState({isLoggedIn: loggedIn})
+    logOut = () => {
+        facade.logout()
+        this.setState({ isLoggedIn: false })
+    }
+
+    isLoggedIn = (isLoggedIn) => {
+        this.setState({ isLoggedIn })
+        if (isLoggedIn) this.getData()
+        else this.setState({ data: [] })
     }
 
     render() {
-        if (!this.state.isLoggedIn) return (<Login didLogin={this.didLogin} />)
-        // if (!this.state.isLoggedIn) return (<Login onLoginPress={() => this.setState({ isLoggedIn: false })} />)
-        else if (this.state.isLoading) {
-            this.getData()
+        if (!this.state.isLoggedIn) return (<Login didLogin={this.isLoggedIn} />)
+        else if (this.state.isLoggedIn && this.state.isLoading) {
             return (
                 <Loader />
             )
@@ -53,9 +69,9 @@ export default class OrderTable extends React.Component {
             return (
                 <ScrollView>
                     {this.state.data.map((order) => {
-                        console.log(order)
                         return <Order order={order} id={order.id} key={order.id} />
                     })}
+                    <Touchable onPress={this.logOut} title="Log out" />
                 </ScrollView>
             )
         }
