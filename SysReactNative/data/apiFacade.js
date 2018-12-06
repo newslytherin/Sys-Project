@@ -66,11 +66,12 @@ class ApiFacade extends React.Component {
                 alert("err5 " + error)
             });
     }
-    getId = () => {
-        return parseFloat(AsyncStorage.getItem('id'))
+    getId = async () => {
+        const id = await AsyncStorage.getItem('id')
             .catch(function (error) {
                 alert("not found in storage")
             });
+        return parseFloat(id)
     }
     getEmail = () => {
         return AsyncStorage.getItem('email')
@@ -102,9 +103,9 @@ class ApiFacade extends React.Component {
             .then(res => handleHttpErrors(res))
     }
 
-    loggedIn = () => {
-        const loggedIn = this.getToken() != null;
-        return loggedIn;
+    loggedIn = async () => {
+        const token = await this.getToken()
+        return token != null;
     }
     logout = () => {
         AsyncStorage.removeItem("id")
