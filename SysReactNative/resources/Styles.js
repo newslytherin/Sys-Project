@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
 
-
 export const COLORS = {
     MAIN: '#00ca00',
     WHITE: '#ffffff',
@@ -12,7 +11,7 @@ export const COLORS = {
 export const Styles = StyleSheet.create({
     largeText: {
         color: '#808080',
-        textAlign: "center", 
+        textAlign: "center",
         fontSize: 34,
         margin: 30,
     },
@@ -35,10 +34,10 @@ export const Styles = StyleSheet.create({
         margin: 20,
         alignItems: 'center',
         backgroundColor: '#fff',
-        borderColor: '#00ca00', 
+        borderColor: '#00ca00',
         borderWidth: 1,
 
-        borderRadius:100,
+        borderRadius: 100,
     },
     buttonText: {
         padding: 7,
@@ -84,9 +83,15 @@ export const Styles = StyleSheet.create({
     },
     
     error: {
-        textAlign: "center", 
+        textAlign: "center",
         margin: 30,
         fontSize: 24,
         color: COLORS.ERR,
     },
+    textInput: {
+        textAlign: 'center',
+        color: '#00ca00',
+        fontSize: 18,
+        padding: 5
+    }
 })
