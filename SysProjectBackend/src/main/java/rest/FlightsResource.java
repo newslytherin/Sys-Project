@@ -3,7 +3,10 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
+import entity.Airport;
+import entity.AirportDTO;
 import entity.Flight;
+import entity.FlightDTO;
 import exceptions.InvalidDataException;
 import facade.DataFacade;
 import java.net.HttpURLConnection;
@@ -95,7 +98,36 @@ public class FlightsResource {
     @Path("new")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response postFlights(String content) throws InvalidDataException {
-        Flight f = gson.fromJson(content, Flight.class);
+        FlightDTO fDTO = gson.fromJson(content, FlightDTO.class);
+        
+        Airport dep = null;
+        Airport des = null;
+        
+        
+        List<Airport> allAirports = facade.getAllAirportsNotDTO();
+        System.out.println(allAirports);
+        for(Airport a : allAirports){
+            if(a.getName().equals(fDTO.getDeparture())){
+                dep = a;
+            }
+            if(a.getName().equals(fDTO.getDestination())){
+                des = a;
+            }
+        }
+        
+        Flight f = new Flight(
+                fDTO.getAirline(),
+                dep,
+                des,
+                fDTO.getDepTime(),
+                fDTO.getArrTime(),
+                fDTO.getDuration(),
+                fDTO.getPrice(),
+                fDTO.getCancelInsurance(),
+                fDTO.getAirplane(),
+                fDTO.getModel(),
+                fDTO.getCapacity()
+        );
         return Response.ok(gson.toJson(facade.addNewFlight(f))).build();
     }
 

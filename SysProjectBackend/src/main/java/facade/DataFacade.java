@@ -60,14 +60,17 @@ public class DataFacade {
 
     public FlightDTO addNewFlight(Flight f) {
         EntityManager em = emf.createEntityManager();
+        
+        Flight flight = f;
         try {
             em.getTransaction().begin();
-            em.persist(f);
+            em.merge(flight);
             em.getTransaction().commit();
         } finally {
             em.close();
         }
-        FlightDTO fdto = new FlightDTO(f);
+        System.out.println(flight);
+        FlightDTO fdto = new FlightDTO(flight);
         return fdto;
     }
 
@@ -99,6 +102,21 @@ public class DataFacade {
         }
     }
 
+    public List<Airport> getAllAirportsNotDTO() throws InvalidDataException {
+        EntityManager em = emf.createEntityManager();
+        String jpql = "SELECT a FROM Airport a";
+
+        try {
+            TypedQuery<Airport> query = em.createQuery(jpql, Airport.class);
+            return query.getResultList();
+        } catch (Exception ex) {
+            throw new InvalidDataException("Inserted data is not valid");
+        } finally {
+            em.close();
+        }
+    }
+
+    
     public AirportDTO addNewAirport(Airport a) {
         EntityManager em = emf.createEntityManager();
         try {

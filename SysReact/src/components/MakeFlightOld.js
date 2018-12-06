@@ -228,7 +228,7 @@ export default function MakeFlight() {
       <div className="main">
         <h2>Make Flight</h2>
         <hr />
-        {/* {JSON.stringify(flight)} */}
+        {JSON.stringify(flight)}
         <form onSubmit={createFlight} className="grid">
           {/* <FormProvider onChange={handleInputChange} flight={flight}> */}
           <FormContext.Provider value={handleInputChange}>

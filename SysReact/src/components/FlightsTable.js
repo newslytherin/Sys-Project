@@ -3,7 +3,7 @@ import impData from "../data/dummy-data";
 import facade from "../data/apiFacade";
 
 function SelectAmount(props) {
-  const realMax = props.max < 25 ? props.max : 25;
+  const realMax = props.max < 10 ? props.max : 10;
 
   return (
     <select
@@ -13,7 +13,7 @@ function SelectAmount(props) {
     >
       {//make X options where X is the amount of allowed numbers for each page in the table
       Array.from({ length: realMax }, (v, k) => k + 1).map((e, i) => (
-        <option selected={Number(e) === props.pageAmount} value={e}>
+        <option key={e} selected={Number(e) === props.pageAmount} value={e}>
           {e}
         </option>
       ))}
@@ -29,7 +29,8 @@ function HeadersFromVariableNames(props) {
       <td
         onClick={
           // set asc to true if its a new varName we are sorting by
-          () => updateSortBy(varName, sortBy.name !== varName ? true : !sortBy.asc)
+          () =>
+            updateSortBy(varName, sortBy.name !== varName ? true : !sortBy.asc)
         }
       >
         {varName}
@@ -48,9 +49,13 @@ function PageButtons(props) {
 
   //prev page
   if (page > 1) {
-    buttonArray.push(<button onClick={() => updatePage(page - 1)}>{"<"}</button>);
+    buttonArray.push(
+      <button className="trans" onClick={() => updatePage(page - 1)}>
+        <i className="fas fa-angle-double-left" />
+      </button>
+    );
   } else {
-    buttonArray.push(<button>{"<x"}</button>);
+    buttonArray.push(<button className="invis" />);
   }
 
   //start at 1 if page is close to start
@@ -74,7 +79,7 @@ function PageButtons(props) {
 
   //make buttons wit numbers and give active button className="activeButton"
   for (let i = btnStartNumber; i < btnEndNumber; i++) {
-    const activeButton = i === page ? "activeButton" : "";
+    const activeButton = i === page ? "active" : "";
     buttonArray.push(
       <button disable className={activeButton} onClick={() => updatePage(i)}>
         {i}
@@ -84,45 +89,101 @@ function PageButtons(props) {
 
   //next page
   if (page < totalPages) {
-    buttonArray.push(<button onClick={() => updatePage(page + 1)}>{">"}</button>);
+    buttonArray.push(
+      <button className="trans" onClick={() => updatePage(page + 1)}>
+        <i className="fas fa-angle-double-right" />
+      </button>
+    );
   } else {
-    buttonArray.push(<button>{"x>"}</button>);
+    buttonArray.push(<button className="invis" />);
   }
-  return <div className="buttonContainer">{buttonArray}</div>;
+
+  return <div className="pagination">{buttonArray}</div>;
 }
 
-function RowComponent(props) {
-  const { airline, airplane, arrTime, cancelInsurance, capacity, depTime, departure, destination, duration, model, price } = props.data;
+function Trip(props) {
+  const {
+    airline,
+    airplane,
+    arrTime,
+    cancelInsurance,
+    capacity,
+    depTime,
+    departure,
+    destination,
+    duration,
+    model,
+    price
+  } = props.data;
+
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  };
+  const parts = destination.split(",");
+
+  const city = parts.length > 1 ? parts[0] : parts[0];
+  const code = parts.length > 1 ? parts[1] : parts[0];
+  const country = parts.length > 1 ? parts[2] : "";
 
   return (
-    <>
-      <td>{airline}</td>
-      <td>{departure}</td>
-      <td>{destination}</td>
-      <td>{depTime}</td>
-      <td>{arrTime}</td>
-      <td>{duration}</td>
-      <td>{price}</td>
-      <td>{cancelInsurance}</td>
-      <td>{airplane}</td>
-      <td>{model}</td>
-      <td>{capacity}</td>
-      {facade.loggedIn() ? (
-        <td>
-          <button id={props.index} onClick={e => send(e, props.data)}>
-            Order
-          </button>
-        </td>
-      ) : (
-        <td>log in to order trip</td>
-      )}
-    </>
+    <div className="order-expanded">
+      <div className="card">
+        <img src="http://placebeard.it/430x205" alt="" />
+        <h4>{city}</h4>
+        <p>{country}</p>
+        <div className="price">${price}</div>
+      </div>
+      <div className="info">
+        <div className="title">Plane details</div>
+        <br />
+        <p>Airline: {airline}</p>
+        <p>Airplane: {airplane}</p>
+        <p>Model: {model}</p>
+        <p>
+          <span className="stars">
+            <i className="fas fa-star green" />
+            <i className="fas fa-star green" />
+            <i className="fas fa-star green" />
+            <i className="fas fa-star green" />
+            <i className="fas fa-star" />
+          </span>
+        </p>
+      </div>
+      <div className="info">
+        <div className="title">Flight time</div>
+        <div className="flightbox">
+          <i className="fas fa-plane-departure" />
+          <p>Departure</p>
+          <p className="stops">2 Stops</p>
+        </div>
+        <p className="m0">{departure}</p>
+        <p className="green m0">
+          {new Date(depTime).toLocaleDateString("en-US", options)}
+        </p>
+        <hr />
+        <div className="flightbox">
+          <i className="fas fa-plane-arrival" />
+          <p>Destination</p>
+        </div>
+        <p className="m0">{destination}</p>
+        <p className="green m0">
+          {new Date(arrTime).toLocaleDateString("en-US", options)}
+        </p>
+        {facade.loggedIn() && (
+          <button onClick={e => send(e, props.data)}>Book Now</button>
+        )}
+      </div>
+    </div>
   );
 }
 
 function send(e, data) {
   e.preventDefault();
   facade.newOrder(data, facade.getId());
+  alert("Trip to " + data.destination + " now ordered");
 }
 
 const filterArray = (arr, filter) => {
@@ -166,7 +227,6 @@ const sortArray = (a, b, name) => {
 
 async function getAllFlights(arr) {
   let f = await facade.getAllFligths();
-  await console.log(f);
   await f.forEach(d => {
     arr.push(...d);
   });
@@ -203,15 +263,15 @@ export default function FilghtsTable() {
 
   const sortedDataArrayStart = (page - 1) * pageAmount;
   const sortedDataArrayEnd = page * pageAmount;
-  const sortedData = FilteredArray.slice(sortedDataArrayStart, sortedDataArrayEnd);
+  const sortedData = FilteredArray.slice(
+    sortedDataArrayStart,
+    sortedDataArrayEnd
+  );
 
   useEffect(async () => {
-    if (data.length < 1) {
-      const arr = await getFlightsFrommDB();
-      console.log(arr);
-      setData(arr);
-    }
-  });
+    const arr = await getFlightsFrommDB();
+    setData(arr);
+  }, []);
   // console.log(sortedData);
 
   //   console.log("Current Page", page);
@@ -256,34 +316,90 @@ export default function FilghtsTable() {
   };
 
   return (
-    <div className="content">
-      <input type="text" onChange={changeSearchFilter} name="airline" placeholder="airline" />
-      <input type="number" onChange={changeRangeFilter} name="price" data-style="from" placeholder="from" />
-      <input type="number" onChange={changeRangeFilter} name="price" data-style="to" placeholder="to" />
-
-      <div>
-        <p>Current page: {page}</p>
-        <p>Max elements on page: {pageAmount}</p>
-        <p>Total Pages: {totalPages}</p>
-        <p>Filter Object: {JSON.stringify(filter)}</p>
-        <p>Sort by Object: {JSON.stringify(sortBy)}</p>
-        <SelectAmount updateAmount={updateAmount} max={data.length} pageAmount={pageAmount} />
-        <PageButtons page={page} totalPages={totalPages} updatePage={updatePage} />
+    <div className="main">
+      {/* <p>Current page: {page}</p>
+      <p>Max elements on page: {pageAmount}</p>
+      <p>Total Pages: {totalPages}</p>
+      <p>Filter Object: {JSON.stringify(filter)}</p>
+      <p>Sort by Object: {JSON.stringify(sortBy)}</p> */}
+      <div className="filterbar" style={{ flexWrap: "wrap" }}>
+        <div className="filter">
+          <label>Where are you flying from?</label>
+          <input
+            type="text"
+            onChange={changeSearchFilter}
+            placeholder="Departure"
+            name="departure"
+          />
+          <i
+            className="fas fa-plane-departure"
+            style={{ fontSize: 16, marginBottom: 4 }}
+          />
+        </div>
+        <div className="filter">
+          <label>Where you want to go?</label>
+          <input
+            type="text"
+            onChange={changeSearchFilter}
+            placeholder="Destination"
+            name="destination"
+          />
+          <i
+            className="fas fa-plane-arrival"
+            style={{ fontSize: 16, marginBottom: 4 }}
+          />
+        </div>
+        <div className="filter">
+          <label>Date?</label>
+          <input
+            type="date"
+            placeholder="Date"
+            onChange={changeSearchFilter}
+            name="depTime"
+          />
+          <i className="fas fa-calendar-plus" />
+        </div>
+        <div className="filter">
+          <label>Price from</label>
+          <input
+            type="number"
+            onChange={changeRangeFilter}
+            name="price"
+            data-style="from"
+            placeholder="Starting Price"
+          />
+          <i className="fas fa-dollar-sign" />
+        </div>
+        <div className="filter">
+          <label>Price to</label>
+          <input
+            type="number"
+            onChange={changeRangeFilter}
+            name="price"
+            data-style="to"
+            placeholder="Max Price"
+          />
+          <i className="fas fa-dollar-sign" />
+        </div>
+        <div className="filter right">
+          <label>Trips shown</label>
+          <SelectAmount
+            updateAmount={updateAmount}
+            max={data.length}
+            pageAmount={pageAmount}
+          />
+          <i className="fas fa-sort-numeric-down" />
+        </div>
       </div>
-      <table>
-        <thead>
-          <tr>
-            <HeadersFromVariableNames data={sortedData[0]} sortBy={sortBy} updateSortBy={updateSortBy} />
-          </tr>
-        </thead>
-        <tbody>
-          {sortedData.map((item, index) => (
-            <tr key={index}>
-              <RowComponent data={item} index={index} />
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {sortedData.map((item, i) => (
+        <Trip key={i} data={item} />
+      ))}
+
+      <PageButtons
+        page={page}
+        totalPages={totalPages}
+        updatePage={updatePage}
+      />
     </div>
   );
 }
