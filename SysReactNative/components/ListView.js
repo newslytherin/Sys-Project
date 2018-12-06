@@ -149,7 +149,7 @@ export default class FlatListBasics extends Component {
 
     formatDate = (date) => {
         const d = new Date( date )
-        const days = ['Monday', 'tuesday', 'Wednesday', 'Thurday', 'Friday', 'Saturday', 'Sunday']
+        const days = ['Monday', 'Tuesday', 'Wednesday', 'Thurday', 'Friday', 'Saturday', 'Sunday']
         const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
         const minutes = (d.getMinutes() < 10) ? `0${d.getMinutes()}` : d.getMinutes()
         const hours = (d.getHours() < 10) ? `0${d.getHours()}` : d.getHours()
