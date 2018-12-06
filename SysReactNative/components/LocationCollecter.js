@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { Constants, MapView, Location, Permissions } from 'expo';
+import { Styles, COLORS } from '../resources/Styles';
 
 export default class App extends Component {
+    static navigationOptions = { 
+        title: 'map',
+        headerTitleStyle: { color: COLORS.WHITE },
+        headerStyle: { backgroundColor: COLORS.MAIN },
+        headerTintStyle: COLORS.WHITE
+    };
+
     state = {
         mapRegion: { latitude: 55.7701401, longitude: 12.5118887, latitudeDelta: 0.0922, longitudeDelta: 0.0421 },
         locationResult: null,
