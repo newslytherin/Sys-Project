@@ -20,29 +20,33 @@ export default class FlightView extends Component {
     }
 
     async componentWillMount() {
-        await this.getLocationAsync();
-        await facade.sendUserData({
-            altitude:this.state.location.coords.altitude,
-            latitude:this.state.location.coords.latitude,
-            longitude:this.state.location.coords.longitude,
-            price:this.state.flight.price,
-            airline:this.state.flight.airline,
-            departure:this.state.flight.departure,
-            destination:this.state.flight.destination,
-            model:this.state.flight.model
-        });
+        try{
+            await this.getLocationAsync();
+            await facade.sendUserData({
+                altitude:this.state.location.coords.altitude,
+                latitude:this.state.location.coords.latitude,
+                longitude:this.state.location.coords.longitude,
+                price:this.state.flight.price,
+                airline:this.state.flight.airline,
+                departure:this.state.flight.departure,
+                destination:this.state.flight.destination,
+                model:this.state.flight.model
+            });
+        }catch(err){
+            console.log(err);
+        }
     }
   
     getLocationAsync = async () => {
-      let { status } = await Permissions.askAsync(Permissions.LOCATION);
-      if (status !== 'granted') {
-        this.setState({
-          errorMessage: 'Permission to access location was denied',
-        });
-      }
-  
-      let location = await Location.getCurrentPositionAsync({});
-      this.setState({ location });
+        let { status } = await Permissions.askAsync(Permissions.LOCATION);
+        if (status !== 'granted') {
+            this.setState({
+            errorMessage: 'Permission to access location was denied',
+            });
+        } else {
+            let location = await Location.getCurrentPositionAsync({});
+            this.setState({ location });
+        }
     };
 
     static navigationOptions = { 
