@@ -13,8 +13,8 @@ export default class Login extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            email: '',
-            password: '',
+            email: 'user1@mail.dk',
+            password: 'test',
             msg: ''
         }
     }
@@ -22,7 +22,11 @@ export default class Login extends Component {
     didLogin = async () => {
         await facade.login(this.state.email, this.state.password)
         const success = await facade.loggedIn()
-        success ? this.props.didLogin(success) : alert("wrong password or username")
+        if (success) this.props.didLogin(success)
+        else {
+            this.setState({ password: '' })
+            alert("wrong password or username")
+        }
     }
 
     render() {
@@ -31,8 +35,19 @@ export default class Login extends Component {
                 <Text style={Styles.largeText}>
                     Log in
                 </Text>
-                <TextInput style={Styles.textInput} onChangeText={(email) => this.setState({ email })} placeholder='Email' />
-                <TextInput style={Styles.textInput} onChangeText={(password) => this.setState({ password })} secureTextEntry={true} placeholder='Password' />
+                <TextInput
+                    style={Styles.textInput}
+                    onChangeText={(email) => this.setState({ email })}
+                    placeholder='Email'
+                    value={this.state.email}
+                />
+                <TextInput
+                    style={Styles.textInput}
+                    onChangeText={(password) => this.setState({ password })}
+                    secureTextEntry={true}
+                    placeholder='Password'
+                    value={this.state.password}
+                />
                 <View style={{ margin: 7 }} />
                 <Touchable onPress={this.didLogin} title="Log in" />
             </ScrollView>

@@ -1,7 +1,7 @@
 import React from 'react'
 import Loader from './Loader'
 import Login from './Login'
-import { AppRegistry, Text, StyleSheet, ScrollView } from 'react-native'
+import { AppRegistry, Text, StyleSheet, ScrollView, View } from 'react-native'
 import facade from '../data/apiFacade'
 import Touchable from './Touchable';
 
@@ -34,11 +34,8 @@ export default class OrderTable extends React.Component {
     getData = async () => {
         try {
             const id = await facade.getId()
-            console.log("id", id)
             const URI = URL + id;
-            console.log("uri", URI)
             const data = await fetch(URI).then(res => res.json());
-            console.log("data", data)
             this.setState({ data: data, isLoading: false });
 
         } catch (err) {
@@ -59,35 +56,69 @@ export default class OrderTable extends React.Component {
     }
 
     render() {
-        if (!this.state.isLoggedIn) return (<Login didLogin={this.isLoggedIn} />)
-        else if (this.state.isLoggedIn && this.state.isLoading) {
-            return (
-                <Loader />
-            )
-        }
-        else {
-            return (
-                <ScrollView>
-                    {this.state.data.map((order) => {
-                        return <Order order={order} id={order.id} key={order.id} />
-                    })}
-                    <Touchable onPress={this.logOut} title="Log out" />
-                </ScrollView>
-            )
-        }
+        if (!this.state.isLoggedIn)
+            return (<Login didLogin={this.isLoggedIn} />)
+        else if (this.state.isLoggedIn && this.state.isLoading)
+            return (<Loader />)
+        else
+            return <OrderList orders={this.state.data} logOut={this.logOut} />
     }
 }
 
 
 
-function Order(props) {
+function OrderList(props) {
     return (
-        <>
-            <Text>{`airline: ${props.order.airline}, airplane: ${props.order.airplane}`}</Text>
-            <Text>{`from: ${props.order.departure}, to ${props.order.destination}`}</Text>
-            <Text>{`depature: ${props.order.depTime}, arrival ${props.order.arrTime}`}</Text>
-            <Text>{`attendees: ${props.order.attendees} stk, duration ${props.order.duration} (min)`}</Text>
-            <Text>{`price: ${props.order.price} kr., cancel insurance: ${props.order.cancelInsurance} kr.`}</Text>
-        </>
+        <ScrollView>
+            {props.orders.map((order) => {
+                return (
+                    <View key={order.id}>
+                        <Text key={order.id + 'a'}>airline: {order.airline}, airplane: {order.airplane}</Text>
+                        <Text key={order.id + 'b'}>from: {order.departure}, to {order.destination}</Text>
+                        <Text key={order.id + 'c'}>depature: {order.depTime}, arrival {order.arrTime}</Text>
+                        <Text key={order.id + 'd'}>attendees: {order.attendees} stk, duration {order.duration} (min)</Text>
+                        <Text key={order.id + 'e'}>price: {order.price} kr., cancel insurance: {order.cancelInsurance} kr.</Text>
+                    </View>
+                )
+            })}
+            <Touchable onPress={props.logOut} title="Log out" />
+        </ScrollView>
     )
 }
+
+
+
+
+
+
+
+//     render() {
+//         if (!this.state.isLoggedIn) return (<Login didLogin={this.isLoggedIn} />)
+//         else if (this.state.isLoggedIn && this.state.isLoading) return (<Loader />)
+
+//         else {
+//             return (
+//                 <ScrollView>
+//                     {this.state.data.map((order) => {
+//                         return <Order order={order} id={order.id} key={order.id} />
+//                     })}
+//                     <Touchable onPress={this.logOut} title="Log out" />
+//                 </ScrollView>
+//             )
+//         }
+//     }
+// }
+
+
+
+// function Order(props) {
+//     return (
+//         <>
+//             <Text>{`airline: ${props.order.airline}, airplane: ${props.order.airplane}`}</Text>
+//             <Text>{`from: ${props.order.departure}, to ${props.order.destination}`}</Text>
+//             <Text>{`depature: ${props.order.depTime}, arrival ${props.order.arrTime}`}</Text>
+//             <Text>{`attendees: ${props.order.attendees} stk, duration ${props.order.duration} (min)`}</Text>
+//             <Text>{`price: ${props.order.price} kr., cancel insurance: ${props.order.cancelInsurance} kr.`}</Text>
+//         </>
+//     )
+// }
