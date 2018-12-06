@@ -59,7 +59,7 @@ export default class FlatListBasics extends Component {
 
     async getData() {
         try {
-            console.log('in getData()');
+            // console.log('in getData()');
             const data = await fetch(URL)
             .then(res => {
                 return res.json()
@@ -80,7 +80,8 @@ export default class FlatListBasics extends Component {
         } catch (err) {
             console.log(err)
             this.setState({isError: true, isLoading: false});
-        } 
+        }
+        this.filter();
     }
 
     refresh() {
