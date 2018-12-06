@@ -34,9 +34,6 @@ public class DataFacade {
 
     private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
 
-    ;
-
-
     public DataFacade() {
     }
 

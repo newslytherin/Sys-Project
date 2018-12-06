@@ -34,8 +34,6 @@ export default class Signup extends React.Component {
       : this.setState({ invalidEmail: "email is already used" });
   };
 
-  validatePassword = () => {};
-
   validPassword = async () => {
     this.setState({ invalidPassword: "", invalidEmail: "" });
     const user = this.state.user;
