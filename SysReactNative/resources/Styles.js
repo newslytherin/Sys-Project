@@ -54,6 +54,19 @@ export const Styles = StyleSheet.create({
     
     /***********/
     
+    flightPriceContainer: {
+        backgroundColor: COLORS.WHITE,
+        borderTopColor: COLORS.MAIN, 
+        borderTopWidth: 2 
+    },
+
+    flightPrice: {
+        color: COLORS.MAIN, 
+        fontSize: 32, 
+        textAlign: 'center', 
+        padding: 5,
+        margin: 25
+    },
     
     textFilter: {
         color: COLORS.MAIN, 
@@ -81,6 +94,41 @@ export const Styles = StyleSheet.create({
         fontSize: 18, 
         padding: 5
     },
+
+    flightCardContainer: {
+        padding: 10, 
+        margin: 15, 
+        borderBottomColor: COLORS.GREY, 
+        borderBottomWidth: 1 
+    },
+
+    flightCardTitle: {
+        color: COLORS.BLACK, 
+        fontSize: 14, 
+        textAlign: 'center', 
+        padding: 5
+    },
+
+    flightCardLabel: {
+        color: COLORS.GREY, 
+        fontSize: 14
+    },
+
+    flightCardContent: {
+        color: COLORS.BLACK, 
+        fontSize: 16, 
+        fontWeight: 'bold', 
+        padding: 5,
+        marginBottom: 10
+    },
+
+    flightCardPrice: {
+        fontSize: 18, 
+        textAlign: 'center', 
+        color: COLORS.MAIN, 
+        fontWeight: 'bold', 
+        margin: 15
+    },
     
     error: {
         textAlign: "center",
@@ -88,9 +136,10 @@ export const Styles = StyleSheet.create({
         fontSize: 24,
         color: COLORS.ERR,
     },
+    
     textInput: {
         textAlign: 'center',
-        color: '#00ca00',
+        color: COLORS.MAIN,
         fontSize: 18,
         padding: 5
     }

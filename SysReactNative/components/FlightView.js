@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, ScrollView, View } from 'react-native';
 import { Location, Permissions } from 'expo';
 import facade from '../data/apiFacade';
+import { Styles, COLORS } from '../resources/Styles'
 
 export default class FlightView extends Component {
     constructor(props) {
@@ -13,6 +14,12 @@ export default class FlightView extends Component {
             arrTime: '', 
             duration: ''
         }
+    }
+    
+    static navigationOptions = { 
+        title: 'flight info',
+        headerTitleStyle: { color: COLORS.WHITE },
+        headerStyle: { backgroundColor: COLORS.MAIN },
     }
 
     componentDidMount() {
@@ -45,17 +52,17 @@ export default class FlightView extends Component {
       this.setState({ location });
     };
 
-    static navigationOptions = { 
-        title: 'flight info',
-        headerTitleStyle: { color: '#000' },
-        headerStyle: { backgroundColor: '#fff' },
-    }
 
     formatDate = (date) => {
         const d = new Date( date )
         const days = ['Monday', 'tuesday', 'Wednesday', 'Thurday', 'Friday', 'Saturday', 'Sunday']
         const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-        return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()} - ${d.getHours()}:${d.getMinutes()}`
+        const minutes = (d.getMinutes() < 10) ? `0${d.getMinutes()}` : d.getMinutes()
+        const hours = (d.getHours() < 10) ? `0${d.getHours()}` : d.getHours()
+
+        console.log(d.getMinutes() + '::' + minutes)
+
+        return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()} - ${hours}:${minutes}`
     }
 
     formatDuration = (duration) => {
@@ -73,25 +80,40 @@ export default class FlightView extends Component {
     }
 
     ValueLabel = (props) => (
-        <View style={{margin: 10, padding: 5, borderBottomColor: 'grey', borderBottomWidth: 1}}> 
-            <Text style={{fontWeight: 'bold'}}>{props.label}</Text>
-            <Text style={{fontSize: 18}}>{props.value}</Text>
+        <View style={{ margin: 10, padding: 5 }}> 
+            <Text style={ Styles.flightCardLabel }>{props.label}</Text>
+            <Text style={ Styles.flightCardContent }>{props.value}</Text>
+        </View>
+    )
+
+    PriceLabel = (props) => (
+        <View style={ Styles.flightPriceContainer }> 
+            <Text style={ Styles.flightPrice }>{props.value}</Text>
         </View>
     )
 
     render = () => (
-            <ScrollView>
+        <>
+            <ScrollView style={{ backgroundColor: '#fff' }}>
                 <this.ValueLabel label='airline' value={this.state.flight.airline} />
                 <this.ValueLabel label='departure' value={this.state.flight.departure} />
                 <this.ValueLabel label='destination' value={this.state.flight.destination} />
                 <this.ValueLabel label='departure time' value={this.state.depTime} />
                 <this.ValueLabel label='arrival time' value={this.state.arrTime} />
-                <this.ValueLabel label='duration' value={this.state.duration} />
-                <this.ValueLabel label='price' value={`${this.state.flight.price}.00 kr.`} />
+
+            <View style={{flex: 1, flexDirection: 'row'}}>
+                <this.ValueLabel label='duration' value={`${this.state.duration}`} />
                 <this.ValueLabel label='cancel insurance' value={`${this.state.flight.cancelInsurance}.00 kr.`} />
+            </View>
+            
+            <View style={{flex: 1, flexDirection: 'row'}}>
                 <this.ValueLabel label='airplane' value={`${this.state.flight.airplane}`} />
                 <this.ValueLabel label='model' value={`${this.state.flight.model}`} />
                 <this.ValueLabel label='capacity' value={`${this.state.flight.capacity}`} />
+            </View>
+
             </ScrollView>
+                <this.PriceLabel label='price' value={`${this.state.flight.price}.00 kr.`} />
+        </>
     )
 }
