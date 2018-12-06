@@ -18,6 +18,10 @@ export default class FlatListBasics extends Component {
 
     constructor(props) {
         super(props);
+        let res = '';
+        if (this.props.navigation.state.params.des) {
+            res = this.props.navigation.state.params.des
+        }
         this.state = {
             data: [], 
             filteredData: [],
@@ -27,7 +31,7 @@ export default class FlatListBasics extends Component {
             filters: {
                 toogleView: true,
                 departure: '',
-                destination: '',
+                destination: res,
                 minPrice: 0,
                 maxPrice: 20000,
             }
