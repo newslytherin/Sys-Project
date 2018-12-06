@@ -3,6 +3,7 @@ import { FlatList, Text, View, TouchableOpacity, TextInput, Slider } from 'react
 import { Styles } from '../resources/Styles';
 import Touchable from './Touchable';
 import Loader from './Loader';
+import Filters from './Filters'
 
 const URL = 'https://stephandjurhuus.com/travel/api/flights/all';
 
@@ -184,50 +185,8 @@ function ListItem(props) {
             <Text style={{color: '#000', fontWeight: 'bold', fontSize: 16, padding: 10}}>{`${props.item.departure}`}</Text>
             <Text style={{color: '#808080', fontSize: 14}}>{`destination`}</Text>
             <Text style={{color: '#000', fontWeight: 'bold', fontSize: 16, padding: 10}}>{`${props.item.destination}`}</Text>
-            <Text style={{color: '#000', fontSize: 18, color: '#00ca00', fontWeight: 'bold', textAlign: 'center', margin: 15}}>{`price: ${props.item.price}.00 kr`}</Text>
+            <Text style={{color: '#000', fontSize: 18, color: '#00ca00', fontWeight: 'bold', textAlign: 'center', margin: 15}}>{`${props.item.price}.00 kr`}</Text>
         </View>
     )
 }
 
-function Filters(props) {
-    return (props.hide == true)
-        ? <Touchable title='filters' onPress={props.onPress}/>
-        : (<>
-            <TextFilterField def='departure' value={props.departure} filter='departure' setFilters={props.setFilters}/>
-            <TextFilterField def='destination' value={props.destination} filter='destination' setFilters={props.setFilters}/>
-            <SliderFilterField def='minimum price' value={props.minPrice} filter='minPrice' setFilters={props.setFilters}/>
-            <SliderFilterField def='maximum price' value={props.maxPrice} filter='maxPrice' setFilters={props.setFilters}/>
-            <Touchable title='hide' onPress={props.onPress}/>
-            <Text style={{textAlign: 'center', color: '#00ca00', fontSize: 18, padding: 5}} onPress={props.resetFilters()}>reset</Text>
-        </>)
-}
-
-function TextFilterField(props) {
-    return (
-    <>
-        <Text style={{ color: '#808080', margin: 15, fontWeight: 'bold' }}>{props.def}</Text>
-        <TextInput
-            style={{color: '#00ca00', fontSize: 24, height: 40, borderColor: 'transparent', marginLeft: 15, marginRight: 15}}
-            onChangeText={(value) => props.setFilters(props.filter, value)}
-            value={props.value}
-            placeholder='search'
-        />
-    </>
-    )
-}
-
-function SliderFilterField(props) {
-    return (
-        <>
-            <Text style={{ color: '#808080', margin: 15, fontWeight: 'bold' }}>{`${props.def} - ${props.value}.00 kr.`}</Text>
-            <Slider
-                style={{ marginLeft: 15, marginRight: 15}}
-                onValueChange={(value) => props.setFilters(props.filter, value)}
-                value={props.value}
-                minimumValue={0}
-                maximumValue={20000}
-                step={100}
-            />
-        </>
-    )
-}
