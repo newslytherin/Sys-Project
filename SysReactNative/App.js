@@ -2,7 +2,6 @@ import React from 'react';
 import { Text, View, Platform, ScrollView } from 'react-native';
 import { Constants } from "expo";
 import { createStackNavigator } from 'react-navigation';
-import { StarWarsText } from './resources/StarWarsText';
 import { Styles, COLORS } from './resources/Styles';
 import Touchable from './components/Touchable';
 import ListView from './components/ListView';
