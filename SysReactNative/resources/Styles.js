@@ -10,31 +10,30 @@ export const COLORS = {
 
 export const Styles = StyleSheet.create({
     largeText: {
-        color: '#808080',
+        color: COLORS.GREY,
         textAlign: "center",
         fontSize: 34,
         margin: 30,
     },
     smallText: {
-        color: '#000',
+        color: COLORS.BLACK,
         fontSize: 16,
         textAlign: "center"
     },
     dashboardContainer: {
         flex: 1,
-        backgroundColor: '#fff'
+        backgroundColor: COLORS.WHITE
     },
     container: {
         flex: 1,
         justifyContent: 'center',
-        backgroundColor: '#fff'
+        backgroundColor: COLORS.WHITE
     },
     button: {
-        color: '#000',
         margin: 20,
         alignItems: 'center',
-        backgroundColor: '#fff',
-        borderColor: '#00ca00',
+        backgroundColor: COLORS.WHITE,
+        borderColor: COLORS.MAIN,
         borderWidth: 1,
 
         borderRadius: 100,
@@ -43,16 +42,8 @@ export const Styles = StyleSheet.create({
         padding: 7,
         fontSize: 18,
         fontWeight: "bold",
-        color: '#00ca00'
+        color: COLORS.MAIN
     },
-    listItem: {
-        padding: 10,
-        fontSize: 18,
-        height: 44,
-        color: 'rgb(249, 232, 62)',
-    },
-    
-    /***********/
     
     flightPriceContainer: {
         backgroundColor: COLORS.WHITE,

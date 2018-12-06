@@ -3,8 +3,7 @@ import { Text, View, Platform, ScrollView } from 'react-native';
 import { Constants } from "expo";
 import { createStackNavigator } from 'react-navigation';
 import { StarWarsText } from './resources/StarWarsText';
-import { navOptions } from './resources/NavigationOptions';
-import { Styles } from './resources/Styles';
+import { Styles, COLORS } from './resources/Styles';
 import Touchable from './components/Touchable';
 import ListView from './components/ListView';
 import LocCal from './components/LocationCollecter';
@@ -14,7 +13,11 @@ import FlightView from './components/FlightView';
 import facade from './data/apiFacade'
 
 class Dashboard extends React.Component {
-    static navigationOptions = navOptions;
+    static navigationOptions = { 
+        title: 'dashboard',
+        headerTitleStyle: { color: COLORS.WHITE },
+        headerStyle: { backgroundColor: COLORS.MAIN, },
+      };
 
     render() {
         const { navigate } = this.props.navigation;
