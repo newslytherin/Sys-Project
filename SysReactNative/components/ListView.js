@@ -142,6 +142,15 @@ export default class FlatListBasics extends Component {
         this.setState({filters})
     }
 
+    formatDate = (date) => {
+        const d = new Date( date )
+        const days = ['Monday', 'tuesday', 'Wednesday', 'Thurday', 'Friday', 'Saturday', 'Sunday']
+        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+        const minutes = (d.getMinutes() < 10) ? `0${d.getMinutes()}` : d.getMinutes()
+        const hours = (d.getHours() < 10) ? `0${d.getHours()}` : d.getHours()
+        return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()} - ${hours}:${minutes}`
+    }
+
   render() {
     const { navigate } = this.props.navigation;
     if (this.state.isLoading) return (<Loader />)
@@ -167,7 +176,7 @@ export default class FlatListBasics extends Component {
             data={this.state.filteredData}
             renderItem={({item}) => (
                 <TouchableOpacity onPress={() => navigate('flightView', {flight: item.val})}>
-                    <ListItem item={item.val}/>
+                    <ListItem item={item.val} departure={this.formatDate(item.val.depTime)}/>
                 </TouchableOpacity>
             )}
         />
@@ -181,7 +190,7 @@ function ListItem(props) {
     return (
         <View style={ Styles.flightCardContainer }>
             <Text style={ Styles.flightCardTitle }>{props.item.airline}</Text>
-            <Text style={ Styles.flightCardTitle }>{props.item.depTime}</Text>
+            <Text style={ Styles.flightCardSubTitle }>{props.departure}</Text>
             <Text style={ Styles.flightCardLabel }>{`departure`}</Text>
             <Text style={ Styles.flightCardContent }>{`${props.item.departure}`}</Text>
             <Text style={ Styles.flightCardLabel }>{`destination`}</Text>

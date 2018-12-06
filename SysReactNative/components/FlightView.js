@@ -99,7 +99,6 @@ export default class FlightView extends Component {
     render = () => (
         <>
             <ScrollView style={{ backgroundColor: '#fff' }}>
-                <this.ValueLabel label='airline' value={this.state.flight.airline} />
                 <this.ValueLabel label='departure' value={this.state.flight.departure} />
                 <this.ValueLabel label='destination' value={this.state.flight.destination} />
                 <this.ValueLabel label='departure time' value={this.state.depTime} />
@@ -111,9 +110,9 @@ export default class FlightView extends Component {
             </View>
             
             <View style={{flex: 1, flexDirection: 'row'}}>
+                <this.ValueLabel label='airline' value={this.state.flight.airline} />
                 <this.ValueLabel label='airplane' value={`${this.state.flight.airplane}`} />
                 <this.ValueLabel label='model' value={`${this.state.flight.model}`} />
-                <this.ValueLabel label='capacity' value={`${this.state.flight.capacity}`} />
             </View>
 
             </ScrollView>

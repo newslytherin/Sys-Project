@@ -103,10 +103,19 @@ export const Styles = StyleSheet.create({
     },
 
     flightCardTitle: {
+        color: COLORS.GREY, 
+        fontSize: 16, 
+        textAlign: 'center', 
+        padding: 5,
+    },
+
+    flightCardSubTitle: {
         color: COLORS.BLACK, 
         fontSize: 14, 
         textAlign: 'center', 
-        padding: 5
+        padding: 5,
+        fontWeight: 'bold',
+        paddingBottom: 10
     },
 
     flightCardLabel: {
