@@ -4,7 +4,7 @@ import { Constants } from "expo";
 import { createStackNavigator } from 'react-navigation';
 import { StarWarsText } from './resources/StarWarsText';
 import { navOptions } from './resources/NavigationOptions';
-import { Style } from './resources/Styles';
+import { Styles } from './resources/Styles';
 import Touchable from './components/Touchable';
 import ListView from './components/ListView';
 import LocCal from './components/LocationCollecter';
@@ -19,10 +19,10 @@ class Dashboard extends React.Component {
     render() {
         const { navigate } = this.props.navigation;
         return (
-            <View style={Style.dashboardContainer}>
-                <Text style={Style.largeText}>Hello from Slytherin</Text>
-                <ScrollView style={Style.dashboardContainer}>
-                    <Text style={Style.smallText}>Filler text</Text>
+            <View style={Styles.dashboardContainer}>
+                <Text style={Styles.largeText}>Hello from Slytherin</Text>
+                <ScrollView style={Styles.dashboardContainer}>
+                    <Text style={Styles.smallText}>Filler text</Text>
                     <Touchable onPress={() => navigate('listView')} title="Show flights" />
                     <Touchable onPress={() => navigate('location')} title="Show location" />
                     <Touchable onPress={() => navigate('orderTable')} title="User page" />

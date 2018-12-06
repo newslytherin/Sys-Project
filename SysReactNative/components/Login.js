@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Touchable from '../components/Touchable'
-import { Style } from '../resources/Styles'
+import { Styles } from '../resources/Styles'
 import {
     ScrollView,
     Text,
@@ -27,12 +27,12 @@ export default class Login extends Component {
 
     render() {
         return (
-            <ScrollView style={Style.dashboardContainer}>
-                <Text style={Style.largeText}>
+            <ScrollView style={Styles.dashboardContainer}>
+                <Text style={Styles.largeText}>
                     Log in
                 </Text>
-                <TextInput style={Style.textInput} onChangeText={(email) => this.setState({ email })} placeholder='Email' />
-                <TextInput style={Style.textInput} onChangeText={(password) => this.setState({ password })} secureTextEntry={true} placeholder='Password' />
+                <TextInput style={Styles.textInput} onChangeText={(email) => this.setState({ email })} placeholder='Email' />
+                <TextInput style={Styles.textInput} onChangeText={(password) => this.setState({ password })} secureTextEntry={true} placeholder='Password' />
                 <View style={{ margin: 7 }} />
                 <Touchable onPress={this.didLogin} title="Log in" />
             </ScrollView>

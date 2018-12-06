@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-export const Style = StyleSheet.create({
+export const Styles = StyleSheet.create({
     largeText: {
         color: '#808080',
         textAlign: "center",
