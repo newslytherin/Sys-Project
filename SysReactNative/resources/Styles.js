@@ -1,6 +1,13 @@
 import { StyleSheet } from 'react-native';
 
 
+export const COLORS = {
+    MAIN: '#00ca00',
+    WHITE: '#ffffff',
+    BLACK: '#000000',
+    GREY: '#808080',
+    ERR: '#ff0000'
+}
 
 export const Styles = StyleSheet.create({
     largeText: {
@@ -45,10 +52,41 @@ export const Styles = StyleSheet.create({
         height: 44,
         color: 'rgb(249, 232, 62)',
     },
+    
+    /***********/
+    
+    
+    textFilter: {
+        color: COLORS.MAIN, 
+        fontSize: 24, 
+        height: 40, 
+        borderColor: 'transparent', 
+        marginLeft: 25, 
+        marginRight: 25
+    },
+    
+    sliderFilter: {
+        marginLeft: 25, 
+        marginRight: 25
+    },
+    
+    filterLabel: {
+        color: COLORS.GREY, 
+        fontWeight: 'bold',
+        margin: 15
+    },
+    
+    resetFilters: {
+        textAlign: 'center', 
+        color: COLORS.MAIN, 
+        fontSize: 18, 
+        padding: 5
+    },
+    
     error: {
         textAlign: "center", 
         margin: 30,
         fontSize: 24,
-        color: 'rgb(255, 0, 0)',
+        color: COLORS.ERR,
     },
 })
