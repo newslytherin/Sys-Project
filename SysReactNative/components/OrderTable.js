@@ -1,7 +1,7 @@
 import React from 'react'
 import Loader from './Loader'
 import Login from './Login'
-import { AppRegistry, Text, StyleSheet, ScrollView, View } from 'react-native'
+import { Text, ScrollView, View, FlatList, TouchableOpacity } from 'react-native'
 import facade from '../data/apiFacade'
 import Touchable from './Touchable';
 
@@ -60,11 +60,38 @@ export default class OrderTable extends React.Component {
             return (<Login didLogin={this.isLoggedIn} />)
         else if (this.state.isLoggedIn && this.state.isLoading)
             return (<Loader />)
-        else
-            return <OrderList orders={this.state.data} logOut={this.logOut} />
+        else {
+            return (
+                <>
+                    {/* <FlatList
+                        data={this.state.data}
+                        renderItem={({ item }) => (
+                            <TouchableOpacity onPress={() => navigate('flightView', { flight: item.val })}>
+                                <ListItem item={item.val} departure={this.formatDate(item.val.depTime)} />
+                            </TouchableOpacity>
+                        )}
+                    /> */}
+                    {/* <Touchable onPress={props.logOut} title="Log out" /> */}
+                    <OrderList orders={this.state.data} logOut={this.logOut} />
+                </>
+            )
+        }
     }
 }
 
+function ListItem(props) {
+    return (
+        <View style={Styles.flightCardContainer}>
+            <Text style={Styles.flightCardTitle}>{props.item.airline}</Text>
+            <Text style={Styles.flightCardSubTitle}>{props.departure}</Text>
+            <Text style={Styles.flightCardLabel}>{`departure`}</Text>
+            <Text style={Styles.flightCardContent}>{`${props.item.departure}`}</Text>
+            <Text style={Styles.flightCardLabel}>{`destination`}</Text>
+            <Text style={Styles.flightCardContent}>{`${props.item.destination}`}</Text>
+            <Text style={Styles.flightCardPrice}>{`${props.item.price}.00 kr`}</Text>
+        </View>
+    )
+}
 
 
 function OrderList(props) {
