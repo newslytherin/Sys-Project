@@ -12,6 +12,7 @@ import facade from "./data/apiFacade";
 import Signup from "./components/AddUser";
 import Home from "./components/Home";
 import logo from "./img/logo.png";
+import editFlightTable from './components/EditFlightTable'
 
 function Header(props) {
   //console.log(props);
@@ -35,9 +36,14 @@ function Header(props) {
           </NavLink>
 
           {facade.getRole() && facade.getRole().includes("admin") && (
+            <>
             <NavLink to="/add" className="navlink">
               add flight
             </NavLink>
+            <NavLink to="/editTable" className="navlink">
+              edit flights
+            </NavLink>
+            </>
           )}
 
           {!facade.loggedIn() && (
@@ -227,6 +233,7 @@ export default class App extends Component {
               <Admin username={this.state.username} roles={facade.getRole()} />
             )}
           />
+          <Route path="/editTable/" component={editFlightTable} />
           <Route path="/swapi" component={SWAPI} />
           <Route path="/large-data-set" component={LargeDataSet} />
           <Route path="/edit" component={EditTrip} />

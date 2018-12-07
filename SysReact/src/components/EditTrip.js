@@ -132,6 +132,7 @@ export default class EditTrip extends React.Component {
       return <Loader />;
     if (this.state.err) return <Error refresh={this.refresh} />;
     return (
+      <>
       <form onSubmit={this.send} className="main">
         <TextField
           title="airline"
@@ -210,6 +211,8 @@ export default class EditTrip extends React.Component {
 
         <button>send</button>
       </form>
+      <button onClick={() => this.props.toggleEdit}>return</button>
+      </>
     );
   }
 }
