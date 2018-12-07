@@ -16,7 +16,7 @@ export default class Welcome extends Component {
       userinfo: { roles: props.roles },
       signUp: false,
       validation: "",
-      redirect: "hejsa----"
+      redirect: ""
     };
   }
   logout = () => {
@@ -66,6 +66,7 @@ class LogIn extends Component {
   render() {
     return (
       <div>
+        {this.props.redirect}
         <h2>Login</h2>
         <hr />
         <p style={{ color: "#ff0000" }}>{this.props.validation}</p>

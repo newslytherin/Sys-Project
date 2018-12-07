@@ -22,6 +22,7 @@ export function SliderFilterField(props) {
             <Text style={ Styles.filterLabel }>{`${props.def} - ${props.value}.00 kr.`}</Text>
             <Slider
                 style={ Styles.sliderFilter }
+                // onSlidingComplete={(value) => props.setFilters(props.filter, value)}
                 onValueChange={(value) => props.setFilters(props.filter, value)}
                 value={props.value}
                 minimumValue={0}

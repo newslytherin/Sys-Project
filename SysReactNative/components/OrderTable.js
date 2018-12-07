@@ -3,7 +3,9 @@ import Loader from './Loader'
 import Login from './Login'
 import { Text, ScrollView, View, FlatList, TouchableOpacity } from 'react-native'
 import facade from '../data/apiFacade'
-import Touchable from './Touchable';
+import Touchable from './Touchable'
+import { Styles, COLORS } from '../resources/Styles'
+
 
 const URL = "https://stephandjurhuus.com/travel/api/order/id/"
 
@@ -27,8 +29,8 @@ export default class OrderTable extends React.Component {
 
     static navigationOptions = {
         title: 'User page',
-        headerTitleStyle: { color: '#000' },
-        headerStyle: { backgroundColor: '#fff' },
+        headerTitleStyle: {  color: COLORS.WHITE },
+        headerStyle: { backgroundColor: COLORS.MAIN },
     };
 
     getData = async () => {
@@ -36,7 +38,13 @@ export default class OrderTable extends React.Component {
             const id = await facade.getId()
             const URI = URL + id;
             const data = await fetch(URI).then(res => res.json());
-            this.setState({ data: data, isLoading: false });
+            const list = await data.map((object, index) => {
+                return {
+                    key: `${index}`,
+                    val: object
+                }
+            })
+            this.setState({ data: list, isLoading: false });
 
         } catch (err) {
             console.log('err:: ' + err)
@@ -55,25 +63,35 @@ export default class OrderTable extends React.Component {
         else this.setState({ data: [] })
     }
 
+    formatDate = (date) => {
+        const d = new Date(date)
+        const days = ['Monday', 'Tuesday', 'Wednesday', 'Thurday', 'Friday', 'Saturday', 'Sunday']
+        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+        const minutes = (d.getMinutes() < 10) ? `0${d.getMinutes()}` : d.getMinutes()
+        const hours = (d.getHours() < 10) ? `0${d.getHours()}` : d.getHours()
+        return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()} - ${hours}:${minutes}`
+    }
+
     render() {
+        const { navigate } = this.props.navigation;
         if (!this.state.isLoggedIn)
             return (<Login didLogin={this.isLoggedIn} />)
         else if (this.state.isLoggedIn && this.state.isLoading)
             return (<Loader />)
         else {
             return (
-                <>
-                    {/* <FlatList
+                <View style={Styles.container}>
+                    <FlatList
                         data={this.state.data}
                         renderItem={({ item }) => (
                             <TouchableOpacity onPress={() => navigate('flightView', { flight: item.val })}>
                                 <ListItem item={item.val} departure={this.formatDate(item.val.depTime)} />
                             </TouchableOpacity>
                         )}
-                    /> */}
-                    {/* <Touchable onPress={props.logOut} title="Log out" /> */}
-                    <OrderList orders={this.state.data} logOut={this.logOut} />
-                </>
+                    />
+                    <Touchable onPress={this.logOut} title="Log out" />
+                    {/* <OrderList orders={this.state.data} logOut={props.logOut} /> */}
+                </View>
             )
         }
     }

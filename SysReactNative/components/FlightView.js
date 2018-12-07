@@ -10,13 +10,13 @@ export default class FlightView extends Component {
         this.state = {
             flight: props.navigation.state.params.flight,
             location: null,
-            depTime: '', 
-            arrTime: '', 
+            depTime: '',
+            arrTime: '',
             duration: ''
         }
     }
-    
-    static navigationOptions = { 
+
+    static navigationOptions = {
         title: 'flight info',
         headerTitleStyle: { color: COLORS.WHITE },
         headerStyle: { backgroundColor: COLORS.MAIN },
@@ -27,28 +27,28 @@ export default class FlightView extends Component {
     }
 
     async componentWillMount() {
-        try{
+        try {
             await this.getLocationAsync();
             await facade.sendUserData({
-                altitude:this.state.location.coords.altitude,
-                latitude:this.state.location.coords.latitude,
-                longitude:this.state.location.coords.longitude,
-                price:this.state.flight.price,
-                airline:this.state.flight.airline,
-                departure:this.state.flight.departure,
-                destination:this.state.flight.destination,
-                model:this.state.flight.model
+                altitude: this.state.location.coords.altitude,
+                latitude: this.state.location.coords.latitude,
+                longitude: this.state.location.coords.longitude,
+                price: this.state.flight.price,
+                airline: this.state.flight.airline,
+                departure: this.state.flight.departure,
+                destination: this.state.flight.destination,
+                model: this.state.flight.model
             });
-        }catch(err){
+        } catch (err) {
             console.log(err);
         }
     }
-  
+
     getLocationAsync = async () => {
         let { status } = await Permissions.askAsync(Permissions.LOCATION);
         if (status !== 'granted') {
             this.setState({
-            errorMessage: 'Permission to access location was denied',
+                errorMessage: 'Permission to access location was denied',
             });
         } else {
             let location = await Location.getCurrentPositionAsync({});
@@ -58,7 +58,7 @@ export default class FlightView extends Component {
 
 
     formatDate = (date) => {
-        const d = new Date( date )
+        const d = new Date(date)
         const days = ['Monday', 'tuesday', 'Wednesday', 'Thurday', 'Friday', 'Saturday', 'Sunday']
         const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
         const minutes = (d.getMinutes() < 10) ? `0${d.getMinutes()}` : d.getMinutes()
@@ -84,15 +84,15 @@ export default class FlightView extends Component {
     }
 
     ValueLabel = (props) => (
-        <View style={{ margin: 10, padding: 5 }}> 
-            <Text style={ Styles.flightCardLabel }>{props.label}</Text>
-            <Text style={ Styles.flightCardContent }>{props.value}</Text>
+        <View style={{ margin: 10, padding: 5 }}>
+            <Text style={Styles.flightCardLabel}>{props.label}</Text>
+            <Text style={Styles.flightCardContent}>{props.value}</Text>
         </View>
     )
 
     PriceLabel = (props) => (
-        <View style={ Styles.flightPriceContainer }> 
-            <Text style={ Styles.flightPrice }>{props.value}</Text>
+        <View style={Styles.flightPriceContainer}>
+            <Text style={Styles.flightPrice}>{props.value}</Text>
         </View>
     )
 
@@ -104,19 +104,20 @@ export default class FlightView extends Component {
                 <this.ValueLabel label='departure time' value={this.state.depTime} />
                 <this.ValueLabel label='arrival time' value={this.state.arrTime} />
 
-            <View style={{flex: 1, flexDirection: 'row'}}>
-                <this.ValueLabel label='duration' value={`${this.state.duration}`} />
-                <this.ValueLabel label='cancel insurance' value={`${this.state.flight.cancelInsurance}.00 kr.`} />
-            </View>
-            
-            <View style={{flex: 1, flexDirection: 'row'}}>
-                <this.ValueLabel label='airline' value={this.state.flight.airline} />
-                <this.ValueLabel label='airplane' value={`${this.state.flight.airplane}`} />
-                <this.ValueLabel label='model' value={`${this.state.flight.model}`} />
-            </View>
+                <View style={{ flex: 1, flexDirection: 'row' }}>
+                    <this.ValueLabel label='duration' value={`${this.state.duration}`} />
+                    <this.ValueLabel label='cancel insurance' value={`${this.state.flight.cancelInsurance}.00 kr.`} />
+                </View>
+
+                <View style={{ flex: 1, flexDirection: 'row' }}>
+                    <this.ValueLabel label='airline' value={this.state.flight.airline} />
+                    <this.ValueLabel label='airplane' value={`${this.state.flight.airplane}`} />
+                    {this.state.flight.model && <this.ValueLabel label='model' value={`${this.state.flight.model}`} />}
+                    {this.state.flight.attendees && <this.ValueLabel label='attendees' value={`${this.state.flight.attendees}`} />}
+                </View>
 
             </ScrollView>
-                <this.PriceLabel label='price' value={`${this.state.flight.price}.00 kr.`} />
+            <this.PriceLabel label='price' value={`${this.state.flight.price}.00 kr.`} />
         </>
     )
 }
