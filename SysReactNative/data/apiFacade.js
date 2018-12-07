@@ -131,11 +131,14 @@ class ApiFacade extends React.Component {
     }
 
     sendUserData = async (userdata) => {
-        try {
-            fetch(this.getUserDataUrl(), this.makeOptions('POST', false, userdata)).then(handleHttpErrors)
-        } catch (err) {
-            console.log(err)
-        }
+        
+            fetch(this.getUserDataUrl(), this.makeOptions('POST', false, userdata))
+            .catch(function (error) {
+                console.log("userdata", userdata)
+                console.log(error)
+                alert("error " + error)
+            });
+        
     }
 
     getUserOrders = async () => {
@@ -155,6 +158,7 @@ class ApiFacade extends React.Component {
         if (body) {
             opts.body = JSON.stringify(body);
         }
+        console.log("body", opts)
         return opts;
     }
 }
