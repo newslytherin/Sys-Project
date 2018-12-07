@@ -16,7 +16,7 @@ export default class Welcome extends Component {
       userinfo: { roles: props.roles },
       signUp: false,
       validation: "",
-      redirect: "hejsa----"
+      redirect: ""
     };
   }
   logout = () => {
