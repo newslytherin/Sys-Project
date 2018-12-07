@@ -125,7 +125,8 @@ function randomTime() {
 
     const year1 = 2019
     const month1 = (randomRange(1, 12)).pad()
-    const day1 = randomRange(1, 30)
+    const monthoffset = (month1 == 2) ? 23 : 29
+    const day1 = randomRange(1, monthoffset)
     const hour1 = randomRange(0, 23)
     const minute1 = randomRange(0, 59)
 
