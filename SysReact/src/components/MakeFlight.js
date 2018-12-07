@@ -210,7 +210,8 @@ export default function MakeFlight() {
     if (flight.depTime && flight.arrTime) {
       const d1 = new Date(flight.depTime);
       const d2 = new Date(flight.arrTime);
-      flight.duration = d2.getMinutes() - d1.getMinutes();
+
+      flight.duration = (d2.getTime() - d1.getTime()) / 1000 / 60;
     }
 
     //update flight state

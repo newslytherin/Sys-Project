@@ -245,7 +245,7 @@ export default function FilghtsTable() {
 
   const [data, setData] = useState(bigData);
   const [page, setPage] = useState(1);
-  const [pageAmount, setPageAmount] = useState(9);
+  const [pageAmount, setPageAmount] = useState(5);
   const [filter, setFilter] = useState({});
   const [sortBy, setSortBy] = useState({ name: "", asc: true });
 
@@ -359,7 +359,7 @@ export default function FilghtsTable() {
           />
           <i className="fas fa-calendar-plus" />
         </div>
-        <div className="filter">
+        {/* <div className="filter">
           <label>Price from</label>
           <input
             type="number"
@@ -369,7 +369,7 @@ export default function FilghtsTable() {
             placeholder="Starting Price"
           />
           <i className="fas fa-dollar-sign" />
-        </div>
+        </div> */}
         <div className="filter">
           <label>Price to</label>
           <input
@@ -380,6 +380,19 @@ export default function FilghtsTable() {
             placeholder="Max Price"
           />
           <i className="fas fa-dollar-sign" />
+        </div>
+        <div className="filter">
+          <label>Sort</label>
+          <select
+            name="sort"
+            id=""
+            onChange={e => updateSortBy(e.target.value, true)}
+          >
+            <option value="price">price</option>
+            <option value="destination">destination</option>
+            <option value="depTime">date</option>
+          </select>
+          <i className="fas fa-sort" />
         </div>
         <div className="filter right">
           <label>Trips shown</label>

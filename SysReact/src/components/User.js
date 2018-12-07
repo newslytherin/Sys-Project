@@ -13,7 +13,8 @@ export default class User extends Component {
       },
       orders: [],
       loadingOrders: true,
-      updateTable: false
+      updateTable: false,
+      editt: false
     };
     this.getOrders();
   }
@@ -63,6 +64,50 @@ export default class User extends Component {
               <p className="info">{facade.getRole()}</p>
             </div>
           </div>
+          {this.state.edit && (
+            <form onSubmit={this.send}>
+              <hr />
+              <div className="grid">
+                <div class="input-container w30">
+                  <label style={{ display: "block" }}>Username</label>
+                  <input
+                    id="name"
+                    type="text"
+                    value={this.state.user.name}
+                    onChange={this.inputChanged}
+                  />
+                </div>
+                <div class="input-container w30">
+                  <label>Email</label>
+                  <input
+                    id="email"
+                    type="text"
+                    value={this.state.user.email}
+                    onChange={this.inputChanged}
+                  />
+                </div>
+                <div class="input-container w30">
+                  <label>Gender</label>
+                  <input
+                    id="gender"
+                    type="text"
+                    value={this.state.user.gender}
+                    onChange={this.inputChanged}
+                  />
+                </div>
+              </div>
+              <button>Save changes</button>
+            </form>
+          )}
+          <hr />
+          <div className="w100">
+            <button
+              className="transgrey"
+              onClick={() => this.setState({ edit: !this.state.edit })}
+            >
+              Toggle Edit
+            </button>
+          </div>
           <hr />
           <div className="grid">
             <div className="info-container w100">
@@ -72,33 +117,6 @@ export default class User extends Component {
 
             <OrderTable />
           </div>
-          {/* <form onSubmit={this.send}>
-              <label>Username</label>
-              <input
-                id="name"
-                type="text"
-                value={this.state.user.name}
-                onChange={this.inputChanged}
-              />
-              <hr />
-              <label>Email</label>
-              <input
-                id="email"
-                type="text"
-                value={this.state.user.email}
-                onChange={this.inputChanged}
-              />
-              <hr />
-              <label>Gender</label>
-              <input
-                id="gender"
-                type="text"
-                value={this.state.user.gender}
-                onChange={this.inputChanged}
-              />
-              <hr />
-              <button>Save changes</button>
-            </form> */}
         </div>
       );
     } else {
@@ -106,14 +124,15 @@ export default class User extends Component {
     }
   }
 
-  send = e => {
+  send = async e => {
     e.preventDefault();
     console.log("IS WORKING!!!!!!!!!!!!");
     console.log(this.state.user);
     sessionStorage.setItem("name", this.state.user.name);
     sessionStorage.setItem("email", this.state.user.email);
     sessionStorage.setItem("gender", this.state.user.gender);
-    facade.editUser(this.state.user, facade.getId());
+    await facade.editUser(this.state.user, facade.getId());
+    this.setState({ edit: !this.state.edit });
   };
 
   inputChanged = e => {
